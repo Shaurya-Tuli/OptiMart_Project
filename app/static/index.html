@@ -1010,6 +1010,9 @@
       <button class="tab-btn" id="tab-btn-inventory" role="tab" aria-selected="false" aria-controls="inventory-tab" onclick="switchTab('inventory-tab', this)">
         <i data-lucide="store" aria-hidden="true"></i> Inventory Core
       </button>
+      <button class="tab-btn" id="tab-btn-forecast" role="tab" aria-selected="false" aria-controls="forecast-tab" onclick="switchTab('forecast-tab', this)">
+        <i data-lucide="trending-up" aria-hidden="true"></i> Demand & Reorder
+      </button>
     </div>
 
 
@@ -1702,6 +1705,121 @@
       </div>
     </div><!-- /inventory-tab -->
 
+
+    <!-- ==========================================
+         TAB: DEMAND & REORDER (Phase 11)
+         ========================================== -->
+    <div id="forecast-tab" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-forecast" tabindex="0">
+
+      <!-- Section Header -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem;">
+        <div>
+          <h2 style="font-family:var(--font-display);font-size:1.35rem;font-weight:700;color:var(--text-main);margin-bottom:0.25rem;">
+            <i data-lucide="trending-up" style="width:18px;height:18px;vertical-align:-3px;margin-right:0.4rem;color:var(--accent-cyan);"></i>
+            Demand Forecasting &amp; Reorder Intelligence
+          </h2>
+          <p style="font-size:0.85rem;color:var(--text-muted);">Model D predictions — 7-day demand forecast with confidence bands &amp; recommended order quantities</p>
+        </div>
+        <div style="display:flex; gap:0.75rem; align-items:center; flex-wrap:wrap;">
+          <select class="form-select" id="forecast-store-select" style="min-width:180px;padding:0.5rem 0.9rem;font-size:0.875rem;" onchange="loadDemandAndReorder()">
+            <option value="">Loading stores…</option>
+          </select>
+          <button class="btn btn-secondary btn-sm" onclick="loadDemandAndReorder()" id="forecast-refresh-btn">
+            <i data-lucide="refresh-cw"></i> Refresh
+          </button>
+          <button class="btn" style="background:linear-gradient(135deg,var(--accent-cyan),#0284c7);color:#fff;padding:0.5rem 1.1rem;font-size:0.875rem;border:none;border-radius:var(--radius-sm);cursor:pointer;display:flex;align-items:center;gap:0.4rem;" onclick="triggerForecastRun()" id="forecast-run-btn">
+            <i data-lucide="play"></i> Run Forecast
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Strip -->
+      <div class="grid-4" style="margin-bottom:1.5rem;" id="forecast-kpi-grid">
+        <div class="kpi-card cyan">
+          <div class="kpi-icon cyan"><i data-lucide="package"></i></div>
+          <div class="kpi-lbl">SKUs Forecasted</div>
+          <div class="kpi-val cyan" id="fcast-kpi-skus">—</div>
+          <div class="kpi-sub">this run</div>
+        </div>
+        <div class="kpi-card green">
+          <div class="kpi-icon green"><i data-lucide="shopping-cart"></i></div>
+          <div class="kpi-lbl">Total Recommended</div>
+          <div class="kpi-val green" id="fcast-kpi-qty">—</div>
+          <div class="kpi-sub">units to order</div>
+        </div>
+        <div class="kpi-card amber">
+          <div class="kpi-icon amber"><i data-lucide="check-circle"></i></div>
+          <div class="kpi-lbl">Accepted</div>
+          <div class="kpi-val amber" id="fcast-kpi-accepted">—</div>
+          <div class="kpi-sub">of recommendations</div>
+        </div>
+        <div class="kpi-card purple">
+          <div class="kpi-icon purple"><i data-lucide="sliders"></i></div>
+          <div class="kpi-lbl">Pending Review</div>
+          <div class="kpi-val purple" id="fcast-kpi-pending">—</div>
+          <div class="kpi-sub">awaiting decision</div>
+        </div>
+      </div>
+
+      <!-- Main Grid: Table + Chart -->
+      <div class="grid-2" style="align-items:start;">
+
+        <!-- LEFT: Recommendations Table -->
+        <div class="glass-panel">
+          <div class="panel-header">
+            <div class="panel-title"><i data-lucide="list-checks"></i> Reorder Recommendations</div>
+            <span style="font-size:0.8rem;color:var(--text-muted);" id="forecast-run-date-label"></span>
+          </div>
+
+          <!-- Info banner -->
+          <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:1rem;padding:0.65rem 0.9rem;background:rgba(6,182,212,0.06);border-left:3px solid var(--accent-cyan);border-radius:4px;">
+            Click a row to see the <strong style="color:var(--accent-cyan);">Actual vs Forecast trend chart</strong>. Use Accept / Adjust / Dismiss to record your decision.
+          </div>
+
+          <div id="forecast-table-container" style="overflow-x:auto;">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;padding:3rem 0;">
+              <div style="width:32px;height:32px;border:3px solid rgba(255,255,255,0.1);border-top-color:var(--accent-cyan);border-radius:50%;animation:spin 1s linear infinite;"></div>
+              <div style="color:var(--text-muted);font-size:0.88rem;">Loading recommendations…</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Trend Chart -->
+        <div class="glass-panel" id="forecast-chart-panel">
+          <div class="panel-header">
+            <div class="panel-title"><i data-lucide="bar-chart-2"></i> Actual vs Forecast</div>
+            <span id="forecast-chart-sku-label" style="font-size:0.8rem;color:var(--text-muted);font-family:var(--font-code);">← select a row</span>
+          </div>
+          <div id="forecast-chart-empty" style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;padding:3.5rem 1rem;color:var(--text-muted);">
+            <i data-lucide="mouse-pointer-2" style="width:32px;height:32px;opacity:0.4;"></i>
+            <div style="font-size:0.875rem;">Click a recommendation row to load the trend chart</div>
+          </div>
+          <div id="forecast-chart-wrap" style="display:none;position:relative;height:260px;">
+            <canvas id="forecast-trend-chart"></canvas>
+          </div>
+          <!-- Why Factors -->
+          <div id="forecast-why-panel" style="display:none;margin-top:1.25rem;">
+            <div style="font-size:0.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.6rem;">Why this recommendation</div>
+            <div id="forecast-why-items" style="display:flex;flex-direction:column;gap:0.4rem;"></div>
+          </div>
+          <!-- Confidence band callout -->
+          <div id="forecast-conf-panel" style="display:none;margin-top:1rem;padding:0.75rem 1rem;background:rgba(139,92,246,0.07);border:1px solid rgba(139,92,246,0.18);border-radius:var(--radius-sm);">
+            <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:0.35rem;">7-day Demand Confidence Band</div>
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+              <span id="fc-conf-low" style="font-family:var(--font-code);font-size:1rem;color:var(--accent-amber);">—</span>
+              <div style="flex:1;height:6px;border-radius:9999px;background:rgba(139,92,246,0.15);position:relative;overflow:hidden;">
+                <div id="fc-conf-bar" style="position:absolute;inset:0;background:linear-gradient(90deg,var(--accent-amber),var(--accent-purple));border-radius:9999px;"></div>
+              </div>
+              <span id="fc-conf-high" style="font-family:var(--font-code);font-size:1rem;color:var(--accent-purple);">—</span>
+            </div>
+            <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.3rem;">p10 (low) → p90 (high) units — spread indicates model confidence</div>
+          </div>
+        </div>
+
+      </div><!-- /grid-2 -->
+    </div><!-- /forecast-tab -->
+
+
   </main><!-- /main -->
 
 
@@ -1772,6 +1890,7 @@
       if (tabId === 'ngo-tab') { loadStandingOrders(); }
       if (tabId === 'inventory-tab') { loadInventoryCore(); }
       if (tabId === 'claims-tab') { loadFlashClaims(); }
+      if (tabId === 'forecast-tab') { loadDemandAndReorder(); }
     }
 
     // ===== TOAST =====
@@ -3633,6 +3752,409 @@
       if (!hasOpened) badge.style.display = 'flex';
     }, 3000);
 
+  })();
+  </script>
+
+
+  <!-- ==========================================
+       PHASE 11 — DEMAND & REORDER JS
+       ========================================== -->
+  <script>
+  (function() {
+    // ── State ──────────────────────────────────────────────
+    let forecastTrendChart = null;
+    let forecastRecs = [];
+    let forecastStores = [];
+    let selectedForecastRow = null;
+
+    // ── Helpers ────────────────────────────────────────────
+    function isDark() { return !document.body.classList.contains('light-theme'); }
+
+    function chartColors() {
+      return isDark()
+        ? { grid: 'rgba(255,255,255,0.06)', tick: '#9ca3af', zero: 'rgba(255,255,255,0.12)' }
+        : { grid: 'rgba(15,23,42,0.06)',    tick: '#64748b', zero: 'rgba(15,23,42,0.12)'   };
+    }
+
+    function decisionBadge(d) {
+      const map = {
+        PENDING:  { color: 'var(--accent-amber)',  bg: 'rgba(245,158,11,0.12)',  label: 'Pending'  },
+        ACCEPTED: { color: 'var(--accent-green)',  bg: 'rgba(16,185,129,0.12)', label: 'Accepted' },
+        ADJUSTED: { color: 'var(--accent-cyan)',   bg: 'rgba(6,182,212,0.12)',  label: 'Adjusted' },
+        DISMISSED:{ color: 'var(--text-muted)',    bg: 'rgba(156,163,175,0.1)', label: 'Dismissed'},
+      };
+      const s = map[d] || map.PENDING;
+      return `<span style="padding:0.2rem 0.55rem;border-radius:var(--radius-badge);font-size:0.72rem;font-weight:600;background:${s.bg};color:${s.color};">${s.label}</span>`;
+    }
+
+    // ── Store Loader ────────────────────────────────────────
+    async function loadForecastStores() {
+      const sel = document.getElementById('forecast-store-select');
+      try {
+        const res = await fetch('/api/v1/stores');
+        if (!res.ok) throw new Error();
+        forecastStores = await res.json();
+        sel.innerHTML = forecastStores.map((s,i) =>
+          `<option value="${s.id}" ${i===0?'selected':''}>${s.name} (#${s.id})</option>`
+        ).join('');
+      } catch {
+        sel.innerHTML = `<option value="1">Store #1</option>`;
+      }
+    }
+
+    // ── Main Loader ─────────────────────────────────────────
+    window.loadDemandAndReorder = async function() {
+      // First call: populate stores
+      if (forecastStores.length === 0) await loadForecastStores();
+
+      const sel = document.getElementById('forecast-store-select');
+      const storeId = sel.value || '1';
+      const container = document.getElementById('forecast-table-container');
+
+      // Show spinner
+      container.innerHTML = `
+        <div style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;padding:3rem 0;">
+          <div style="width:32px;height:32px;border:3px solid rgba(255,255,255,0.1);border-top-color:var(--accent-cyan);border-radius:50%;animation:spin 1s linear infinite;"></div>
+          <div style="color:var(--text-muted);font-size:0.88rem;">Loading recommendations…</div>
+        </div>`;
+
+      try {
+        const res = await fetch(`/api/v1/forecast/${storeId}`);
+        if (!res.ok) throw new Error(`API error: ${res.status}`);
+        forecastRecs = await res.json();
+        renderForecastTable(forecastRecs, storeId);
+      } catch(e) {
+        container.innerHTML = `
+          <div style="text-align:center;padding:2rem;color:var(--accent-rose);font-size:0.88rem;">
+            <i data-lucide="alert-circle" style="width:20px;height:20px;vertical-align:-4px;margin-right:0.3rem;"></i>
+            ${e.message || 'Failed to load recommendations. Run a forecast first.'}
+          </div>`;
+        lucide.createIcons();
+      }
+    };
+
+    // ── Render Table ────────────────────────────────────────
+    function renderForecastTable(recs, storeId) {
+      const container = document.getElementById('forecast-table-container');
+
+      // KPI strip
+      const totalQty  = recs.reduce((s,r) => s + r.recommended_qty, 0);
+      const accepted  = recs.filter(r => r.retailer_decision === 'ACCEPTED').length;
+      const pending   = recs.filter(r => r.retailer_decision === 'PENDING').length;
+      document.getElementById('fcast-kpi-skus').textContent     = recs.length;
+      document.getElementById('fcast-kpi-qty').textContent      = totalQty.toLocaleString();
+      document.getElementById('fcast-kpi-accepted').textContent = accepted;
+      document.getElementById('fcast-kpi-pending').textContent  = pending;
+
+      // Run-date label
+      if (recs.length > 0) {
+        document.getElementById('forecast-run-date-label').textContent =
+          `Run date: ${recs[0].forecast_run_date}`;
+      }
+
+      if (recs.length === 0) {
+        container.innerHTML = `
+          <div style="text-align:center;padding:2.5rem 1rem;color:var(--text-muted);">
+            <i data-lucide="inbox" style="width:28px;height:28px;opacity:0.4;margin-bottom:0.5rem;"></i>
+            <div style="font-size:0.875rem;">No recommendations found. Click <strong>Run Forecast</strong> to generate them.</div>
+          </div>`;
+        lucide.createIcons();
+        return;
+      }
+
+      const rows = recs.map(r => `
+        <tr class="forecast-rec-row" data-id="${r.id}" data-store="${storeId}" data-sku="${r.sku}"
+            style="cursor:pointer;transition:background 0.15s;"
+            onclick="handleForecastRowClick(${r.id}, '${storeId}', '${r.sku}', ${r.confidence_low}, ${r.confidence_high}, this)">
+          <td style="padding:0.65rem 0.75rem;border-bottom:1px solid rgba(255,255,255,0.05);">
+            <div style="font-family:var(--font-code);font-size:0.8rem;color:var(--accent-cyan);">${r.sku}</div>
+          </td>
+          <td style="padding:0.65rem 0.75rem;border-bottom:1px solid rgba(255,255,255,0.05);text-align:right;">
+            <span style="font-family:var(--font-code);font-weight:600;color:var(--text-main);">${Math.round(r.predicted_demand)}</span>
+            <div style="font-size:0.7rem;color:var(--text-muted);">${r.confidence_low}–${r.confidence_high}</div>
+          </td>
+          <td style="padding:0.65rem 0.75rem;border-bottom:1px solid rgba(255,255,255,0.05);text-align:right;">
+            <span style="font-family:var(--font-code);font-size:1.05rem;font-weight:700;
+              color:${r.recommended_qty > 0 ? 'var(--accent-green)' : 'var(--text-muted)'};">
+              ${r.recommended_qty}
+            </span>
+          </td>
+          <td style="padding:0.65rem 0.75rem;border-bottom:1px solid rgba(255,255,255,0.05);">
+            ${decisionBadge(r.retailer_decision)}
+            ${r.adjusted_qty != null ? `<div style="font-size:0.7rem;color:var(--accent-cyan);margin-top:0.2rem;">adj: ${r.adjusted_qty} units</div>` : ''}
+          </td>
+          <td style="padding:0.65rem 0.75rem;border-bottom:1px solid rgba(255,255,255,0.05);" onclick="event.stopPropagation()">
+            <div style="display:flex;gap:0.35rem;align-items:center;flex-wrap:wrap;">
+              <button style="padding:0.25rem 0.55rem;border-radius:var(--radius-badge);font-size:0.72rem;font-weight:600;border:1px solid rgba(16,185,129,0.35);background:rgba(16,185,129,0.1);color:var(--accent-green);cursor:pointer;"
+                onclick="submitReorderDecision(${r.id}, 'ACCEPTED', null, this)">✓ Accept</button>
+              <button style="padding:0.25rem 0.55rem;border-radius:var(--radius-badge);font-size:0.72rem;font-weight:600;border:1px solid rgba(156,163,175,0.25);background:rgba(156,163,175,0.07);color:var(--text-muted);cursor:pointer;"
+                onclick="promptAdjust(${r.id}, this)">↕ Adjust</button>
+              <button style="padding:0.25rem 0.55rem;border-radius:var(--radius-badge);font-size:0.72rem;font-weight:600;border:1px solid rgba(244,63,94,0.25);background:rgba(244,63,94,0.07);color:var(--accent-rose);cursor:pointer;"
+                onclick="submitReorderDecision(${r.id}, 'DISMISSED', null, this)">✕ Dismiss</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+
+      container.innerHTML = `
+        <table class="data-table" style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+          <thead>
+            <tr>
+              <th style="padding:0.5rem 0.75rem;text-align:left;font-size:0.75rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.04em;">SKU</th>
+              <th style="padding:0.5rem 0.75rem;text-align:right;font-size:0.75rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.04em;">Forecast (7d)</th>
+              <th style="padding:0.5rem 0.75rem;text-align:right;font-size:0.75rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.04em;">Reorder Qty</th>
+              <th style="padding:0.5rem 0.75rem;text-align:left;font-size:0.75rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.04em;">Decision</th>
+              <th style="padding:0.5rem 0.75rem;text-align:left;font-size:0.75rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.04em;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>`;
+      lucide.createIcons();
+    }
+
+    // ── Row click → show chart ───────────────────────────────
+    window.handleForecastRowClick = function(id, storeId, sku, confLow, confHigh, rowEl) {
+      // Highlight selected row
+      document.querySelectorAll('.forecast-rec-row').forEach(r => {
+        r.style.background = '';
+      });
+      rowEl.style.background = isDark()
+        ? 'rgba(6,182,212,0.07)'
+        : 'rgba(6,182,212,0.05)';
+
+      selectedForecastRow = id;
+      document.getElementById('forecast-chart-sku-label').textContent = sku;
+
+      // Update confidence band
+      document.getElementById('fc-conf-low').textContent  = Math.round(confLow);
+      document.getElementById('fc-conf-high').textContent = Math.round(confHigh);
+
+      // Show why factors
+      const rec = forecastRecs.find(r => r.id === id);
+      if (rec && rec.top_factors && rec.top_factors.length > 0) {
+        document.getElementById('forecast-why-panel').style.display = 'block';
+        document.getElementById('forecast-why-items').innerHTML = rec.top_factors.map(f =>
+          `<div style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.82rem;color:var(--text-muted);">
+            <span style="color:var(--accent-cyan);margin-top:1px;flex-shrink:0;">▸</span>
+            <span>${f}</span>
+          </div>`
+        ).join('');
+      } else {
+        document.getElementById('forecast-why-panel').style.display = 'none';
+      }
+
+      document.getElementById('forecast-conf-panel').style.display = 'block';
+      renderTrendChart(storeId, sku);
+    };
+
+    // ── Trend Chart ─────────────────────────────────────────
+    async function renderTrendChart(storeId, sku) {
+      document.getElementById('forecast-chart-empty').style.display = 'none';
+      document.getElementById('forecast-chart-wrap').style.display  = 'block';
+
+      const canvas = document.getElementById('forecast-trend-chart');
+      const ctx    = canvas.getContext('2d');
+      const cc     = chartColors();
+
+      // Destroy previous chart
+      if (forecastTrendChart) { forecastTrendChart.destroy(); forecastTrendChart = null; }
+
+      // Loading shimmer
+      canvas.style.opacity = '0.3';
+
+      try {
+        const params = new URLSearchParams({ store_id: storeId, sku, limit: 56 });
+        const res = await fetch(`/api/v1/sales-history?${params}`);
+        if (!res.ok) throw new Error();
+        const rawHistory = await res.json();
+
+        canvas.style.opacity = '1';
+
+        // Sort by date ascending
+        const history = rawHistory.sort((a,b) => new Date(a.date) - new Date(b.date));
+
+        // Last 28 actual days
+        const actual = history.slice(-28);
+        const labels = actual.map(d => d.date);
+        const actualVals = actual.map(d => d.units_sold);
+
+        // Naive 7-day rolling average as "naive forecast" baseline
+        const naive = actual.map((_, i) => {
+          const window7 = actualVals.slice(Math.max(0, i-6), i+1);
+          return parseFloat((window7.reduce((s,v)=>s+v,0)/window7.length).toFixed(1));
+        });
+
+        // Model D forecast: last rec predicted demand spread across next 7 days
+        const recData = forecastRecs.find(r => r.sku === sku);
+        const forecastLine = new Array(28).fill(null);
+        if (recData) {
+          const dailyFcast = parseFloat((recData.predicted_demand / 7).toFixed(1));
+          const confLowDaily  = parseFloat((recData.confidence_low / 7).toFixed(1));
+          const confHighDaily = parseFloat((recData.confidence_high / 7).toFixed(1));
+          // Show forecast in last 7 positions
+          for (let i = 21; i < 28; i++) {
+            forecastLine[i] = dailyFcast;
+          }
+        }
+
+        forecastTrendChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels,
+            datasets: [
+              {
+                label: 'Actual Sales',
+                data: actualVals,
+                borderColor: 'var(--accent-green)',
+                backgroundColor: 'rgba(16,185,129,0.08)',
+                borderWidth: 2,
+                tension: 0.35,
+                pointRadius: 2,
+                pointHoverRadius: 5,
+                fill: true,
+              },
+              {
+                label: 'Naive Baseline (7d avg)',
+                data: naive,
+                borderColor: 'rgba(245,158,11,0.6)',
+                borderWidth: 1.5,
+                borderDash: [4,4],
+                tension: 0.3,
+                pointRadius: 0,
+                fill: false,
+              },
+              {
+                label: 'Model D Forecast',
+                data: forecastLine,
+                borderColor: 'var(--accent-cyan)',
+                backgroundColor: 'rgba(6,182,212,0.12)',
+                borderWidth: 2.5,
+                tension: 0,
+                pointRadius: 4,
+                pointStyle: 'rectRounded',
+                pointHoverRadius: 7,
+                fill: true,
+                spanGaps: false,
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+              legend: {
+                display: true,
+                labels: { color: cc.tick, font: { size: 11 }, boxWidth: 12, padding: 12 }
+              },
+              tooltip: {
+                backgroundColor: isDark() ? 'rgba(11,15,25,0.95)' : 'rgba(255,255,255,0.97)',
+                borderColor: isDark() ? 'rgba(255,255,255,0.1)' : 'rgba(15,23,42,0.1)',
+                borderWidth: 1,
+                titleColor: isDark() ? '#f3f4f6' : '#0f172a',
+                bodyColor: isDark() ? '#9ca3af' : '#64748b',
+                padding: 10,
+              }
+            },
+            scales: {
+              x: {
+                ticks: {
+                  color: cc.tick, font: { size: 10 },
+                  maxTicksLimit: 7,
+                  maxRotation: 0,
+                },
+                grid: { color: cc.grid },
+              },
+              y: {
+                beginAtZero: false,
+                ticks: { color: cc.tick, font: { size: 10 } },
+                grid: { color: cc.grid, zeroLineColor: cc.zero },
+              }
+            }
+          }
+        });
+      } catch(e) {
+        canvas.style.opacity = '1';
+        document.getElementById('forecast-chart-wrap').innerHTML =
+          `<div style="text-align:center;padding:2rem;color:var(--text-muted);font-size:0.85rem;">No historical data available for ${sku}.</div>`;
+      }
+    }
+
+    // ── Trigger Forecast Generation ─────────────────────────
+    window.triggerForecastRun = async function() {
+      const sel = document.getElementById('forecast-store-select');
+      const storeId = sel.value || '1';
+      const btn = document.getElementById('forecast-run-btn');
+      btn.disabled = true;
+      btn.innerHTML = '<i data-lucide="loader-2"></i> Running…';
+      lucide.createIcons();
+      try {
+        const res = await fetch(`/api/v1/forecast/generate/${storeId}`, { method: 'POST' });
+        if (!res.ok) throw new Error(`Server error: ${res.status}`);
+        showToast('Forecast run complete — recommendations updated!');
+        await loadDemandAndReorder();
+      } catch(e) {
+        showToast('Forecast run failed: ' + (e.message || 'Unknown error'), true);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i data-lucide="play"></i> Run Forecast';
+        lucide.createIcons();
+      }
+    };
+
+    // ── Adjust Inline ────────────────────────────────────────
+    window.promptAdjust = function(recId, btnEl) {
+      const qty = prompt('Enter adjusted order quantity:');
+      if (qty === null) return;
+      const n = parseInt(qty, 10);
+      if (isNaN(n) || n < 0) { showToast('Invalid quantity', true); return; }
+      submitReorderDecision(recId, 'ADJUSTED', n, btnEl);
+    };
+
+    // ── Submit Decision ──────────────────────────────────────
+    window.submitReorderDecision = async function(recId, decision, adjustedQty, btnEl) {
+      if (btnEl) { btnEl.disabled = true; btnEl.style.opacity = '0.6'; }
+      try {
+        const body = { decision };
+        if (adjustedQty !== null) body.adjusted_qty = adjustedQty;
+
+        const res = await fetch(`/api/v1/forecast/recommendations/${recId}/decision`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(()=>({}));
+          throw new Error(err.detail || `Error ${res.status}`);
+        }
+        const updated = await res.json();
+
+        // Update the in-memory recs
+        const idx = forecastRecs.findIndex(r => r.id === recId);
+        if (idx !== -1) { forecastRecs[idx] = updated; }
+
+        showToast(`Decision recorded: ${decision}`);
+        // Re-render table to reflect new state
+        const sel = document.getElementById('forecast-store-select');
+        renderForecastTable(forecastRecs, sel.value || '1');
+      } catch(e) {
+        showToast('Failed to save decision: ' + e.message, true);
+        if (btnEl) { btnEl.disabled = false; btnEl.style.opacity = '1'; }
+      }
+    };
+
+    // ── Re-render chart on theme toggle ────────────────────
+    const origToggle = window.toggleTheme;
+    window.toggleTheme = function() {
+      if (origToggle) origToggle();
+      if (forecastTrendChart) {
+        const sel = document.getElementById('forecast-store-select');
+        const sku = document.getElementById('forecast-chart-sku-label').textContent;
+        if (sku && sku !== '← select a row') {
+          renderTrendChart(sel ? sel.value : '1', sku);
+        }
+      }
+    };
   })();
   </script>
 
