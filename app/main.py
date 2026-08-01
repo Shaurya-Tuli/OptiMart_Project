@@ -18,6 +18,7 @@ from app.api.analytics import router as analytics_router
 from app.api.assistant import router as assistant_router
 from app.api.sales_history import router as sales_history_router
 from app.api.forecasting import router as forecasting_router
+from app.api.forecast_routes import router as forecast_recommendation_router
 from app.ml.predictor import get_predictor
 from app.ml.forecaster import get_forecaster
 
@@ -53,6 +54,7 @@ app.include_router(analytics_router)
 app.include_router(assistant_router)
 app.include_router(sales_history_router)
 app.include_router(forecasting_router)
+app.include_router(forecast_recommendation_router)
 
 
 

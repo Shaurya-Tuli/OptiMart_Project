@@ -1,6 +1,33 @@
 # NEXPIRE Project Status
 
-## Current Phase: Phase 9 (Demand Forecasting Model D) COMPLETED
+## Current Phase: Phase 10 (Reorder Recommendation Logic) COMPLETED
+
+### Phase 10 Summary
+Phase 10 implements the reorder recommendation logic, translating Model D's demand forecasts into optimal ordering recommendations for retailers, accounting for safety stock and on-hand inventory.
+
+- **Model & Table (`app/models/reorder_recommendation.py`)**: `ReorderRecommendation` model with composite unique constraint `(store_id, sku, forecast_run_date)` storing predictions, recommended order quantity, top factors, and the retailer's decision.
+- **Service Layer (`app/services/reorder_recommendation.py`)**: Computes safety stock buffers scaling inversely with prediction confidence:
+  `safety_stock_buffer = predicted_demand * base_pct * (2.0 - confidence)`
+  `recommended_qty = max(0, int(predicted_demand + safety_stock_buffer - current_qty_on_hand))`
+  Handles retailer decisions: `ACCEPTED`, `DISMISSED`, or `ADJUSTED` (with validation for `adjusted_qty`).
+- **REST Endpoints (`app/api/forecast_routes.py`)**:
+  - `POST /api/v1/forecast/generate/{store_id}`: Trigger recommendation run.
+  - `GET /api/v1/forecast/{store_id}`: Retrieve recommendations.
+  - `POST /api/v1/forecast/recommendations/{id}/decision`: Record retailer decision.
+- **Celery Task (`app/tasks/forecasting.py`)**: Background task `run_weekly_forecast_task` to generate/refresh recommendations for all stores.
+- **Testing**: 50 total test suites passing across all phases (including `tests/test_reorder_recommendation.py`).
+
+### Phase 9 Summary
+Phase 9 implements **Model D** — the gradient-boosted demand forecasting engine predicting 7-day expected unit demand per store/SKU with calibrated confidence bands.
+
+- **Model D (`app/ml/forecaster.py`)**: `DemandForecaster` class using Scikit-Learn `HistGradientBoostingRegressor` trained at three quantiles (10th/50th/90th percentile), with `min_periods=1` rolling lag features (`lag_7d`, `lag_14d`, `lag_28d`, `rolling_avg_7d`, `rolling_avg_28d`), temporal signals (`day_of_week`, `is_weekend`), and contextual flags (`promotion_flag`, `stockout_flag`, `stockout_rate_recent`).
+- **Cold-Start Fallback**: Category-level mean demand fallback for stores/SKUs with <14 days of history.
+- **Baseline Benchmark**: Naive 7-day moving average MAE computed during training for interpretability.
+- **REST Endpoints (`app/api/forecasting.py`)**:
+  - `POST /api/v1/forecast/train`: Trains/retrains Model D against live `sales_history` data.
+  - `GET /api/v1/forecast/predict`: Returns `predicted_demand_next_7d`, `confidence_low`, `confidence_high`, `confidence_band_spread`, and `top_factors` for any store/SKU.
+- **Live Results** (against 13,104 sales history rows): 10,658 train samples, baseline MAE 11.74, Model D MAE 10.97 (6.51% improvement over baseline).
+- **Testing**: 47 total test suites passing across all phases (including `tests/test_forecasting.py`).
 
 ### Phase 8 Summary
 Phase 8 establishes the historical sales data pipeline essential for demand forecasting (Model D). It introduces the `sales_history` database table, Pydantic schemas, service layer with upsert capabilities, REST endpoints (including POS CSV bulk upload), synthetic data generation script, and test suite.

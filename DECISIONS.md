@@ -27,6 +27,16 @@
 - **Status**: Implemented & Verified.
 - **Source**: Adapted from Scikit-Learn HistGradientBoostingRegressor quantile docs; original application to this codebase.
 
+## ADR 012: Reorder Recommendation Logic & Safety Stock Buffers (Phase 10)
+- **Context**: Reordering recommendations require translating predicted demand into order suggestions, factoring in current on-hand inventory and category-specific safety buffers.
+- **Decision**:
+  - Safety stock computed using a transparent, explainable formula: `safety_stock_buffer = predicted_demand * base_pct * (2.0 - confidence)` where `confidence` maps from 0 to 1 based on prediction spread (`p90 - p10`).
+  - Base buffer percentage scales based on category: Dairy/Produce (0.10) to minimize waste, Meat/Bakery (0.15), and Beverages/General (0.20/0.15) to ensure availability.
+  - Recommended ordering quantity: `max(0, predicted_demand + safety_stock_buffer - current_qty_on_hand)`.
+  - Store decisions (`ACCEPTED`, `DISMISSED`, `ADJUSTED`) stored in the `reorder_recommendations` table to enable future closed-loop model training on decision outcomes.
+- **Status**: Implemented & Verified.
+- **Source**: Original to this hackathon (Volume II Demand Forecasting extension).
+
 ## ADR 002: Inventory Core Architecture (Phase 1)
 - **Context**: Need high-throughput CRUD for retail store inventory management and bulk CSV imports.
 - **Decision**: 
