@@ -1,6 +1,14 @@
 # NEXPIRE Project Status
 
-## Current Phase: Phase 12 (Loop Integration & Validation) COMPLETED
+## Current Phase: Phase 13 (Extended Demo Rehearsal) COMPLETED
+
+### Phase 13 Summary
+Phase 13 is the demo rehearsal & submission hardening phase (Playbook Ch. 14.1 / Ch. 14.2). No new backend code — the deliverables are the complete demo run-of-show, Q&A prep, and a final accuracy pass on all source citations.
+
+- **[`DEMO_SCRIPT.md`](./DEMO_SCRIPT.md)**: Full extended run-of-show (5–5.5 min) following Ch. 14.1's sequence: loop diagram open → Demand & Reorder tab → connective-tissue beat (1:00–1:15) → Volume I hand-off → Eco-Impact close. Includes backup recording plan and pre-demo checklist.
+- **[`QA_PREP.md`](./QA_PREP.md)**: Rehearsed answers to six anticipated judge questions. The Ch. 14.2 Q&A answer (*"How do you validate a forecast when you can't wait a week?"*) is prepared with honest framing: *"the pipeline is real and swappable; the specific numbers demonstrate the mechanism, not a production-accuracy claim."*
+- **[`SOURCES.md`](./SOURCES.md)**: Final accuracy pass — added citations for Phases 9–13 (Scikit-Learn HistGBR, Chart.js, safety-stock literature, AI-assistance disclosure filled in).
+- **Testing**: 51 automated tests passing across all phases, zero regressions.
 
 ### Phase 10 Summary
 Phase 10 implements the reorder recommendation logic, translating Model D's demand forecasts into optimal ordering recommendations for retailers, accounting for safety stock and on-hand inventory.
