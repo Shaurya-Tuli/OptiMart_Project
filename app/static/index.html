@@ -949,6 +949,193 @@
     }
     #toast.show { transform: translateY(0); opacity: 1; }
     #toast.error { background: rgba(244,63,94,0.15); border-color: rgba(244,63,94,0.4); color: var(--accent-rose); }
+    /* ===== DUAL PORTAL PORTAL SCREENS (Phase 14) ===== */
+    #role-selection-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 99999;
+      background: rgba(8, 10, 20, 0.95);
+      backdrop-filter: blur(25px);
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity 0.4s ease, visibility 0.4s;
+    }
+    body.light-theme #role-selection-overlay {
+      background: rgba(241, 245, 249, 0.96);
+    }
+    #role-selection-overlay.hidden {
+      opacity: 0; visibility: hidden; pointer-events: none;
+    }
+    .portal-container {
+      max-width: 900px; width: 100%; padding: 2rem; text-align: center;
+    }
+    .portal-logo {
+      font-size: 3rem; color: var(--accent-green); margin-bottom: 0.5rem;
+      animation: pulse 3s infinite ease-in-out;
+    }
+    .portal-title {
+      font-family: var(--font-display); font-size: 2.25rem; font-weight: 800;
+      color: var(--text-main); margin-bottom: 0.5rem;
+    }
+    .portal-subtitle {
+      color: var(--text-muted); font-size: 1.05rem; margin-bottom: 2.5rem;
+    }
+    .role-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+    }
+    @media (max-width: 768px) {
+      .role-grid { grid-template-columns: 1fr; }
+    }
+    .role-choice-card {
+      background: var(--bg-card); border: 1px solid var(--bg-card-border);
+      border-radius: 16px; padding: 2.5rem 2rem; cursor: pointer; text-align: center;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+      position: relative; overflow: hidden;
+    }
+    .role-choice-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: transparent; transition: background 0.3s;
+    }
+    .role-choice-card.retailer-choice::before {
+      background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan));
+    }
+    .role-choice-card.customer-choice::before {
+      background: linear-gradient(90deg, var(--accent-green), var(--accent-emerald));
+    }
+    .role-choice-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-card);
+      border-color: rgba(255,255,255,0.12);
+    }
+    body.light-theme .role-choice-card:hover {
+      border-color: rgba(15,23,42,0.15);
+    }
+    .role-choice-card.retailer-choice:hover {
+      box-shadow: 0 12px 40px rgba(124, 58, 237, 0.15);
+    }
+    .role-choice-card.customer-choice:hover {
+      box-shadow: 0 12px 40px rgba(16, 185, 129, 0.15);
+    }
+    .role-icon {
+      font-size: 3.5rem; margin-bottom: 1.5rem; display: inline-flex; align-items: center; justify-content: center;
+      width: 90px; height: 90px; border-radius: 50%;
+    }
+    .retailer-choice .role-icon {
+      background: rgba(124, 58, 237, 0.1); color: var(--accent-purple);
+    }
+    .customer-choice .role-icon {
+      background: rgba(16, 185, 129, 0.1); color: var(--accent-green);
+    }
+    .role-name {
+      font-family: var(--font-display); font-size: 1.5rem; font-weight: 700;
+      color: var(--text-main); margin-bottom: 0.75rem;
+    }
+    .role-desc {
+      color: var(--text-muted); font-size: 0.9rem; line-height: 1.5;
+    }
+
+    /* ===== CUSTOMER PORTAL & MARKETPLACE FEED ===== */
+    #customer-portal-view {
+      display: flex; flex-direction: column; gap: 1.5rem; width: 100%;
+    }
+    .cust-search-section {
+      background: var(--bg-card); border: 1px solid var(--bg-card-border);
+      border-radius: var(--radius-card); padding: 1.25rem;
+      display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;
+    }
+    .cust-search-input-wrap {
+      flex: 1; min-width: 250px; position: relative;
+    }
+    .cust-search-input-wrap input {
+      width: 100%; padding-left: 2.5rem;
+    }
+    .cust-search-input-wrap i {
+      position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+    .cust-filters {
+      display: flex; gap: 0.5rem; flex-wrap: wrap;
+    }
+    .cust-filter-btn {
+      background: rgba(255,255,255,0.03); border: 1px solid var(--bg-card-border);
+      border-radius: var(--radius-sm); padding: 0.5rem 1rem; font-size: 0.85rem;
+      color: var(--text-muted); cursor: pointer; transition: var(--trans-colors);
+    }
+    body.light-theme .cust-filter-btn {
+      background: rgba(0,0,0,0.02);
+    }
+    .cust-filter-btn:hover {
+      color: var(--text-main); border-color: rgba(255,255,255,0.15);
+    }
+    body.light-theme .cust-filter-btn:hover {
+      border-color: rgba(15,23,42,0.15);
+    }
+    .cust-filter-btn.active {
+      background: var(--accent-green-glow); border-color: var(--accent-green); color: var(--accent-green);
+      font-weight: 600;
+    }
+    .product-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.5rem;
+    }
+    .product-card {
+      background: var(--bg-card); border: 1px solid var(--bg-card-border);
+      border-radius: var(--radius-card); overflow: hidden; display: flex; flex-direction: column;
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s;
+    }
+    .product-card:hover {
+      transform: translateY(-4px); box-shadow: var(--shadow-card);
+    }
+    .product-img-wrap {
+      height: 140px; background: linear-gradient(135deg, rgba(16,185,129,0.08) 0%, rgba(5,150,105,0.03) 100%);
+      border-bottom: 1px solid var(--bg-card-border); position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .product-img-wrap i {
+      font-size: 3rem; opacity: 0.75;
+    }
+    .product-discount-badge {
+      position: absolute; top: 0.75rem; right: 0.75rem;
+      background: var(--accent-rose); color: #fff; font-size: 0.75rem; font-weight: 700;
+      padding: 0.25rem 0.5rem; border-radius: 4px; box-shadow: 0 4px 12px rgba(244,63,94,0.3);
+    }
+    .product-expiry-badge {
+      position: absolute; top: 0.75rem; left: 0.75rem;
+      font-size: 0.72rem; font-weight: 600; padding: 0.25rem 0.5rem; border-radius: 4px;
+    }
+    .product-body {
+      padding: 1.25rem; display: flex; flex-direction: column; flex: 1; gap: 0.75rem;
+    }
+    .product-sku {
+      font-family: var(--font-code); font-size: 0.72rem; color: var(--text-muted);
+    }
+    .product-name {
+      font-family: var(--font-display); font-size: 1.1rem; font-weight: 700;
+      color: var(--text-main); line-height: 1.3;
+    }
+    .product-store {
+      font-size: 0.82rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.35rem;
+    }
+    .product-price-row {
+      display: flex; align-items: baseline; gap: 0.6rem; margin-top: auto;
+    }
+    .product-price-current {
+      font-family: var(--font-code); font-size: 1.3rem; font-weight: 700; color: var(--accent-green);
+    }
+    .product-price-orig {
+      font-family: var(--font-code); font-size: 0.9rem; color: var(--text-muted); text-decoration: line-through;
+    }
+    .product-stock {
+      font-size: 0.78rem; color: var(--text-muted); display: flex; justify-content: space-between;
+      border-top: 1px solid rgba(255,255,255,0.04); padding-top: 0.6rem;
+    }
+    body.light-theme .product-stock {
+      border-top-color: rgba(0,0,0,0.04);
+    }
+    
+    /* ===== CLAIM MODAL CHOSEN STYLES ===== */
+    .claim-modal-field {
+      display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem;
+    }
+    .claim-modal-field label {
+      font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;
+    }
   </style>
 </head>
 <body>
@@ -956,6 +1143,29 @@
   <div class="glow-orb glow-1"></div>
   <div class="glow-orb glow-2"></div>
   <div class="glow-orb glow-3"></div>
+
+  <!-- ======== ROLE SELECTOR OVERLAY ======== -->
+  <div id="role-selection-overlay">
+    <div class="portal-container">
+      <div class="portal-logo"><i data-lucide="leaf"></i></div>
+      <h1 class="portal-title">NEXPIRE</h1>
+      <p class="portal-subtitle">AI-Powered Food-Waste Rescue Platform</p>
+      
+      <div class="role-grid">
+        <div class="role-choice-card retailer-choice" onclick="selectRole('retailer')">
+          <div class="role-icon"><i data-lucide="store"></i></div>
+          <h2 class="role-name">Retailer Portal</h2>
+          <p class="role-desc">Manage store inventory, view dynamic AI markdown recommendations, track reorder forecasting, and view automated eco-impact analytics.</p>
+        </div>
+        
+        <div class="role-choice-card customer-choice" onclick="selectRole('customer')">
+          <div class="role-icon"><i data-lucide="shopping-bag"></i></div>
+          <h2 class="role-name">Customer &amp; NGO Portal</h2>
+          <p class="role-desc">Browse local stores' active food discounts and flash markdowns. Claim items instantly for self-pickup or reserve subsidized NGO items.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ======== HEADER ======== -->
   <header>
@@ -967,6 +1177,9 @@
       </div>
     </div>
     <div style="display:flex;gap:1rem;align-items:center;">
+      <button class="btn btn-secondary btn-sm" id="btn-change-role" onclick="switchRole()" style="display:none; align-items:center; gap:0.25rem;">
+        <i data-lucide="user-cog" style="width:14px; height:14px;"></i> Switch Role
+      </button>
       <a href="/docs" target="_blank" class="btn btn-secondary btn-sm" style="text-decoration:none;">
         <i data-lucide="file-text" aria-hidden="true"></i> API Docs
       </a>
@@ -989,6 +1202,7 @@
 
   <!-- ======== MAIN ======== -->
   <main>
+    <div id="retailer-portal-view" style="display:none; width:100%; flex-direction:column; gap:1.5rem;">
 
     <!-- Navigation Tabs -->
     <div class="tabs" id="main-tabs" role="tablist" aria-label="NEXPIRE Navigation Tabs">
@@ -1818,7 +2032,61 @@
 
       </div><!-- /grid-2 -->
     </div><!-- /forecast-tab -->
+    </div><!-- /retailer-portal-view -->
 
+    <!-- ==========================================
+         CUSTOMER PORTAL: MARKETPLACE FEED (Phase 14)
+         ========================================== -->
+    <div id="customer-portal-view" style="display:none; width:100%; flex-direction:column; gap:1.5rem;">
+      
+      <!-- Marketplace Header/Hero -->
+      <div class="glass-panel" style="padding:2rem; margin-bottom:1.5rem; text-align:center; position:relative; overflow:hidden;">
+        <div style="position:absolute; top:-30%; right:-10%; font-size:12rem; opacity:0.02; transform:rotate(15deg);"><i data-lucide="shopping-bag"></i></div>
+        <h2 style="font-family:var(--font-display); font-size:2rem; font-weight:800; color:var(--text-main); margin-bottom:0.5rem;">
+          🍽️ Local Food Rescue Marketplace
+        </h2>
+        <p style="color:var(--text-muted); max-width:600px; margin:0 auto; font-size:0.95rem;">
+          Rescue fresh bakery, dairy, organic produce, and premium meats nearing expiration at up to 80% discount. 
+          Help reduce food waste in India while securing massive savings!
+        </p>
+      </div>
+
+      <!-- Search & Category Filters -->
+      <div class="cust-search-section">
+        <div class="cust-search-input-wrap">
+          <i data-lucide="search"></i>
+          <input type="text" id="cust-search-input" placeholder="Search products, stores, categories..." oninput="filterCustomerMarketplace()" style="padding-top:0.6rem; padding-bottom:0.6rem; background: rgba(255,255,255,0.03); border:1px solid var(--bg-card-border); border-radius: var(--radius-sm); color:var(--text-main);">
+        </div>
+        
+        <div class="cust-filters">
+          <button class="cust-filter-btn active" id="filter-all" onclick="setCustomerCategoryFilter('ALL')">All Items</button>
+          <button class="cust-filter-btn" id="filter-dairy" onclick="setCustomerCategoryFilter('Dairy')">🥛 Dairy</button>
+          <button class="cust-filter-btn" id="filter-bakery" onclick="setCustomerCategoryFilter('Bakery')">🍞 Bakery</button>
+          <button class="cust-filter-btn" id="filter-fruits" onclick="setCustomerCategoryFilter('Fruits & Veggies')">🍏 Fruits &amp; Veggies</button>
+          <button class="cust-filter-btn" id="filter-meat" onclick="setCustomerCategoryFilter('Meat & Seafood')">🥩 Meat &amp; Seafood</button>
+          <button class="cust-filter-btn" id="filter-other" onclick="setCustomerCategoryFilter('OTHER')">📦 Others</button>
+        </div>
+
+        <div style="min-width: 180px;">
+          <select id="cust-store-select" onchange="filterCustomerMarketplace()" style="width: 100%; padding:0.5rem; background: rgba(255,255,255,0.03); border:1px solid var(--bg-card-border); border-radius: var(--radius-sm); color:var(--text-main);">
+            <option value="ALL">All Stores</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Product Marketplace Grid -->
+      <div class="product-grid" id="customer-product-grid">
+        <!-- Rendered dynamically -->
+      </div>
+      
+      <!-- Empty State -->
+      <div id="customer-empty-state" class="glass-panel" style="display:none; text-align:center; padding:5rem 2rem; color:var(--text-muted);">
+        <i data-lucide="search-code" style="width:48px; height:48px; opacity:0.3; margin-bottom:1rem; display:inline-block;"></i>
+        <h3>No active markdown deals found</h3>
+        <p style="font-size:0.875rem; margin-top:0.5rem;">Try selecting a different store, category, or search term.</p>
+      </div>
+
+    </div>
 
   </main><!-- /main -->
 
@@ -1866,6 +2134,112 @@
     </div>
   </div>
 
+  <!-- ==========================================
+       CUSTOMER CLAIM & CHECKOUT MODAL
+       ========================================== -->
+  <div class="modal-backdrop" id="customer-claim-modal" onclick="closeCustomerClaimModal(event)">
+    <div class="modal-card" style="max-width:500px;">
+      <button class="modal-close" onclick="closeCustomerClaimModalDirect()" aria-label="Close modal"><i data-lucide="x" aria-hidden="true"></i></button>
+      
+      <div style="text-align:center; margin-bottom:1.5rem;">
+        <div style="display:inline-flex; width:54px; height:54px; border-radius:50%; background:rgba(16,185,129,0.1); color:var(--accent-green); align-items:center; justify-content:center; margin-bottom:0.75rem;">
+          <i data-lucide="shopping-bag" style="width:26px; height:26px;"></i>
+        </div>
+        <h3 style="font-family:var(--font-display); font-size:1.4rem; font-weight:700; color:var(--text-main);" id="cc-modal-product-name">Product Name</h3>
+        <p style="font-size:0.82rem; color:var(--text-muted);" id="cc-modal-store-name">Store Name</p>
+      </div>
+
+      <form id="customer-claim-form" onsubmit="submitCustomerClaim(event)">
+        <input type="hidden" id="cc-modal-batch-id">
+        <input type="hidden" id="cc-modal-price">
+
+        <div style="background:rgba(255,255,255,0.02); border:1px solid var(--bg-card-border); border-radius:8px; padding:0.75rem 1rem; display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+          <div>
+            <span style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase;">Price per unit</span>
+            <div style="display:flex; align-items:baseline; gap:0.4rem; margin-top:0.15rem;">
+              <span class="product-price-current" id="cc-modal-price-current">₹0.00</span>
+              <span class="product-price-orig" id="cc-modal-price-orig">₹0.00</span>
+              <span class="badge badge-rose" id="cc-modal-discount" style="font-size:0.68rem; padding:0.1rem 0.35rem;">-0%</span>
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <span style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase;">Expires in</span>
+            <div id="cc-modal-expiry" style="font-size:0.9rem; font-weight:600; color:var(--accent-rose); margin-top:0.15rem;">—</div>
+          </div>
+        </div>
+
+        <!-- Quantity Input -->
+        <div class="claim-modal-field">
+          <div style="display:flex; justify-content:space-between;">
+            <label for="cc-quantity">Quantity to claim</label>
+            <span style="font-size:0.75rem; color:var(--text-muted);" id="cc-qty-available">Available: 0</span>
+          </div>
+          <input type="number" id="cc-quantity" min="1" max="100" value="1" oninput="updateClaimModalTotal()" required style="width:100%; padding:0.5rem; background:rgba(255,255,255,0.03); border:1px solid var(--bg-card-border); border-radius:6px; color:var(--text-main);">
+        </div>
+
+        <!-- Contact Email -->
+        <div class="claim-modal-field">
+          <label for="cc-email">Email Address</label>
+          <input type="email" id="cc-email" placeholder="customer@example.com" required style="width:100%; padding:0.5rem; background:rgba(255,255,255,0.03); border:1px solid var(--bg-card-border); border-radius:6px; color:var(--text-main);">
+        </div>
+
+        <!-- Contact Phone -->
+        <div class="claim-modal-field">
+          <label for="cc-phone">Phone Number (with Country Code)</label>
+          <input type="text" id="cc-phone" value="+91 98765 43210" placeholder="+91 XXXXX XXXXX" required style="width:100%; padding:0.5rem; background:rgba(255,255,255,0.03); border:1px solid var(--bg-card-border); border-radius:6px; color:var(--text-main);">
+        </div>
+
+        <!-- Fulfillment Mode -->
+        <div class="claim-modal-field">
+          <label for="cc-fulfillment">Fulfillment Mode</label>
+          <select id="cc-fulfillment" style="width:100%; padding:0.5rem; background:rgba(255,255,255,0.03); border:1px solid var(--bg-card-border); border-radius:6px; color:var(--text-main);">
+            <option value="pickup">🏢 Self Pickup (At Store)</option>
+            <option value="delivery">🛵 Local Delivery (₹30 Fee)</option>
+          </select>
+        </div>
+
+        <!-- NGO Subsidized Bypass Option -->
+        <div style="margin-bottom: 1.25rem;">
+          <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.875rem; cursor:pointer;">
+            <input type="checkbox" id="cc-ngo-checkbox" onchange="toggleNgoFulfillment()" style="cursor:pointer; width:16px; height:16px;">
+            <span>🛡️ Subsidized NGO Bypass (0 ₹ Cost)</span>
+          </label>
+          <div id="cc-ngo-details" style="display:none; margin-top:0.75rem; padding:0.75rem; background:rgba(16,185,129,0.05); border:1px dashed var(--accent-green); border-radius:6px;">
+            <label for="cc-ngo-id" style="font-size:0.72rem; font-weight:600; color:var(--accent-green); text-transform:uppercase;">NGO Registration ID / Gov ID</label>
+            <input type="text" id="cc-ngo-id" placeholder="e.g. NGO-IND-2026-X89" style="width:100%; padding:0.4rem; background:rgba(255,255,255,0.03); border:1px solid rgba(16,185,129,0.3); border-radius:4px; color:var(--text-main); margin-top:0.25rem;">
+          </div>
+        </div>
+
+        <!-- Payment Gateway selector -->
+        <div id="cc-payment-selector" class="claim-modal-field">
+          <label>Select Payment Gateway</label>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-top:0.25rem;">
+            <label style="border:1px solid var(--accent-green); background:var(--accent-green-glow); border-radius:6px; padding:0.6rem; text-align:center; display:flex; flex-direction:column; align-items:center; cursor:pointer; gap:0.25rem;" id="cc-pay-razorpay-lbl">
+              <input type="radio" name="payment_provider" value="razorpay" checked onchange="updatePaymentSelectionUI()" style="display:none;">
+              <span style="font-size:0.9rem; font-weight:700; color:var(--accent-green);">Razorpay</span>
+              <span style="font-size:0.65rem; color:var(--text-muted);">INR / Cards / UPI</span>
+            </label>
+            <label style="border:1px solid var(--bg-card-border); background:rgba(255,255,255,0.02); border-radius:6px; padding:0.6rem; text-align:center; display:flex; flex-direction:column; align-items:center; cursor:pointer; gap:0.25rem;" id="cc-pay-stripe-lbl">
+              <input type="radio" name="payment_provider" value="stripe" onchange="updatePaymentSelectionUI()" style="display:none;">
+              <span style="font-size:0.9rem; font-weight:700; color:var(--text-main);">Stripe</span>
+              <span style="font-size:0.65rem; color:var(--text-muted);">International Cards</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Total Price Summary -->
+        <div style="border-top:1px solid var(--bg-card-border); padding-top:1rem; margin-top:1rem; display:flex; justify-content:space-between; align-items:baseline; margin-bottom:1.5rem;">
+          <span style="font-size:1rem; font-weight:700; color:var(--text-main);">Total Amount:</span>
+          <span style="font-size:1.6rem; font-weight:800; color:var(--accent-green);" id="cc-modal-total-amt">₹0.00</span>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full" id="cc-submit-btn" style="padding:0.75rem;">
+          <i data-lucide="credit-card"></i> Proceed to Checkout &amp; Pay
+        </button>
+      </form>
+    </div>
+  </div>
+
   <!-- Toast -->
   <div id="toast"></div>
 
@@ -1896,10 +2270,399 @@
     // ===== TOAST =====
     function showToast(msg, isError = false) {
       const t = document.getElementById('toast');
+      if (!t) return;
       t.textContent = msg;
       t.className = isError ? 'error show' : 'show';
       setTimeout(() => { t.className = isError ? 'error' : ''; }, 3500);
     }
+
+    // ===== DUAL PORTAL & MARKETPLACE CONTROLS (Phase 14) =====
+    let currentRole = null;
+    let customerBatches = [];
+    let customerStores = [];
+    let customerCategoryFilter = 'ALL';
+
+    window.selectRole = function(role) {
+      currentRole = role;
+      localStorage.setItem('nexpire_role', role);
+      document.getElementById('role-selection-overlay').classList.add('hidden');
+      
+      const btnChangeRole = document.getElementById('btn-change-role');
+      btnChangeRole.style.display = 'inline-flex';
+      
+      if (role === 'retailer') {
+        document.getElementById('retailer-portal-view').style.display = 'flex';
+        document.getElementById('customer-portal-view').style.display = 'none';
+        document.getElementById('main-tabs').style.display = 'flex';
+        
+        // Load initial retailer view
+        loadAnalytics();
+      } else {
+        document.getElementById('retailer-portal-view').style.display = 'none';
+        document.getElementById('customer-portal-view').style.display = 'flex';
+        document.getElementById('main-tabs').style.display = 'none';
+        
+        // Load customer marketplace
+        loadCustomerMarketplace();
+      }
+      lucide.createIcons();
+    };
+
+    window.switchRole = function() {
+      localStorage.removeItem('nexpire_role');
+      document.getElementById('retailer-portal-view').style.display = 'none';
+      document.getElementById('customer-portal-view').style.display = 'none';
+      document.getElementById('main-tabs').style.display = 'none';
+      document.getElementById('btn-change-role').style.display = 'none';
+      document.getElementById('role-selection-overlay').classList.remove('hidden');
+      lucide.createIcons();
+    };
+
+    // Auto-login role selector on mount
+    (function checkPreSelectedRole() {
+      setTimeout(() => {
+        const saved = localStorage.getItem('nexpire_role');
+        if (saved && (saved === 'retailer' || saved === 'customer')) {
+          selectRole(saved);
+        }
+      }, 100);
+    })();
+
+    async function loadCustomerMarketplace() {
+      try {
+        // Fetch stores to build dropdown
+        const storesRes = await fetch('/api/v1/stores');
+        if (storesRes.ok) {
+          customerStores = await storesRes.json();
+          const storeSelect = document.getElementById('cust-store-select');
+          storeSelect.innerHTML = '<option value="ALL">All Stores</option>' + 
+            customerStores.map(s => `<option value="${s.id}">${s.name} (${s.city})</option>`).join('');
+        }
+
+        // Fetch active batches
+        const batchesRes = await fetch('/api/v1/inventory/batches?limit=100');
+        if (!batchesRes.ok) throw new Error('Failed to fetch marketplace data');
+        
+        const allBatches = await batchesRes.json();
+        // Filter to ACTIVE/DISCOUNTED and non-zero qty
+        customerBatches = allBatches.filter(b => 
+          (b.status === 'ACTIVE' || b.status === 'DISCOUNTED') && b.quantity > 0
+        );
+
+        renderCustomerMarketplace();
+      } catch(e) {
+        showToast('Error loading marketplace: ' + e.message, true);
+      }
+    }
+
+    function renderCustomerMarketplace() {
+      const grid = document.getElementById('customer-product-grid');
+      const emptyState = document.getElementById('customer-empty-state');
+      
+      const searchVal = document.getElementById('cust-search-input').value.toLowerCase().trim();
+      const storeVal = document.getElementById('cust-store-select').value;
+
+      // Filter
+      const filtered = customerBatches.filter(b => {
+        // Category filter
+        if (customerCategoryFilter !== 'ALL') {
+          if (customerCategoryFilter === 'OTHER') {
+            const known = ['dairy', 'bakery', 'fruits & veggies', 'meat & seafood'];
+            if (known.includes(b.category.toLowerCase())) return false;
+          } else {
+            if (b.category.toLowerCase() !== customerCategoryFilter.toLowerCase()) return false;
+          }
+        }
+
+        // Store filter
+        if (storeVal !== 'ALL' && b.store_id.toString() !== storeVal) return false;
+
+        // Search text filter
+        if (searchVal) {
+          const storeObj = customerStores.find(s => s.id === b.store_id);
+          const storeName = storeObj ? storeObj.name.toLowerCase() : '';
+          const matchText = (b.product_name + ' ' + b.category + ' ' + b.sku + ' ' + storeName).toLowerCase();
+          if (!matchText.includes(searchVal)) return false;
+        }
+
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        grid.style.display = 'none';
+        emptyState.style.display = 'block';
+        return;
+      }
+
+      grid.style.display = 'grid';
+      emptyState.style.display = 'none';
+
+      // Category color mapping & icons
+      const catMap = {
+        dairy: { icon: 'milk', grad: 'linear-gradient(135deg, rgba(6,182,212,0.12) 0%, rgba(6,182,212,0.03) 100%)', color: 'var(--accent-cyan)' },
+        bakery: { icon: 'croissant', grad: 'linear-gradient(135deg, rgba(245,158,11,0.12) 0%, rgba(245,158,11,0.03) 100%)', color: 'var(--accent-amber)' },
+        'fruits & veggies': { icon: 'salad', grad: 'linear-gradient(135deg, rgba(16,185,129,0.12) 0%, rgba(16,185,129,0.03) 100%)', color: 'var(--accent-green)' },
+        'meat & seafood': { icon: 'beef', grad: 'linear-gradient(135deg, rgba(244,63,94,0.12) 0%, rgba(244,63,94,0.03) 100%)', color: 'var(--accent-rose)' }
+      };
+
+      grid.innerHTML = filtered.map(b => {
+        const storeObj = customerStores.find(s => s.id === b.store_id);
+        const storeName = storeObj ? storeObj.name : `Store #${b.store_id}`;
+        
+        // Expiry calculation
+        const daysLeft = Math.ceil((new Date(b.expiration_date) - new Date()) / (1000 * 60 * 60 * 24));
+        let expiryText = '';
+        let expiryClass = '';
+        if (daysLeft < 0) {
+          expiryText = 'Expired'; expiryClass = 'badge-rose';
+        } else if (daysLeft === 0) {
+          expiryText = 'Expires Today'; expiryClass = 'badge-rose';
+        } else if (daysLeft === 1) {
+          expiryText = '1 day left'; expiryClass = 'badge-rose';
+        } else {
+          expiryText = `${daysLeft} days left`; expiryClass = 'badge-amber';
+        }
+
+        const catCfg = catMap[b.category.toLowerCase()] || { icon: 'package', grad: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%)', color: 'var(--text-muted)' };
+
+        return `
+          <div class="product-card">
+            <div class="product-img-wrap" style="background:${catCfg.grad}; color:${catCfg.color};">
+              <i data-lucide="${catCfg.icon}"></i>
+              <span class="product-discount-badge">${b.discount_percentage.toFixed(0)}% OFF</span>
+              <span class="product-expiry-badge ${expiryClass}">${expiryText}</span>
+            </div>
+            
+            <div class="product-body">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span class="product-sku">${b.sku}</span>
+                <span class="badge" style="font-size:0.65rem; border-color:var(--bg-card-border); color:var(--text-muted);">${b.category}</span>
+              </div>
+              <h3 class="product-name">${b.product_name}</h3>
+              
+              <div class="product-store">
+                <i data-lucide="map-pin" style="width:13px; height:13px; color:var(--accent-green);"></i>
+                <span>${storeName}</span>
+              </div>
+
+              <div class="product-price-row">
+                <span class="product-price-current">₹${b.current_price.toFixed(2)}</span>
+                <span class="product-price-orig">₹${b.original_selling_price.toFixed(2)}</span>
+              </div>
+
+              <div class="product-stock">
+                <span>Quantity left: <strong>${b.quantity}</strong></span>
+              </div>
+
+              <button class="btn btn-primary btn-sm btn-full" onclick="openCustomerClaimModal(${b.id})" style="margin-top:0.5rem; padding:0.5rem;">
+                <i data-lucide="zap"></i> Claim Deal
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+      
+      lucide.createIcons();
+    }
+
+    window.filterCustomerMarketplace = function() {
+      renderCustomerMarketplace();
+    };
+
+    window.setCustomerCategoryFilter = function(cat) {
+      customerCategoryFilter = cat;
+      document.querySelectorAll('.cust-filter-btn').forEach(btn => btn.classList.remove('active'));
+      
+      const btnIdMap = {
+        'ALL': 'filter-all',
+        'Dairy': 'filter-dairy',
+        'Bakery': 'filter-bakery',
+        'Fruits & Veggies': 'filter-fruits',
+        'Meat & Seafood': 'filter-meat',
+        'OTHER': 'filter-other'
+      };
+      const activeBtn = document.getElementById(btnIdMap[cat]);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      renderCustomerMarketplace();
+    };
+
+    // ----- CUSTOMER CLAIM MODAL CONTROLS -----
+    window.openCustomerClaimModal = function(batchId) {
+      const b = customerBatches.find(x => x.id === batchId);
+      if (!b) return;
+
+      const storeObj = customerStores.find(s => s.id === b.store_id);
+      const storeName = storeObj ? `${storeObj.name} (${storeObj.city})` : `Store #${b.store_id}`;
+
+      document.getElementById('cc-modal-batch-id').value = b.id;
+      document.getElementById('cc-modal-price').value = b.current_price;
+      document.getElementById('cc-modal-product-name').textContent = b.product_name;
+      document.getElementById('cc-modal-store-name').textContent = storeName;
+      
+      document.getElementById('cc-modal-price-current').textContent = `₹${b.current_price.toFixed(2)}`;
+      document.getElementById('cc-modal-price-orig').textContent = `₹${b.original_selling_price.toFixed(2)}`;
+      document.getElementById('cc-modal-discount').textContent = `-${b.discount_percentage.toFixed(0)}%`;
+      
+      // Expiry days left text
+      const daysLeft = Math.ceil((new Date(b.expiration_date) - new Date()) / (1000 * 60 * 60 * 24));
+      document.getElementById('cc-modal-expiry').textContent = daysLeft <= 0 ? 'Expires Today' : `${daysLeft}d`;
+
+      // Set input constraints
+      const qtyInput = document.getElementById('cc-quantity');
+      qtyInput.max = b.quantity;
+      qtyInput.value = 1;
+      document.getElementById('cc-qty-available').textContent = `Available: ${b.quantity}`;
+      
+      // Reset checkboxes & fields
+      document.getElementById('cc-ngo-checkbox').checked = false;
+      document.getElementById('cc-ngo-details').style.display = 'none';
+      document.getElementById('cc-ngo-id').required = false;
+      document.getElementById('cc-payment-selector').style.display = 'block';
+
+      updateClaimModalTotal();
+      document.getElementById('customer-claim-modal').classList.add('active');
+      lucide.createIcons();
+    };
+
+    window.closeCustomerClaimModal = function(e) {
+      if (e.target === document.getElementById('customer-claim-modal')) closeCustomerClaimModalDirect();
+    };
+
+    window.closeCustomerClaimModalDirect = function() {
+      document.getElementById('customer-claim-modal').classList.remove('active');
+    };
+
+    window.updateClaimModalTotal = function() {
+      const qty = parseInt(document.getElementById('cc-quantity').value, 10) || 1;
+      const unitPrice = parseFloat(document.getElementById('cc-modal-price').value) || 0;
+      const isNgo = document.getElementById('cc-ngo-checkbox').checked;
+
+      let total = 0;
+      if (!isNgo) {
+        total = qty * unitPrice;
+      }
+      
+      document.getElementById('cc-modal-total-amt').textContent = `₹${total.toFixed(2)}`;
+    };
+
+    window.toggleNgoFulfillment = function() {
+      const isChecked = document.getElementById('cc-ngo-checkbox').checked;
+      const details = document.getElementById('cc-ngo-details');
+      const ngoId = document.getElementById('cc-ngo-id');
+      const paySelector = document.getElementById('cc-payment-selector');
+      const submitBtn = document.getElementById('cc-submit-btn');
+
+      if (isChecked) {
+        details.style.display = 'block';
+        ngoId.required = true;
+        paySelector.style.display = 'none';
+        submitBtn.innerHTML = '<i data-lucide="check-square"></i> Confirm Subsidized Claim';
+      } else {
+        details.style.display = 'none';
+        ngoId.required = false;
+        paySelector.style.display = 'block';
+        submitBtn.innerHTML = '<i data-lucide="credit-card"></i> Proceed to Checkout &amp; Pay';
+      }
+      updateClaimModalTotal();
+      lucide.createIcons();
+    };
+
+    window.updatePaymentSelectionUI = function() {
+      const provider = document.querySelector('input[name="payment_provider"]:checked').value;
+      const rpLbl = document.getElementById('cc-pay-razorpay-lbl');
+      const stLbl = document.getElementById('cc-pay-stripe-lbl');
+
+      if (provider === 'razorpay') {
+        rpLbl.style.borderColor = 'var(--accent-green)';
+        rpLbl.style.background = 'var(--accent-green-glow)';
+        rpLbl.querySelector('span').style.color = 'var(--accent-green)';
+        
+        stLbl.style.borderColor = 'var(--bg-card-border)';
+        stLbl.style.background = 'rgba(255,255,255,0.02)';
+        stLbl.querySelector('span').style.color = 'var(--text-main)';
+      } else {
+        stLbl.style.borderColor = 'var(--accent-purple)';
+        stLbl.style.background = 'var(--accent-purple-glow)';
+        stLbl.querySelector('span').style.color = 'var(--accent-purple)';
+        
+        rpLbl.style.borderColor = 'var(--bg-card-border)';
+        rpLbl.style.background = 'rgba(255,255,255,0.02)';
+        rpLbl.querySelector('span').style.color = 'var(--text-main)';
+      }
+    };
+
+    window.submitCustomerClaim = async function(e) {
+      e.preventDefault();
+      const submitBtn = document.getElementById('cc-submit-btn');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i data-lucide="loader-2" class="shimmer"></i> Processing Reservation…';
+      lucide.createIcons();
+
+      const batchId = parseInt(document.getElementById('cc-modal-batch-id').value, 10);
+      const qty = parseInt(document.getElementById('cc-quantity').value, 10);
+      const email = document.getElementById('cc-email').value;
+      const phone = document.getElementById('cc-phone').value;
+      const fulfillment = document.getElementById('cc-fulfillment').value;
+      const isSubsidized = document.getElementById('cc-ngo-checkbox').checked;
+      const provider = isSubsidized ? 'subsidized_bypass' : document.querySelector('input[name="payment_provider"]:checked').value;
+
+      try {
+        // Step 1: Create Reservation/Claim
+        const claimRes = await fetch('/api/v1/claims', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            batch_id: batchId,
+            reserver_phone: phone,
+            reserver_email: email,
+            reserved_quantity: qty,
+            fulfillment_type: fulfillment,
+            is_subsidized: isSubsidized
+          })
+        });
+
+        if (!claimRes.ok) {
+          const errData = await claimRes.json().catch(() => ({}));
+          throw new Error(errData.detail || `Reservation failed (${claimRes.status})`);
+        }
+
+        const claimData = await claimRes.json();
+        const token = claimData.claim_token;
+
+        // Step 2: Simulate Payment & Status Update (Mock Multi-rail rails)
+        submitBtn.innerHTML = '<i data-lucide="loader-2" class="shimmer"></i> Simulating payment checkout session...';
+        lucide.createIcons();
+
+        // Delay 1 second to give feedback on mock payment gateway authorization
+        await new Promise(r => setTimeout(r, 1000));
+
+        const updateRes = await fetch(`/api/v1/claims/${token}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            status: 'PAID',
+            payment_ref: isSubsidized ? `NGO_BYPASS_${document.getElementById('cc-ngo-id').value}` : `MOCK_${provider.toUpperCase()}_PAYMENT_SUCCESS`
+          })
+        });
+
+        if (!updateRes.ok) {
+          throw new Error('Payment status capture simulation failed.');
+        }
+
+        // Close Claim Modal & Show Success Toast
+        closeCustomerClaimModalDirect();
+        showToast(`🎉 Food Saved! Claim successfully created. Token: ${token}`);
+
+        // Refresh Marketplace grid and inventory cache
+        await loadCustomerMarketplace();
+      } catch(err) {
+        showToast('Claim Failed: ' + err.message, true);
+      } finally {
+        submitBtn.disabled = false;
+        toggleNgoFulfillment(); // restore text
+      }
+    };
 
     // ===== HEALTH CHECK =====
     async function checkHealth() {

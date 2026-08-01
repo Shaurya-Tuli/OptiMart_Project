@@ -116,6 +116,13 @@
 - **Status**: Implemented & Verified.
 - **Source**: Original to this hackathon (Volume II Demand Forecasting extension).
 
-
-
-
+## ADR 014: Dual Role Portal & Customer Marketplace Feed (Phase 14)
+- **Context**: The application required a dual role entry portal for Retailers and Customers/NGOs, and a dedicated view for customers to browse active markdowns and claim items directly.
+- **Decision**:
+  - Implement a full-screen landing selection overlay `#role-selection-overlay` in `index.html` to separate the two portal pathways.
+  - Wrap the retailer panel tabs under `#retailer-portal-view`, hiding it in Customer mode.
+  - Implement a dedicated `#customer-portal-view` marketplace layout containing real-time search, store selection dropdowns, and category badge filters.
+  - Render expiring batch inventory dynamically as card grids. Cards display category-themed CSS gradients, expiry countdown badges, original/discounted pricing, and an action button to "Claim Deal".
+  - Integrate a Customer Claim Modal (`#customer-claim-modal`) supporting self-pickup, delivery, or NGO Subsidized Bypass. Simulates Razorpay/Stripe payments by hitting the reservation (`POST /api/v1/claims`) and patch payment endpoints (`PATCH /api/v1/claims/{token}`) sequentially.
+- **Status**: Implemented & Verified.
+- **Source**: Original to this hackathon.

@@ -19,6 +19,7 @@ Referenced from `STATUS.md` and `DECISIONS.md` by phase.
 | Phase 11 | Chart.js multi-series line chart | Chart.js documentation (https://www.chartjs.org/docs/) | Original chart configuration, dataset labels, and dynamic theme color switching |
 | Phase 12 | Closed-loop underperformance detection logic | Original to this hackathon | No prior art reused — logic, threshold (70%), and boost (+0.25) are original design decisions |
 | Phase 13 | Demo script structure | InvenSight Playbook Vol. II Ch. 14.1 | Extended run-of-show sequence follows playbook chapter; narration is original |
+| Phase 14 | Dual role entry selector & Customer Marketplace UI | Original to this hackathon | No prior art reused — overlay card selector, category-themed gradients, and mock checkout rails are original |
 
 ---
 

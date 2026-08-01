@@ -1,6 +1,15 @@
 # NEXPIRE Project Status
 
-## Current Phase: Phase 13 (Extended Demo Rehearsal) COMPLETED
+## Current Phase: Phase 14 (Dual Portal & Customer Marketplace) COMPLETED
+
+### Phase 14 Summary
+Phase 14 introduces a dual role landing screen (Retailer vs. Customer) and a dedicated Customer Marketplace Feed showing live expiring food discounts.
+
+- **Role Selection Overlay (`app/static/index.html`)**: Added a glassmorphic full-screen overlay for users to choose their role on load. Hides/shows operational vs. customer views based on selection, with persistent `localStorage` auto-login.
+- **Customer Feed Layout**: Reusable product card grid displaying live discounted items from the backend (`/api/v1/inventory/batches`). Includes text search, store location dropdowns, and category buttons (Dairy, Bakery, Fruits, Meat, Others) using category-themed gradients.
+- **Claim Checkout Modal**: Direct checkout modal supporting self-pickup, delivery, or subsidized NGO bypass (with NGO Gov ID details, setting cost to ₹0). Simulates multi-rail payment checkout (Razorpay/Stripe) by reserving the batch (`POST /api/v1/claims`) and capturing the payment status (`PATCH /api/v1/claims/{token}` with `PAID`), updating marketplace cache instantly.
+- **Switch Role Action**: A top header button allows users to toggle between Retailer and Customer portals seamlessly.
+- **Testing**: 51 automated tests passing across all backend endpoints.
 
 ### Phase 13 Summary
 Phase 13 is the demo rehearsal & submission hardening phase (Playbook Ch. 14.1 / Ch. 14.2). No new backend code — the deliverables are the complete demo run-of-show, Q&A prep, and a final accuracy pass on all source citations.
