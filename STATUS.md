@@ -1,6 +1,6 @@
 # NEXPIRE Project Status
 
-## Current Phase: Phase 10 (Reorder Recommendation Logic) COMPLETED
+## Current Phase: Phase 11 (Demand & Reorder Dashboard Tab) COMPLETED
 
 ### Phase 10 Summary
 Phase 10 implements the reorder recommendation logic, translating Model D's demand forecasts into optimal ordering recommendations for retailers, accounting for safety stock and on-hand inventory.
@@ -17,7 +17,18 @@ Phase 10 implements the reorder recommendation logic, translating Model D's dema
 - **Celery Task (`app/tasks/forecasting.py`)**: Background task `run_weekly_forecast_task` to generate/refresh recommendations for all stores.
 - **Testing**: 50 total test suites passing across all phases (including `tests/test_reorder_recommendation.py`).
 
-### Phase 9 Summary
+### Phase 11 Summary
+Phase 11 adds the **Demand & Reorder** tab to the existing retailer dashboard — the primary visual deliverable for the forecasting volume. Retailers can now see, interpret, and act on Model D predictions directly from the dashboard.
+
+- **New Tab: Demand & Reorder** (`app/static/index.html`): Full tab panel with store selector, Run Forecast button, 4-KPI strip (SKUs Forecasted, Total Recommended, Accepted, Pending), recommendation table, and interactive trend chart.
+- **Recommendation Table**: Per-SKU rows showing predicted demand (7d), confidence band (p10–p90), recommended reorder quantity, decision status badge, and inline ✓ Accept / ↕ Adjust / ✕ Dismiss controls backed by live API calls to `POST /api/v1/forecast/recommendations/{id}/decision`.
+- **Trend Chart (Actual vs Forecast)**: Click any row to render a 3-series Chart.js line chart — Actual Sales (28 days), Naive Baseline (7-day rolling average), and Model D Forecast (next 7 day projection) — the playbook's Ch. 9.2 "forecast-vs-actual overlay" demo visual.
+- **"Why" Explanations**: Each selected SKU shows the top contributing factors panel (e.g. "Upcoming weekend demand spike") directly below the chart — fulfilling playbook Ch. 9.2 for interpretable recommendations.
+- **Confidence Band Callout**: Visual p10→p90 gradient bar with labeled range values.
+- **Light/Dark Theme**: Chart colors and backgrounds adapt dynamically when theme is toggled.
+- **Testing**: 50 total test suites passing (Phase 11 is frontend-only, no backend changes).
+
+
 Phase 9 implements **Model D** — the gradient-boosted demand forecasting engine predicting 7-day expected unit demand per store/SKU with calibrated confidence bands.
 
 - **Model D (`app/ml/forecaster.py`)**: `DemandForecaster` class using Scikit-Learn `HistGradientBoostingRegressor` trained at three quantiles (10th/50th/90th percentile), with `min_periods=1` rolling lag features (`lag_7d`, `lag_14d`, `lag_28d`, `rolling_avg_7d`, `rolling_avg_28d`), temporal signals (`day_of_week`, `is_weekend`), and contextual flags (`promotion_flag`, `stockout_flag`, `stockout_rate_recent`).
