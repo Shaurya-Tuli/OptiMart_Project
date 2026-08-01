@@ -15,6 +15,18 @@
 - **Status**: Implemented & Verified.
 - **Source**: Original to this hackathon (Volume II Demand Forecasting extension).
 
+## ADR 011: Demand Forecasting Model D — HistGradientBoostingRegressor with Quantile Loss (Phase 9)
+- **Context**: Playbook Chapter 10.3 specifies multi-quantile confidence band regression for demand forecasting. A naive 7-day moving average serves as the accuracy floor / baseline benchmark.
+- **Decision**:
+  - Use Scikit-Learn `HistGradientBoostingRegressor` with `loss="quantile"` for p10/p50/p90 quantile regressors. Chosen over a separate quantile regression library to avoid a new dependency under time pressure (see playbook Ch. 10.3).
+  - Lag features use `rolling(..., min_periods=1).mean()` rather than strict `shift(N)` to ensure feature availability even for stores/SKUs with shorter history windows; avoids complete row dropout in smaller stores.
+  - Time-based 80/20 train/validation split (never random shuffle) to preserve temporal causality.
+  - Cold-start fallback returns category-level mean demand × 7 days when `sales_history` has <14 rows for the SKU.
+  - Confidence band spread (`p90 - p10`) surfaced to retailer for order quantity buffer decisions (see playbook Ch. 12.1).
+  - Minimum threshold for training lowered to 20 rows to support unit tests with seeded short histories.
+- **Status**: Implemented & Verified.
+- **Source**: Adapted from Scikit-Learn HistGradientBoostingRegressor quantile docs; original application to this codebase.
+
 ## ADR 002: Inventory Core Architecture (Phase 1)
 - **Context**: Need high-throughput CRUD for retail store inventory management and bulk CSV imports.
 - **Decision**: 

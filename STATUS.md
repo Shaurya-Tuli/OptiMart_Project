@@ -1,6 +1,6 @@
 # NEXPIRE Project Status
 
-## Current Phase: Phase 8 (Sales History & Synthetic Data) COMPLETED
+## Current Phase: Phase 9 (Demand Forecasting Model D) COMPLETED
 
 ### Phase 8 Summary
 Phase 8 establishes the historical sales data pipeline essential for demand forecasting (Model D). It introduces the `sales_history` database table, Pydantic schemas, service layer with upsert capabilities, REST endpoints (including POS CSV bulk upload), synthetic data generation script, and test suite.
@@ -14,6 +14,18 @@ Phase 8 establishes the historical sales data pipeline essential for demand fore
   - `POST /api/v1/sales-history/upload-csv`: Bulk import daily sales CSV file.
 - **Synthetic Data Generator (`scripts/generate_sales_history.py`)**: Generates 16 weeks of daily historical sales data (~13,328 rows) incorporating day-of-week seasonality (weekend spikes), periodic promotions, and stockout noise.
 - **Testing**: 44 total test suites passing across all phases (including `tests/test_sales_history.py`).
+
+### Phase 9 Summary
+Phase 9 implements **Model D** — the gradient-boosted demand forecasting engine predicting 7-day expected unit demand per store/SKU with calibrated confidence bands.
+
+- **Model D (`app/ml/forecaster.py`)**: `DemandForecaster` class using Scikit-Learn `HistGradientBoostingRegressor` trained at three quantiles (10th/50th/90th percentile), with `min_periods=1` rolling lag features (`lag_7d`, `lag_14d`, `lag_28d`, `rolling_avg_7d`, `rolling_avg_28d`), temporal signals (`day_of_week`, `is_weekend`), and contextual flags (`promotion_flag`, `stockout_flag`, `stockout_rate_recent`).
+- **Cold-Start Fallback**: Category-level mean demand fallback for stores/SKUs with <14 days of history.
+- **Baseline Benchmark**: Naive 7-day moving average MAE computed during training for interpretability.
+- **REST Endpoints (`app/api/forecasting.py`)**:
+  - `POST /api/v1/forecast/train`: Trains/retrains Model D against live `sales_history` data.
+  - `GET /api/v1/forecast/predict`: Returns `predicted_demand_next_7d`, `confidence_low`, `confidence_high`, `confidence_band_spread`, and `top_factors` for any store/SKU.
+- **Live Results** (against 13,104 sales history rows): 10,658 train samples, baseline MAE 11.74, Model D MAE 10.97 (6.51% improvement over baseline).
+- **Testing**: 47 total test suites passing across all phases (including `tests/test_forecasting.py`).
 
 ### Post-Phase 7 Maintenance
 - Restored the NEXPIRE Assistant API and dashboard chat widget after they were absent from the active discount-engine branch. The widget now loads live discounted batches and supports category, claiming, payment, safety, and help queries.

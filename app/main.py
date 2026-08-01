@@ -17,8 +17,9 @@ from app.api.payments import router as payments_router
 from app.api.analytics import router as analytics_router
 from app.api.assistant import router as assistant_router
 from app.api.sales_history import router as sales_history_router
+from app.api.forecasting import router as forecasting_router
 from app.ml.predictor import get_predictor
-
+from app.ml.forecaster import get_forecaster
 
 
 @asynccontextmanager
@@ -51,6 +52,7 @@ app.include_router(payments_router)
 app.include_router(analytics_router)
 app.include_router(assistant_router)
 app.include_router(sales_history_router)
+app.include_router(forecasting_router)
 
 
 
