@@ -31,6 +31,7 @@ class BatchRepriceResponse(BaseModel):
     risk_score: float
     risk_level: str
     status: str
+    reasoning_tags: list[str] = []
 
 
 class ModelTrainResponse(BaseModel):

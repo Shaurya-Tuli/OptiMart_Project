@@ -85,6 +85,10 @@ class PricingPredictor:
         b2b_flag: int = 0,
         force_liquidate: bool = False,
         hours_to_expiry: Optional[float] = None,
+        # Closed-loop integration parameters (Phase 12)
+        store_id: Optional[int] = None,
+        sku: Optional[str] = None,
+        db: Optional[Any] = None,
     ) -> Dict[str, Any]:
         if self._engine is None:
             self._load_or_train()
@@ -103,6 +107,61 @@ class PricingPredictor:
 
         # Base risk score incorporating category sensitivity and demand factor
         risk_score = round(urgency_score, 4)
+
+        # Closed-loop integration check (Phase 12)
+        underperformance_detected = False
+        if db is not None and store_id is not None and sku is not None:
+            try:
+                from app.models.reorder_recommendation import ReorderRecommendation
+                from app.models.sales_history import SalesHistory
+                from sqlalchemy import desc, func
+                from datetime import timedelta
+
+                # Get latest forecast recommendation
+                rec = (
+                    db.query(ReorderRecommendation)
+                    .filter(
+                        ReorderRecommendation.store_id == store_id,
+                        ReorderRecommendation.sku == sku,
+                    )
+                    .order_by(desc(ReorderRecommendation.forecast_run_date))
+                    .first()
+                )
+
+                if rec and rec.predicted_demand > 0:
+                    # Get the most recent sales date to align the 7-day history window
+                    max_sales_date = (
+                        db.query(SalesHistory.date)
+                        .filter(
+                            SalesHistory.store_id == store_id,
+                            SalesHistory.sku == sku,
+                        )
+                        .order_by(desc(SalesHistory.date))
+                        .first()
+                    )
+                    if max_sales_date:
+                        start_date = max_sales_date[0] - timedelta(days=6)
+                        actual_sales = (
+                            db.query(func.sum(SalesHistory.units_sold))
+                            .filter(
+                                SalesHistory.store_id == store_id,
+                                SalesHistory.sku == sku,
+                                SalesHistory.date >= start_date,
+                                SalesHistory.date <= max_sales_date[0],
+                            )
+                            .scalar()
+                        ) or 0
+
+                        # If actual sales are less than 70% of forecast, SKU is underperforming
+                        if actual_sales < 0.70 * rec.predicted_demand:
+                            underperformance_detected = True
+            except Exception as e:
+                # Log error but don't crash prediction
+                print(f"[PricingPredictor] Error during closed-loop forecast check: {e}")
+
+        if underperformance_detected:
+            # Add boost to risk score (cap at 1.0)
+            risk_score = round(min(1.0, risk_score + 0.25), 4)
 
         # Categorize risk level continuously
         if risk_score < 0.25:
@@ -138,6 +197,8 @@ class PricingPredictor:
             reasoning_tags.append("weekend_demand_boost")
         if force_liquidate:
             reasoning_tags.append("force_liquidate")
+        if underperformance_detected:
+            reasoning_tags.append("forecast_underperformance_detected")
 
         return {
             "risk_score": risk_score,

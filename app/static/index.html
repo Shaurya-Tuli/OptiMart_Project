@@ -2972,14 +2972,33 @@
             </div>
           </div>
 
+          <!-- System Signals / Reasoning Tags (Phase 12) -->
+          \${(() => {
+            if (!data.reasoning_tags || data.reasoning_tags.length === 0) return '';
+            const tagMap = {
+              weekend_demand_boost: { label: 'Weekend Demand Boost', class: 'badge-cyan' },
+              force_liquidate: { label: 'Force Liquidation', class: 'badge-rose' },
+              forecast_underperformance_detected: { label: '⚠️ Sales Under-performing Forecast (+25% Risk)', class: 'badge-amber' }
+            };
+            const badges = data.reasoning_tags.map(t => {
+              const cfg = tagMap[t] || { label: t, class: 'badge-muted' };
+              return \`<span class="badge \${cfg.class}" style="font-size:0.75rem; padding:0.25rem 0.5rem; border-radius:4px; margin-right:0.25rem;">\${cfg.label}</span>\`;
+            }).join('');
+            return \`
+              <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:10px; padding:0.75rem 0.9rem; margin-bottom: 0.6rem;">
+                <div style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.4rem;">System Signals &amp; Logic</div>
+                <div style="display:flex; flex-wrap:wrap; gap:0.35rem;">\${badges}</div>
+              </div>\`;
+          })()}
+
           <!-- Action Buttons -->
           <div style="display:flex; gap:0.75rem; margin-top:0.25rem;">
-            <button class="btn btn-secondary btn-sm btn-full" onclick="applyMLPriceToDemo('${newPrice}', '${discPct}')">
+            <button class="btn btn-secondary btn-sm btn-full" onclick="applyMLPriceToDemo('\${newPrice}', '\${discPct}')">
               <i data-lucide="check-circle"></i> Apply Markdown to Batch
             </button>
           </div>
         </div>
-      `;
+      \`;
 
       document.getElementById('ml-result-body').innerHTML = html;
       lucide.createIcons();
@@ -3180,6 +3199,7 @@
               <th>Current Price</th>
               <th>Expiration</th>
               <th>Status</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -3234,6 +3254,11 @@
                   <td>
                     <span class="badge ${b.status === 'ACTIVE' ? 'badge-green' : 'badge-muted'}">${b.status}</span>
                   </td>
+                  <td>
+                    <button class="btn btn-cyan btn-sm" onclick="repriceBatchUI(${b.id}, this)" style="padding:0.25rem 0.65rem; font-size:0.72rem; display:inline-flex; align-items:center; gap:0.25rem;">
+                      <i data-lucide="zap" style="width:12px; height:12px;"></i> Reprice
+                    </button>
+                  </td>
                 </tr>
               `;
             }).join('')}
@@ -3261,6 +3286,36 @@
 
       renderInventoryTable(filtered);
     }
+
+    window.repriceBatchUI = async function(batchId, btnEl) {
+      if (btnEl) {
+        btnEl.disabled = true;
+        btnEl.innerHTML = 'Repricing…';
+      }
+      try {
+        const res = await fetch(`/api/v1/ml/reprice-batch/${batchId}`, { method: 'POST' });
+        if (!res.ok) throw new Error(`Status ${res.status}`);
+        const data = await res.json();
+        
+        let msg = `Reprice complete: ${data.product_name} current price is now ₹${data.new_price} (-${data.new_discount.toFixed(0)}%)`;
+        if (data.reasoning_tags && data.reasoning_tags.includes('forecast_underperformance_detected')) {
+          msg += ` ⚠️ Underperforming sales vs forecast, applied +25% risk boost!`;
+          showToast(msg, true); // show as warning toast
+        } else {
+          showToast(msg);
+        }
+        
+        // Reload inventory data
+        await loadInventoryCore();
+      } catch(e) {
+        showToast('Repricing failed: ' + e.message, true);
+        if (btnEl) {
+          btnEl.disabled = false;
+          btnEl.innerHTML = '<i data-lucide="zap" style="width:12px;height:12px;"></i> Reprice';
+          lucide.createIcons();
+        }
+      }
+    };
 
 
 

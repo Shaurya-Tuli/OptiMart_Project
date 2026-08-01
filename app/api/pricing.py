@@ -65,6 +65,9 @@ async def reprice_batch(batch_id: int, db: Session = Depends(get_db)):
         cost_price=batch.cost_price,
         original_selling_price=batch.original_selling_price,
         temperature_c=temp_c,
+        store_id=batch.store_id,
+        sku=batch.sku,
+        db=db,
     )
 
     prev_price = batch.current_price
@@ -97,6 +100,7 @@ async def reprice_batch(batch_id: int, db: Session = Depends(get_db)):
         risk_score=risk_score,
         risk_level=risk_level,
         status=batch.status,
+        reasoning_tags=prediction.get("reasoning_tags", []),
     )
 
 
