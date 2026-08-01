@@ -5,6 +5,16 @@
 - **Decision**: Update all docker service names, environment variables, documentation, and API metadata to `NEXPIRE`.
 - **Status**: Implemented & Verified.
 
+## ADR 010: Sales History & Synthetic Data Pipeline (Phase 8)
+- **Context**: Demand forecasting (Model D) requires historical daily SKU sales data with price, promotional, and stockout signals.
+- **Decision**:
+  - `SalesHistory` model with composite unique constraint `(store_id, sku, date)`.
+  - SQLAlchemy `on_conflict_do_update` using `index_elements` to ensure upserts work identically on production PostgreSQL and SQLite test environments.
+  - CSV upload endpoint `POST /api/v1/sales-history/upload-csv` using standard `csv.DictReader` for POS data ingestion.
+  - Synthetic data script (`scripts/generate_sales_history.py`) generating 16 weeks of daily sales data (~13,328 records) with reproducible seeds, day-of-week seasonality, promotional spikes, and stockout noise.
+- **Status**: Implemented & Verified.
+- **Source**: Original to this hackathon (Volume II Demand Forecasting extension).
+
 ## ADR 002: Inventory Core Architecture (Phase 1)
 - **Context**: Need high-throughput CRUD for retail store inventory management and bulk CSV imports.
 - **Decision**: 

@@ -1,6 +1,19 @@
 # NEXPIRE Project Status
 
-## Current Phase: ALL PHASES COMPLETED (Phase 0 - Phase 7)
+## Current Phase: Phase 8 (Sales History & Synthetic Data) COMPLETED
+
+### Phase 8 Summary
+Phase 8 establishes the historical sales data pipeline essential for demand forecasting (Model D). It introduces the `sales_history` database table, Pydantic schemas, service layer with upsert capabilities, REST endpoints (including POS CSV bulk upload), synthetic data generation script, and test suite.
+
+- **Model & Table (`app/models/sales_history.py`)**: `SalesHistory` model with `store_id`, `sku`, `date`, `units_sold`, `price_at_time`, `promotion_flag`, `stockout_flag`, and a unique constraint on `(store_id, sku, date)`.
+- **Service Layer (`app/services/sales_history.py`)**: Concurrency-safe single and bulk upserts (`on_conflict_do_update` using `index_elements` for PostgreSQL and SQLite test compatibility) and filtered history retrieval.
+- **REST Endpoints (`app/api/sales_history.py`)**:
+  - `POST /api/v1/sales-history`: Record daily sales entry.
+  - `POST /api/v1/sales-history/bulk`: Bulk record sales entries.
+  - `GET /api/v1/sales-history`: Query historical sales records with store, SKU, and date range filters.
+  - `POST /api/v1/sales-history/upload-csv`: Bulk import daily sales CSV file.
+- **Synthetic Data Generator (`scripts/generate_sales_history.py`)**: Generates 16 weeks of daily historical sales data (~13,328 rows) incorporating day-of-week seasonality (weekend spikes), periodic promotions, and stockout noise.
+- **Testing**: 44 total test suites passing across all phases (including `tests/test_sales_history.py`).
 
 ### Post-Phase 7 Maintenance
 - Restored the NEXPIRE Assistant API and dashboard chat widget after they were absent from the active discount-engine branch. The widget now loads live discounted batches and supports category, claiming, payment, safety, and help queries.

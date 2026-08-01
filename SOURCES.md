@@ -12,6 +12,7 @@ Referenced from `STATUS.md` and `DECISIONS.md` by phase.
 |---|---|---|---|
 | — | Dashboard UI shell (layout, base components) | InvenSight, pre-hackathon | Partial build before the event; extended, not rebuilt. See `HACKATHON-CONTEXT.md` |
 | — | ML model (markdown/pricing) | InvenSight, pre-hackathon prototype | **Not reused as working code** — required full retraining against a new objective, treated as new work for this event |
+| Phase 8 | CSV import pattern & seed generator structure | Adapted from Phase 1 (`inventory.py`) & Phase 0 (`seed.py`) | Reused standard library `csv.DictReader` pattern and SQLAlchemy engine context management |
 
 ---
 

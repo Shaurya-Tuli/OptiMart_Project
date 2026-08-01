@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_USER: nexpire
-      POSTGRES_PASSWORD: nexpire_dev_password
+      POSTGRES_PASSWORD: nexpire
       POSTGRES_DB: nexpire
     ports:
       - "5432:5432"
