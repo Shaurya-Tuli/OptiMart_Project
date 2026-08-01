@@ -3,7 +3,7 @@
 Both providers fall back to a mock checkout link when API credentials are
 absent or contain placeholder values — ensuring tests and local demos work
 without live keys. All amounts are handled in smallest currency units
-(paise for INR / Razorpay, cents for USD / Stripe).
+(paise for INR / Razorpay, cents for INR / Stripe).
 """
 import os
 import uuid

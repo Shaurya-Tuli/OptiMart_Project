@@ -2057,7 +2057,7 @@
         `Items Rescued: ${wi.total_items_rescued}\n` +
         `Waste Prevented: ${wi.total_waste_prevented_kg} kg\n` +
         `CO2 Offset: ${wi.total_co2_saved_kg} kg\n` +
-        `Revenue Recovered: Rs.${data.financial_impact.total_revenue_recovered.toFixed(2)}\n\n` +
+        `Revenue Recovered: ₹${data.financial_impact.total_revenue_recovered.toFixed(2)}\n\n` +
         `Powered by NEXPIRE — AI Food-Waste Rescue Platform`;
       navigator.clipboard.writeText(text).then(() => showToast('Receipt copied to clipboard'));
     }
