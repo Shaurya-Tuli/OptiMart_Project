@@ -104,5 +104,18 @@
   - Restore the dashboard assistant widget and light/dark theme toggle, persisting the user preference in `localStorage` and updating Chart.js colors on change.
 - **Status**: Implemented & Verified.
 
+## ADR 013: Closed-Loop Integration & Validation (Phase 12)
+- **Context**: Playbook Chapter 14.1 requires a closed-loop connection between demand forecasting (Model D) and dynamic markdown pricing (Model A), where SKUs under-performing their sales forecasts are automatically flagged for earlier/deeper discount markdowns.
+- **Decision**:
+  - Update `PricingPredictor.predict()` to accept optional parameters: `store_id`, `sku`, and `db`.
+  - When provided, query the latest `ReorderRecommendation` and sum actual sales from `sales_history` over the last 7 days.
+  - If actual sales are less than 70% of the expected demand, detect under-performance.
+  - Add `forecast_underperformance_detected` reasoning tag to the prediction output and apply a +0.25 boost (cap at 1.0) to the batch's `risk_score`.
+  - Expose the reasoning tags in the `BatchRepriceResponse` schema to let the UI react dynamically.
+  - Update the dashboard's active batches table to expose a "Reprice" action button, and display a warning toast to the retailer if under-performance is detected during evaluation.
+- **Status**: Implemented & Verified.
+- **Source**: Original to this hackathon (Volume II Demand Forecasting extension).
+
+
 
 

@@ -1,6 +1,6 @@
 # NEXPIRE Project Status
 
-## Current Phase: Phase 11 (Demand & Reorder Dashboard Tab) COMPLETED
+## Current Phase: Phase 12 (Loop Integration & Validation) COMPLETED
 
 ### Phase 10 Summary
 Phase 10 implements the reorder recommendation logic, translating Model D's demand forecasts into optimal ordering recommendations for retailers, accounting for safety stock and on-hand inventory.
@@ -27,6 +27,18 @@ Phase 11 adds the **Demand & Reorder** tab to the existing retailer dashboard �
 - **Confidence Band Callout**: Visual p10→p90 gradient bar with labeled range values.
 - **Light/Dark Theme**: Chart colors and backgrounds adapt dynamically when theme is toggled.
 - **Testing**: 50 total test suites passing (Phase 11 is frontend-only, no backend changes).
+
+### Phase 12 Summary
+Phase 12 closes the feedback loop between **Model D** (demand forecasting) and **Model A** (dynamic markdown pricing), delivering the "connective tissue" behavior described in Playbook Ch. 14.1.
+
+- **Closed-Loop Logic (`app/ml/predictor.py`)**: `PricingPredictor.predict()` now accepts optional `store_id`, `sku`, and `db` parameters. When provided, it queries the latest `ReorderRecommendation` and sums actual sales from `sales_history` over the most recent 7-day window. If actual sales are less than **70% of the predicted demand**, the SKU is flagged as under-performing: `risk_score` is boosted by `+0.25` (capped at `1.0`) and the reasoning tag `forecast_underperformance_detected` is added to the prediction output.
+- **API Integration (`app/api/pricing.py`)**: The `POST /api/v1/ml/reprice-batch/{batch_id}` endpoint now passes `store_id`, `sku`, and `db` into `predict()`, enabling the live loop check on every reprice call.
+- **Schema (`app/schemas/pricing.py`)**: `BatchRepriceResponse` now includes a `reasoning_tags: list[str]` field so the frontend can react to signals from the model.
+- **UI (`app/static/index.html`)**:
+  - **Active Batches table**: New "Actions" column with an ⚡ **Reprice** button per row. Clicking it calls `repriceBatchUI()`, which POSTs to the reprice endpoint, checks `reasoning_tags`, and shows a warning toast if underperformance was detected.
+  - **Dynamic Discounting Simulation**: The recommendation result card now shows a "System Signals & Logic" badges strip (amber `⚠️ Sales Under-performing Forecast (+25% Risk)` badge when triggered).
+- **Test Suite (`tests/test_loop_integration.py`)**: End-to-end integration test creates a store, batch, forecast recommendation, and two sales history scenarios (performing: 84 units vs. under-performing: 28 units) to validate the markdown boost and reasoning tag assertion.
+- **Testing**: 51 total test suites passing (1 new: `test_loop_integration.py`).
 
 
 Phase 9 implements **Model D** — the gradient-boosted demand forecasting engine predicting 7-day expected unit demand per store/SKU with calibrated confidence bands.
