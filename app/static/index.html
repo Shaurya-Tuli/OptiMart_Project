@@ -1516,9 +1516,6 @@
           <button class="btn btn-secondary btn-sm" onclick="loadDemandAndReorder()" id="forecast-refresh-btn">
             <i data-lucide="refresh-cw"></i> Refresh
           </button>
-          <button class="btn" style="background:linear-gradient(135deg,var(--accent-cyan),#0284c7);color:#fff;padding:0.5rem 1.1rem;font-size:0.875rem;border:none;border-radius:var(--radius-sm);cursor:pointer;display:flex;align-items:center;gap:0.4rem;" onclick="triggerForecastRun()" id="forecast-run-btn">
-            <i data-lucide="play"></i> Run Forecast
-          </button>
         </div>
       </div>
 
@@ -1645,33 +1642,7 @@
         </div>
       </div>
 
-      <!-- KPI Strip -->
-      <div class="grid-4" style="margin-bottom:1.5rem;" id="forecast-kpi-grid">
-        <div class="kpi-card cyan">
-          <div class="kpi-icon cyan"><i data-lucide="package"></i></div>
-          <div class="kpi-lbl">SKUs Forecasted</div>
-          <div class="kpi-val cyan" id="fcast-kpi-skus">—</div>
-          <div class="kpi-sub">this run</div>
-        </div>
-        <div class="kpi-card green">
-          <div class="kpi-icon green"><i data-lucide="shopping-cart"></i></div>
-          <div class="kpi-lbl">Total Recommended</div>
-          <div class="kpi-val green" id="fcast-kpi-qty">—</div>
-          <div class="kpi-sub">units to order</div>
-        </div>
-        <div class="kpi-card amber">
-          <div class="kpi-icon amber"><i data-lucide="check-circle"></i></div>
-          <div class="kpi-lbl">Accepted</div>
-          <div class="kpi-val amber" id="fcast-kpi-accepted">—</div>
-          <div class="kpi-sub">of recommendations</div>
-        </div>
-        <div class="kpi-card purple">
-          <div class="kpi-icon purple"><i data-lucide="sliders"></i></div>
-          <div class="kpi-lbl">Pending Review</div>
-          <div class="kpi-val purple" id="fcast-kpi-pending">—</div>
-          <div class="kpi-sub">awaiting decision</div>
-        </div>
-      </div>
+
 
     </div><!-- /forecast-tab -->
 
@@ -4421,10 +4392,14 @@
       const totalQty  = recs.reduce((s,r) => s + r.recommended_qty, 0);
       const accepted  = recs.filter(r => r.retailer_decision === 'ACCEPTED').length;
       const pending   = recs.filter(r => r.retailer_decision === 'PENDING').length;
-      document.getElementById('fcast-kpi-skus').textContent     = recs.length;
-      document.getElementById('fcast-kpi-qty').textContent      = totalQty.toLocaleString();
-      document.getElementById('fcast-kpi-accepted').textContent = accepted;
-      document.getElementById('fcast-kpi-pending').textContent  = pending;
+      const elSkus = document.getElementById('fcast-kpi-skus');
+      if (elSkus) elSkus.textContent = recs.length;
+      const elQty = document.getElementById('fcast-kpi-qty');
+      if (elQty) elQty.textContent = totalQty.toLocaleString();
+      const elAcc = document.getElementById('fcast-kpi-accepted');
+      if (elAcc) elAcc.textContent = accepted;
+      const elPen = document.getElementById('fcast-kpi-pending');
+      if (elPen) elPen.textContent = pending;
 
       // Run-date label
       if (recs.length > 0) {
@@ -4663,11 +4638,13 @@
     // ── Trigger Forecast Generation ─────────────────────────
     window.triggerForecastRun = async function() {
       const sel = document.getElementById('forecast-store-select');
-      const storeId = sel.value || '1';
+      const storeId = sel ? sel.value || '1' : '1';
       const btn = document.getElementById('forecast-run-btn');
-      btn.disabled = true;
-      btn.innerHTML = '<i data-lucide="loader-2"></i> Running…';
-      lucide.createIcons();
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i data-lucide="loader-2"></i> Running…';
+        lucide.createIcons();
+      }
       try {
         const res = await fetch(`/api/v1/forecast/generate/${storeId}`, { method: 'POST' });
         if (!res.ok) throw new Error(`Server error: ${res.status}`);
@@ -4676,9 +4653,11 @@
       } catch(e) {
         showToast('Forecast run failed: ' + (e.message || 'Unknown error'), true);
       } finally {
-        btn.disabled = false;
-        btn.innerHTML = '<i data-lucide="play"></i> Run Forecast';
-        lucide.createIcons();
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '<i data-lucide="play"></i> Run Forecast';
+          lucide.createIcons();
+        }
       }
     };
 
