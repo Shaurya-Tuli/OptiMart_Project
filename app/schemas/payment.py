@@ -11,11 +11,11 @@ class CheckoutSessionRequest(BaseModel):
     )
     success_url: Optional[str] = Field(
         None,
-        json_schema_extra={"example": "https://nexpire.app/claim/success"},
+        json_schema_extra={"example": "https://optimart.app/claim/success"},
     )
     cancel_url: Optional[str] = Field(
         None,
-        json_schema_extra={"example": "https://nexpire.app/claim/cancel"},
+        json_schema_extra={"example": "https://optimart.app/claim/cancel"},
     )
 
 

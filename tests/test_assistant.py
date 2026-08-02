@@ -36,7 +36,7 @@ def test_detect_intent():
 def test_build_response():
     # Empty products
     res = _build_response("greeting", None, [], "hi")
-    assert "NEXPIRE" in res.reply
+    assert "OptiMart" in res.reply
     assert len(res.products) == 0
 
     # Greeting with a batch

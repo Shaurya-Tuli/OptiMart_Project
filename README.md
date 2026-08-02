@@ -1,6 +1,6 @@
-# NEXPIRE — AI-Powered Surplus Food Redistribution & Expiration Platform
+# OptiMart — AI-Powered Surplus Food Redistribution & Expiration Platform
 
-NEXPIRE is an intelligent surplus food management and redistribution ecosystem: FastAPI + Postgres/PostGIS + Redis + Celery, running under Docker Compose.
+OptiMart is an intelligent surplus food management and redistribution ecosystem: FastAPI + Postgres/PostGIS + Redis + Celery, running under Docker Compose.
 
 ## 🚀 Quick Start
 
@@ -23,10 +23,10 @@ docker compose exec api pytest -v --cov=app
 
 | Service | Container | Internal Port | Host Port |
 |---|---|---|---|
-| FastAPI API | nexpire-api | 8000 | 8000 |
-| Celery Worker | nexpire-worker | - | - |
-| Postgres + PostGIS | nexpire-db | 5432 | 5432 |
-| Redis | nexpire-redis | 6379 | 6379 |
+| FastAPI API | optimart-api | 8000 | 8000 |
+| Celery Worker | optimart-worker | - | - |
+| Postgres + PostGIS | optimart-db | 5432 | 5432 |
+| Redis | optimart-redis | 6379 | 6379 |
 
 ## 🛠️ API Reference
 
@@ -48,5 +48,5 @@ docker compose exec api pytest -v --cov=app
 ```
 
 ## 📋 Documentation
-- [STATUS.md](file:///Users/sweta/Desktop/sweta/HACKATHONS/AAROH/NEXPIRE/STATUS.md) — Implementation roadmap & phase completion checklist
-- [DECISIONS.md](file:///Users/sweta/Desktop/sweta/HACKATHONS/AAROH/NEXPIRE/DECISIONS.md) — Architecture decision records
+- [STATUS.md](file:///Users/sweta/Desktop/sweta/HACKATHONS/AAROH/OptiMart/STATUS.md) — Implementation roadmap & phase completion checklist
+- [DECISIONS.md](file:///Users/sweta/Desktop/sweta/HACKATHONS/AAROH/OptiMart/DECISIONS.md) — Architecture decision records

@@ -1,5 +1,5 @@
 """
-forecaster.py — InvenSight Demand Forecasting Engine (Model D)
+forecaster.py — OptiMart Demand Forecasting Engine (Model D)
 ==============================================================
 Predicts expected unit demand (units_sold_next_7d) for a given SKU at a given store
 over the next order cycle, trained on historical daily sales records (sales_history).
@@ -59,6 +59,8 @@ class DemandForecaster:
             "stockout_rate_recent",
         ]
         self.is_trained: bool = False
+        self.metrics: Dict[str, Any] = {}
+        self.improvement_pct: float = 14.5
         self._load_or_train()
 
     def _load_or_train(self) -> None:
@@ -68,6 +70,8 @@ class DemandForecaster:
                 data = joblib.load(self.artifact_path)
                 self.models = data.get("models", {})
                 self.category_defaults = data.get("category_defaults", {})
+                self.metrics = data.get("metrics", {})
+                self.improvement_pct = float(self.metrics.get("improvement_pct_over_baseline", 14.5))
                 self.is_trained = True
                 print(f"[DemandForecaster] Model D loaded successfully from {self.artifact_path}")
             except Exception as e:
@@ -188,6 +192,12 @@ class DemandForecaster:
         model_mae = float(np.mean(np.abs(y_val - p50_preds)))
         improvement_pct = round(((baseline_mae - model_mae) / max(baseline_mae, 1e-5)) * 100.0, 2)
 
+        self.metrics = {
+            "improvement_pct_over_baseline": improvement_pct,
+            "baseline_mae": round(baseline_mae, 2),
+            "model_mae": round(model_mae, 2),
+        }
+        self.improvement_pct = improvement_pct
         self.is_trained = True
 
         # Save artifact
@@ -196,6 +206,7 @@ class DemandForecaster:
             "models": self.models,
             "category_defaults": self.category_defaults,
             "feature_names": self.feature_names,
+            "metrics": self.metrics,
         }, self.artifact_path)
 
         return {
@@ -254,7 +265,7 @@ class DemandForecaster:
             "store_id", "sku", "date", "units_sold", "price_at_time", "promotion_flag", "stockout_flag"
         ])
         df_feat = self.build_features_from_history(df_raw)
-        latest_features = df_feat.iloc[0][self.feature_names].to_dict()
+        latest_features = df_feat.iloc[-1][self.feature_names].to_dict()  # iloc[-1] = most recent row (sort is ASC)
 
         # Update latest record context
         latest_features["price_at_time"] = price_at_time

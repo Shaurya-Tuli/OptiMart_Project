@@ -1,4 +1,4 @@
-# NEXPIRE — Judge Q&A Preparation (Ch. 14.2)
+# OptiMart — Judge Q&A Preparation (Ch. 14.2)
 **Phase 13 deliverable — rehearse these answers confidently, not defensively**
 
 ---
@@ -44,7 +44,7 @@
 
 **Rehearsed Answer:**
 
-> "Expiry-based discounting reacts to time. InvenSight reacts to *demand signals* before time runs out. A product with 5 days left and strong sales doesn't need a markdown — Model A keeps the price high. A product with 5 days left and 70% fewer sales than forecast gets flagged *now*, not on day 4. The forecast is what separates proactive from reactive — and it's what a pure expiry-based system structurally cannot do."
+> "Expiry-based discounting reacts to time. OptiMart reacts to *demand signals* before time runs out. A product with 5 days left and strong sales doesn't need a markdown — Model A keeps the price high. A product with 5 days left and 70% fewer sales than forecast gets flagged *now*, not on day 4. The forecast is what separates proactive from reactive — and it's what a pure expiry-based system structurally cannot do."
 
 ---
 
@@ -64,9 +64,9 @@
 
 ## Pre-Demo Checklist
 
-- [ ] Docker containers healthy: `docker ps` shows `nexpire-api` and `nexpire-db` running
-- [ ] Seed data loaded: `docker exec nexpire-api python scripts/seed.py`
-- [ ] Sales history generated: `docker exec nexpire-api python scripts/generate_sales_history.py`
+- [ ] Docker containers healthy: `docker ps` shows `optimart-api` and `optimart-db` running
+- [ ] Seed data loaded: `docker exec optimart-api python scripts/seed.py`
+- [ ] Sales history generated: `docker exec optimart-api python scripts/generate_sales_history.py`
 - [ ] At least one ReorderRecommendation seeded per store: `POST /api/v1/forecast/generate/{store_id}`
 - [ ] Dashboard accessible at `http://localhost:3000`
 - [ ] API docs accessible at `http://localhost:8000/docs`

@@ -6,7 +6,7 @@ Base = declarative_base()
 
 
 DATABASE_URL = os.environ.get(
-    "DATABASE_URL", "postgresql://nexpire:nexpire_dev_password@db:5432/nexpire"
+    "DATABASE_URL", "postgresql://optimart:optimart_dev_password@db:5432/optimart"
 )
 
 engine = create_engine(DATABASE_URL, pool_pre_ping=True)

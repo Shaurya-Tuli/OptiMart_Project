@@ -1,6 +1,15 @@
-# NEXPIRE Project Status
+# OptiMart Project Status
 
-## Current Phase: Phase 14 (Dual Portal & Customer Marketplace) COMPLETED
+## Current Phase: Phase 15 (Category Intelligence & Cycle-Aware Forecasting) COMPLETED
+
+### Phase 15 Summary
+Phase 15 builds a synchronized Category Intelligence View inside the Retailer Portal's "Demand & Reorder" tab, displaying end-to-end demand forecasting metrics per product category.
+
+- **Category-Dashboard API (`app/api/category_dashboard.py`)**: Adds two read-only endpoints returning simulated inventory timelines (qty_on_hand over time showing customer consumption dips and restock peaks) and aligned actual vs naive vs Model D forecasts.
+- **Cycle-Aware Forecasting Markers**: Draws visual cycle markers on the forecast timeline indicating Order Placement (Day N), Replenishment Arrival (Day N+7), and Forecast Horizon (Day N+14) to illustrate lead-time dynamics.
+- **Credibility / Naive Baseline Comparison**: Renders the 7-day moving average naive baseline alongside Model D forecasts, surfacing validation MAE metrics to prove forecast credibility.
+- **Demo Data Seed Extension (`scripts/seed_demo_phase15.py`)**: Seeded 6 opening category batches (Dairy, Bakery, Fruits & Veggies, Meat & Seafood, Snacks, Food Grains) at Store 1 with qty=30 on 2026-07-27, and extended sales history to today to avoid cold-start fallbacks.
+- **Testing**: All 51 automated tests passing.
 
 ### Phase 14 Summary
 Phase 14 introduces a dual role landing screen (Retailer vs. Customer) and a dedicated Customer Marketplace Feed showing live expiring food discounts.
@@ -95,7 +104,7 @@ Phase 9 implements **Model D** — the gradient-boosted demand forecasting engin
 - **Testing**: 47 total test suites passing across all phases (including `tests/test_forecasting.py`).
 
 ### Post-Phase 7 Maintenance
-- Restored the NEXPIRE Assistant API and dashboard chat widget after they were absent from the active discount-engine branch. The widget now loads live discounted batches and supports category, claiming, payment, safety, and help queries.
+- Restored the OptiMart Assistant API and dashboard chat widget after they were absent from the active discount-engine branch. The widget now loads live discounted batches and supports category, claiming, payment, safety, and help queries.
 - Restored the light/dark theme toggle. The choice is persisted in local storage and dashboard charts update their foreground and grid colors with the selected theme.
 - Verification: focused assistant and analytics tests pass; live `/api/v1/assistant/deals` and `/api/v1/assistant/chat` endpoints return current deal data.
 - Known unrelated test failure: `tests/test_payments.py::test_razorpay_webhook_updates_claim` currently receives HTTP 400 where the test expects HTTP 200. No payment code changed in this maintenance repair.

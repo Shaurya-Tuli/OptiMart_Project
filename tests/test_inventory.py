@@ -12,7 +12,7 @@ def test_health_check(client):
 def test_store_crud(client):
     # 1. Create store
     payload = {
-        "name": "NEXPIRE Downtown Store",
+        "name": "OptiMart Downtown Store",
         "address": "123 Main St, Tech City",
         "location_lat": 37.7749,
         "location_lng": -122.4194,
@@ -35,10 +35,10 @@ def test_store_crud(client):
 
     # 4. Update store
     update_res = client.put(
-        f"/api/v1/stores/{store_id}", json={"name": "NEXPIRE Flagship Store"}
+        f"/api/v1/stores/{store_id}", json={"name": "OptiMart Flagship Store"}
     )
     assert update_res.status_code == 200
-    assert update_res.json()["name"] == "NEXPIRE Flagship Store"
+    assert update_res.json()["name"] == "OptiMart Flagship Store"
 
     # 5. Delete store
     del_res = client.delete(f"/api/v1/stores/{store_id}")

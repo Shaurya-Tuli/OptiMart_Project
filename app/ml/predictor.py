@@ -1,5 +1,5 @@
 """
-predictor.py — NEXPIRE Model A (V2)
+predictor.py — OptiMart Model A (V2)
 ======================================
 FastAPI-compatible predictor singleton.
 
@@ -37,7 +37,7 @@ from app.ml.discount_engine import calculate_discount, compute_hours_to_expiry
 
 
 class PricingPredictor:
-    """Singleton predictor for the NEXPIRE pricing model.
+    """Singleton predictor for the OptiMart pricing model.
 
     Wraps price_engine.py, discount_engine.py and urgency.py behind the original predict() interface
     so existing FastAPI routes require zero changes.

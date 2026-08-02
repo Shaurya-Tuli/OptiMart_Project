@@ -10,7 +10,7 @@ class NotificationSendRequest(BaseModel):
     message_text: Optional[str] = Field(
         None,
         json_schema_extra={
-            "example": "Flash Sale: Organic Milk 50% off! Claim now: https://nexpire.app/c/abc"
+            "example": "Flash Sale: Organic Milk 50% off! Claim now: https://optimart.app/c/abc"
         },
     )
 

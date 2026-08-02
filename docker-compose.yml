@@ -1,26 +1,26 @@
 services:
   db:
     image: postgis/postgis:16-3.4
-    container_name: nexpire-db
+    container_name: optimart-db
     restart: unless-stopped
     environment:
-      POSTGRES_USER: nexpire
-      POSTGRES_PASSWORD: nexpire
-      POSTGRES_DB: nexpire
+      POSTGRES_USER: optimart
+      POSTGRES_PASSWORD: optimart
+      POSTGRES_DB: optimart
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U nexpire -d nexpire"]
+      test: ["CMD-SHELL", "pg_isready -U optimart -d optimart"]
       interval: 5s
       timeout: 5s
       retries: 10
 
   redis:
     image: redis:7-alpine
-    container_name: nexpire-redis
+    container_name: optimart-redis
     restart: unless-stopped
     ports:
       - "6379:6379"
@@ -32,7 +32,7 @@ services:
 
   api:
     build: .
-    container_name: nexpire-api
+    container_name: optimart-api
     restart: unless-stopped
     env_file:
       - .env
@@ -55,7 +55,7 @@ services:
   # container is included now so the topology is right from day one.
   worker:
     build: .
-    container_name: nexpire-worker
+    container_name: optimart-worker
     restart: unless-stopped
     env_file:
       - .env

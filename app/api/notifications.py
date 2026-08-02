@@ -26,7 +26,7 @@ def send_notification(
     """Sends a direct outbound SMS or WhatsApp notification to a single recipient."""
     body = (
         req.message_text
-        or f"NEXPIRE Alert: Food batch #{req.batch_id or 'discount'} is available now! Claim at https://nexpire.app/claim"
+        or f"OptiMart Alert: Food batch #{req.batch_id or 'discount'} is available now! Claim at https://optimart.app/claim"
     )
 
     if req.channel.lower() == "whatsapp":

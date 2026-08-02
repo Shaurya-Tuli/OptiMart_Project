@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NEXPIRE — AI Food Waste Rescue Platform</title>
-  <meta name="description" content="NEXPIRE: AI-powered food waste rescue platform with real-time dynamic discounting, geo-fenced alerts, and eco-impact analytics.">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>OptiMart — AI Food Waste Rescue Platform</title>
+  <meta name="description" content="OptiMart: AI-powered food waste rescue platform with real-time dynamic discounting, geo-fenced alerts, and eco-impact analytics.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +19,7 @@
   <script>
     (function(){
       try {
-        if (localStorage.getItem('nexpire-theme') === 'light') {
+        if (localStorage.getItem('optimart-theme') === 'light') {
           document.documentElement.style.colorScheme = 'light';
         }
       } catch(e) {}
@@ -623,6 +626,12 @@
     }
     .btn-secondary:hover { background: rgba(255,255,255,0.13); }
     .btn-secondary:active { transform: translateY(0); }
+    .btn-secondary.active {
+      background: rgba(6,182,212,0.18);
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+      font-weight: 600;
+    }
     
     .btn-cyan {
       background: linear-gradient(135deg, var(--accent-cyan), #0891b2);
@@ -1148,7 +1157,7 @@
   <div id="role-selection-overlay">
     <div class="portal-container">
       <div class="portal-logo"><i data-lucide="leaf"></i></div>
-      <h1 class="portal-title">NEXPIRE</h1>
+      <h1 class="portal-title">OptiMart</h1>
       <p class="portal-subtitle">AI-Powered Food-Waste Rescue Platform</p>
       
       <div class="role-grid">
@@ -1160,7 +1169,7 @@
         
         <div class="role-choice-card customer-choice" onclick="selectRole('customer')">
           <div class="role-icon"><i data-lucide="shopping-bag"></i></div>
-          <h2 class="role-name">Customer &amp; NGO Portal</h2>
+          <h2 class="role-name">Customer</h2>
           <p class="role-desc">Browse local stores' active food discounts and flash markdowns. Claim items instantly for self-pickup or reserve subsidized NGO items.</p>
         </div>
       </div>
@@ -1172,7 +1181,7 @@
     <div class="brand">
       <div class="brand-logo"><i data-lucide="leaf"></i></div>
       <div>
-        <div class="brand-title">NEXPIRE</div>
+        <div class="brand-title">OptiMart</div>
         <div class="brand-subtitle">AI Food-Waste Rescue Platform</div>
       </div>
     </div>
@@ -1205,357 +1214,28 @@
     <div id="retailer-portal-view" style="display:none; width:100%; flex-direction:column; gap:1.5rem;">
 
     <!-- Navigation Tabs -->
-    <div class="tabs" id="main-tabs" role="tablist" aria-label="NEXPIRE Navigation Tabs">
-      <button class="tab-btn active" id="tab-btn-impact" role="tab" aria-selected="true" aria-controls="impact-tab" onclick="switchTab('impact-tab', this)">
-        <i data-lucide="leaf" aria-hidden="true"></i> Eco-Impact Dashboard
+    <div class="tabs" id="main-tabs" role="tablist" aria-label="OptiMart Navigation Tabs">
+      <button class="tab-btn active" id="tab-btn-inventory" role="tab" aria-selected="true" aria-controls="inventory-tab" onclick="switchTab('inventory-tab', this)">
+        <i data-lucide="store" aria-hidden="true"></i> Current Inventory Timeline
       </button>
-      <button class="tab-btn" id="tab-btn-ngo" role="tab" aria-selected="false" aria-controls="ngo-tab" onclick="switchTab('ngo-tab', this)">
-        <i data-lucide="building-2" aria-hidden="true"></i> Bulk Customers
+      <button class="tab-btn" id="tab-btn-forecast" role="tab" aria-selected="false" aria-controls="forecast-tab" onclick="switchTab('forecast-tab', this)">
+        <i data-lucide="trending-up" aria-hidden="true"></i> Demand Forecasting
       </button>
+
       <button class="tab-btn" id="tab-btn-ml" role="tab" aria-selected="false" aria-controls="ml-tab" onclick="switchTab('ml-tab', this)">
         <i data-lucide="cpu" aria-hidden="true"></i> ML Discount Simulator
       </button>
       <button class="tab-btn" id="tab-btn-claims" role="tab" aria-selected="false" aria-controls="claims-tab" onclick="switchTab('claims-tab', this)">
         <i data-lucide="zap" aria-hidden="true"></i> ML Flash Claims
       </button>
-      <button class="tab-btn" id="tab-btn-notify" role="tab" aria-selected="false" aria-controls="notify-tab" onclick="switchTab('notify-tab', this)">
-        <i data-lucide="send" aria-hidden="true"></i> Notification Engine
-      </button>
-      <button class="tab-btn" id="tab-btn-inventory" role="tab" aria-selected="false" aria-controls="inventory-tab" onclick="switchTab('inventory-tab', this)">
-        <i data-lucide="store" aria-hidden="true"></i> Inventory Core
-      </button>
-      <button class="tab-btn" id="tab-btn-forecast" role="tab" aria-selected="false" aria-controls="forecast-tab" onclick="switchTab('forecast-tab', this)">
-        <i data-lucide="trending-up" aria-hidden="true"></i> Demand & Reorder
-      </button>
+
     </div>
 
 
     <!-- ==========================================
-         TAB: ECO-IMPACT DASHBOARD (Phase 6)
-         ========================================== -->
-    <div id="impact-tab" class="tab-content active" role="tabpanel" aria-labelledby="tab-btn-impact" tabindex="0">
-
-      <!-- Hero KPI row -->
-      <div class="grid-4" style="margin-bottom:1.75rem;" id="kpi-grid">
-        <div class="kpi-card green">
-          <div class="kpi-icon green"><i data-lucide="package-check"></i></div>
-          <div class="kpi-lbl">Items Rescued</div>
-          <div class="kpi-val green" id="kpi-items">—</div>
-          <div class="kpi-sub">platform-wide, all time</div>
-        </div>
-        <div class="kpi-card cyan">
-          <div class="kpi-icon cyan"><i data-lucide="recycle"></i></div>
-          <div class="kpi-lbl">Waste Prevented</div>
-          <div class="kpi-val cyan" id="kpi-waste">—</div>
-          <div class="kpi-sub">kg of food saved</div>
-        </div>
-        <div class="kpi-card purple">
-          <div class="kpi-icon purple"><i data-lucide="cloud"></i></div>
-          <div class="kpi-lbl">CO₂ Offset</div>
-          <div class="kpi-val purple" id="kpi-co2">—</div>
-          <div class="kpi-sub">kg CO₂e prevented</div>
-        </div>
-        <div class="kpi-card amber">
-          <div class="kpi-icon amber"><i data-lucide="banknote"></i></div>
-          <div class="kpi-lbl">Revenue Recovered</div>
-          <div class="kpi-val amber" id="kpi-revenue">—</div>
-          <div class="kpi-sub">vs. zero-margin disposal</div>
-        </div>
-      </div>
-
-      <div class="grid-2">
-        <!-- Animated Ring Charts -->
-        <div class="glass-panel">
-          <div class="panel-header">
-            <div class="panel-title"><i data-lucide="pie-chart"></i> Impact Ring Dashboard</div>
-            <button class="btn btn-secondary btn-sm" onclick="loadAnalytics()">
-              <i data-lucide="refresh-cw"></i> Refresh
-            </button>
-          </div>
-          <div class="chart-ring-wrap" id="ring-wrap">
-            <div class="ring-item">
-              <canvas id="ring-waste"></canvas>
-              <div class="ring-val" id="rv-waste">—</div>
-              <div class="ring-label">Waste Prevented (kg)</div>
-            </div>
-            <div class="ring-item">
-              <canvas id="ring-co2"></canvas>
-              <div class="ring-val" id="rv-co2">—</div>
-              <div class="ring-label">CO₂ Saved (kg)</div>
-            </div>
-            <div class="ring-item">
-              <canvas id="ring-revenue"></canvas>
-              <div class="ring-val" id="rv-revenue">—</div>
-              <div class="ring-label">Revenue Recovered (₹)</div>
-            </div>
-          </div>
-
-          <!-- Conversion Rate -->
-          <div class="divider"></div>
-          <div style="margin-bottom:0.4rem;">
-            <span class="panel-title" style="font-size:0.95rem;"><i data-lucide="trending-up"></i> Claim Conversion Rate</span>
-          </div>
-          <div class="conversion-bar-wrap">
-            <div class="conv-labels">
-              <span style="font-size:0.8rem;color:var(--text-muted);">0%</span>
-              <span id="conv-rate-label" style="font-family:var(--font-code);font-size:1rem;font-weight:700;color:var(--accent-green);">—</span>
-              <span style="font-size:0.8rem;color:var(--text-muted);">100%</span>
-            </div>
-            <div class="conv-bar-bg">
-              <div class="conv-bar-fill" id="conv-bar" style="width:0%"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Category Breakdown + NGO Stats -->
-        <div>
-          <div class="glass-panel" style="margin-bottom:1.5rem;">
-            <div class="panel-header">
-              <div class="panel-title"><i data-lucide="tag"></i> Category Breakdown</div>
-            </div>
-            <div id="category-list">
-              <div class="shimmer" style="margin-bottom:0.75rem;"></div>
-              <div class="shimmer" style="height:12px;width:70%;margin-bottom:0.75rem;"></div>
-              <div class="shimmer" style="height:12px;width:55%;"></div>
-            </div>
-          </div>
-
-          <div class="glass-panel">
-            <div class="panel-header">
-              <div class="panel-title"><i data-lucide="heart-handshake"></i> NGO & Rescue Squads</div>
-            </div>
-            <div class="grid-3">
-              <div class="metric-card">
-                <div class="metric-lbl">Standing Orders</div>
-                <div class="metric-val" id="ngo-orders">—</div>
-              </div>
-              <div class="metric-card">
-                <div class="metric-lbl">NGO Matches</div>
-                <div class="metric-val" id="ngo-matches">—</div>
-              </div>
-              <div class="metric-card">
-                <div class="metric-lbl">Subsidized Items</div>
-                <div class="metric-val" id="ngo-subsidized">—</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Financial Stats -->
-      <div class="glass-panel">
-        <div class="panel-header">
-          <div class="panel-title"><i data-lucide="bar-chart-2"></i> Financial Recovery Overview</div>
-          <button class="btn btn-cyan btn-sm" onclick="openReceiptModal()">
-            <i data-lucide="share-2"></i> Generate Impact Receipt
-          </button>
-        </div>
-        <div class="grid-3">
-          <div class="metric-card">
-            <div class="metric-lbl">Total Revenue Recovered</div>
-            <div class="metric-val" id="fin-revenue" style="color:var(--accent-amber);">—</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-lbl">Total Discounts Given</div>
-            <div class="metric-val" id="fin-discounts" style="color:var(--accent-cyan);">—</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-lbl">Avg Discount %</div>
-            <div class="metric-val" id="fin-avg-disc" style="color:var(--accent-purple);">—</div>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /impact-tab -->
 
 
     <!-- ==========================================
-         TAB: BULK CUSTOMERS & STANDING ORDERS
-         ========================================== -->
-    <div id="ngo-tab" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-ngo" tabindex="0">
-
-      <!-- Page header -->
-      <div style="margin-bottom:1.5rem;">
-        <div style="font-size:1.25rem;font-weight:700;color:var(--text-main);display:flex;align-items:center;gap:0.6rem;">
-          <i data-lucide="building-2" style="width:22px;height:22px;color:var(--accent-cyan);"></i>
-          Bulk Customers &amp; Standing Orders
-        </div>
-        <div style="font-size:0.875rem;color:var(--text-muted);margin-top:0.3rem;">
-          Register hotels, restaurants, NGOs, shelter homes and other bulk buyers. The engine automatically matches them to discounted inventory.
-        </div>
-      </div>
-
-      <!-- Customer Type Filter Pills -->
-      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.5rem;" id="type-filter-pills">
-        <button class="type-pill active" onclick="filterByType('ALL', this)">All</button>
-        <button class="type-pill" onclick="filterByType('NGO', this)">NGO</button>
-        <button class="type-pill" onclick="filterByType('Shelter Home', this)">Shelter Home</button>
-        <button class="type-pill" onclick="filterByType('Restaurant', this)">Restaurant</button>
-        <button class="type-pill" onclick="filterByType('Hotel', this)">Hotel</button>
-        <button class="type-pill" onclick="filterByType('Caterer', this)">Caterer</button>
-        <button class="type-pill" onclick="filterByType('Hospital', this)">Hospital</button>
-        <button class="type-pill" onclick="filterByType('Corporate Canteen', this)">Corporate Canteen</button>
-        <button class="type-pill" onclick="filterByType('School / College', this)">School / College</button>
-      </div>
-
-      <!-- Top Section: Registration & Evaluate Engine -->
-      <div class="grid-2" style="margin-bottom: 1.5rem;">
-
-        <!-- Register Bulk Customer Form -->
-        <div class="glass-panel" style="margin-bottom: 0;">
-          <div class="panel-header">
-            <div class="panel-title"><i data-lucide="plus-circle"></i> Register Bulk Customer</div>
-          </div>
-          <form id="ngo-form" onsubmit="createStandingOrder(event)">
-
-            <!-- Customer Type -->
-            <div class="form-group">
-              <label class="form-label">Customer Type *</label>
-              <select class="form-select" id="ngo-type" required>
-                <option value="NGO">NGO / Charitable Organisation</option>
-                <option value="Shelter Home">Shelter Home / Orphanage</option>
-                <option value="Restaurant">Restaurant</option>
-                <option value="Hotel">Hotel</option>
-                <option value="Caterer">Caterer / Event Kitchen</option>
-                <option value="Hospital">Hospital / Healthcare</option>
-                <option value="Corporate Canteen">Corporate Canteen</option>
-                <option value="School / College">School / College</option>
-              </select>
-            </div>
-
-            <!-- Name -->
-            <div class="form-group">
-              <label class="form-label">Organisation Name *</label>
-              <input type="text" class="form-input" id="ngo-name" placeholder="e.g. Annapurna Hotel, City Food Bank" required>
-            </div>
-
-            <!-- Contact Details -->
-            <div class="grid-2">
-              <div class="form-group">
-                <label class="form-label">Contact Email</label>
-                <input type="email" class="form-input" id="ngo-email" placeholder="contact@org.com">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Contact Phone</label>
-                <input type="text" class="form-input" id="ngo-phone" placeholder="+91 98765 43210">
-              </div>
-            </div>
-
-            <!-- Category + Qty -->
-            <div class="grid-2">
-              <div class="form-group">
-                <label class="form-label">Preferred Category</label>
-                <select class="form-select" id="ngo-category">
-                  <option value="ALL">All Categories</option>
-                  <option value="Dairy">Dairy</option>
-                  <option value="Bakery">Bakery</option>
-                  <option value="Fruits &amp; Veggies">Fruits &amp; Veggies</option>
-                  <option value="Food Grains">Food Grains</option>
-                  <option value="Beverages">Beverages</option>
-                  <option value="Snacks">Snacks</option>
-                  <option value="Oil &amp; Masala">Oil &amp; Masala</option>
-                  <option value="Meat &amp; Seafood">Meat &amp; Seafood</option>
-                  <option value="Ready-to-Eat">Ready-to-Eat</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Min Order Qty (units)</label>
-                <input type="number" class="form-input" id="ngo-qty" value="5" min="1">
-              </div>
-            </div>
-
-            <!-- Priority window -->
-            <div class="form-group">
-              <label class="form-label">Priority Window (hours before expiry)</label>
-              <input type="number" class="form-input" id="ngo-window" value="12" min="1" max="72">
-            </div>
-
-            <!-- Address -->
-            <div class="form-group">
-              <label class="form-label">Address / Location (optional)</label>
-              <input type="text" class="form-input" id="ngo-address" placeholder="e.g. Koramangala, Bengaluru">
-            </div>
-
-            <!-- Subsidized toggle -->
-            <div class="form-group" id="subsidized-toggle-row" style="display:flex;align-items:center;gap:0.75rem;background:rgba(16,185,129,0.07);border:1px solid rgba(16,185,129,0.2);border-radius:10px;padding:0.75rem 1rem;">
-              <input type="checkbox" id="ngo-subsidized" style="width:16px;height:16px;accent-color:var(--accent-green);">
-              <label for="ngo-subsidized" style="font-size:0.88rem;color:var(--text-muted);cursor:pointer;">
-                Mark as <strong style="color:var(--accent-green);">Subsidized</strong> — matched at cost price (Charitable segments only)
-              </label>
-            </div>
-
-            <button type="submit" class="btn btn-primary btn-full" id="ngo-submit-btn" style="margin-top:1.25rem;">
-              <i data-lucide="plus"></i> Register Bulk Customer
-            </button>
-          </form>
-        </div>
-
-        <!-- Evaluate Engine Control panel -->
-        <div class="glass-panel" style="margin-bottom: 0; display: flex; flex-direction: column; justify-content: space-between;">
-          <div>
-            <div class="panel-header">
-              <div class="panel-title"><i data-lucide="zap"></i> Run Bulk Matching Engine</div>
-            </div>
-            <p style="font-size:0.875rem;color:var(--text-muted);margin-bottom:1.5rem;line-height:1.45;">
-              The matching engine scans active discounted batches across all stores and pairs them to the standing orders of registered bulk buyers based on quantity requirements, category criteria and safety-window buffers.
-            </p>
-            
-            <div style="background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem;">
-              <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-main); text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.5px;">Engine Optimization Modes:</div>
-              <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.82rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 0.35rem;">
-                <li><strong>Charitable:</strong> Matches first-priority items at zero-profit margins.</li>
-                <li><strong>Commercial:</strong> Matches excess items at optimal dynamic discount tiers.</li>
-              </ul>
-            </div>
-          </div>
-
-          <div>
-            <button class="btn btn-purple btn-full" onclick="evaluateEngine()" id="eval-btn">
-              <i data-lucide="play"></i> Evaluate All Bulk Orders
-            </button>
-            <div id="eval-result" style="margin-top:1.25rem;" aria-live="polite"></div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Middle Section: Registered Bulk Customers Column Grid (Side-by-side columns) -->
-      <div class="glass-panel" style="margin-bottom: 1.5rem;">
-        <div class="panel-header">
-          <div class="panel-title"><i data-lucide="users"></i> Registered Bulk Customers Segment Matrix</div>
-          <button class="btn btn-secondary btn-sm" onclick="loadStandingOrders()">
-            <i data-lucide="refresh-cw"></i> Refresh Directory
-          </button>
-        </div>
-        <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:1.25rem;">
-          Subscriptions are bifurcated below into logical commercial and social demand sectors for clean visual comparison.
-        </div>
-        <div class="grid-4" id="standing-order-list" style="align-items: start; gap: 1rem;">
-          <!-- 4 segment columns will load dynamically here -->
-          <div class="shimmer" style="height:250px;border-radius:12px;"></div>
-          <div class="shimmer" style="height:250px;border-radius:12px;"></div>
-          <div class="shimmer" style="height:250px;border-radius:12px;"></div>
-          <div class="shimmer" style="height:250px;border-radius:12px;"></div>
-        </div>
-      </div>
-
-      <!-- Bottom Section: Bulk Orders Summary Table -->
-      <div class="glass-panel" style="margin-top:0; margin-bottom: 0;">
-        <div class="panel-header">
-          <div class="panel-title"><i data-lucide="table-2"></i> Bulk Orders Summary — All Customers</div>
-          <button class="btn btn-secondary btn-sm" onclick="loadMatches()">
-            <i data-lucide="refresh-cw"></i> Load Allocations
-          </button>
-        </div>
-        <div id="matches-list" aria-live="polite">
-          <div class="empty-state">
-            <i data-lucide="inbox"></i>
-            <p>Click "Load Allocations" to see priority inventory matches across all bulk customer segments</p>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /ngo-tab -->
 
 
 
@@ -1730,163 +1410,58 @@
 
 
     <!-- ==========================================
-         TAB: NOTIFICATION ENGINE (Phase 3)
+         (Notification Engine tab removed)
          ========================================== -->
-    <div id="notify-tab" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-notify" tabindex="0">
-      <div class="grid-2">
-        <div class="glass-panel">
-          <div class="panel-header">
-            <div class="panel-title"><i data-lucide="message-square"></i> Send Flash Sale Notification</div>
-          </div>
-          <form id="notify-form" onsubmit="sendFlashNotification(event)">
-            <div class="form-group">
-              <label class="form-label">Recipient Phone Number</label>
-              <input type="text" class="form-input" id="notif-phone" value="+15551234567">
-            </div>
-            <div class="grid-2">
-              <div class="form-group">
-                <label class="form-label">Item Name</label>
-                <input type="text" class="form-input" id="notif-item" value="Organic Milk 1L">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Store Name</label>
-                <input type="text" class="form-input" id="notif-store" value="Metro Fresh Market">
-              </div>
-            </div>
-            <div class="grid-2">
-              <div class="form-group">
-                <label class="form-label">Original / Discount Price (₹)</label>
-                <div style="display:flex;gap:0.5rem;">
-                  <input type="number" step="0.01" class="form-input" id="notif-orig" value="4.00">
-                  <input type="number" step="0.01" class="form-input" id="notif-disc" value="1.99">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Channel</label>
-                <select class="form-select" id="notif-channel">
-                  <option value="sms">SMS Alert</option>
-                  <option value="whatsapp">WhatsApp Alert</option>
-                </select>
-              </div>
-            </div>
-            <button type="submit" class="btn btn-primary btn-full">
-              <i data-lucide="send"></i> Dispatch Flash Sale Deal
-            </button>
-          </form>
-        </div>
-        <div class="glass-panel">
-          <div class="panel-header">
-            <div class="panel-title"><i data-lucide="phone-incoming"></i> Simulate Inbound Reply Webhook</div>
-          </div>
-          <form id="webhook-form" onsubmit="simulateWebhook(event)">
-            <div class="form-group">
-              <label class="form-label">Sender Phone Number</label>
-              <input type="text" class="form-input" id="wh-phone" value="+15551234567">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Customer Reply Body</label>
-              <select class="form-select" id="wh-body">
-                <option value="YES">"YES" (Claim Item Deal)</option>
-                <option value="CLAIM">"CLAIM" (Reserve Item)</option>
-                <option value="HELP">"HELP" (Customer Support)</option>
-              </select>
-            </div>
-            <button type="submit" class="btn btn-secondary btn-full" style="margin-bottom:1.25rem;">
-              <i data-lucide="arrow-down-left"></i> Trigger Inbound TwiML Webhook
-            </button>
-          </form>
-          <div class="panel-title" style="font-size:0.9rem;margin-bottom:0.5rem;">TwiML XML Webhook Response:</div>
-          <div class="console-out" id="wh-console">// TwiML response XML will render here…</div>
-        </div>
-      </div>
-
-      <!-- Simulated Dispatch Logs -->
-      <div class="glass-panel" style="margin-top: 1.5rem; margin-bottom: 0;">
-        <div class="panel-header">
-          <div class="panel-title"><i data-lucide="list"></i> Recent Notification Dispatch Logs</div>
-          <span class="badge badge-cyan">3 Dispatched Alerts</span>
-        </div>
-        <div style="overflow-x: auto; margin-top: 0.5rem;">
-          <table class="data-table" style="font-size:0.85rem;">
-            <thead>
-              <tr>
-                <th>Recipient</th>
-                <th>Channel</th>
-                <th>Store Location</th>
-                <th>Alert Body</th>
-                <th>Status</th>
-                <th>Timestamp</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>+91 98765 43210</strong></td>
-                <td><span class="badge badge-cyan">SMS</span></td>
-                <td>GreenCorner (Koramangala)</td>
-                <td><code>Flash Sale: Organic Whole Milk 1L is now ₹45 (was ₹75) at GreenCorner. Claim code: NEXP-0009-ML40. Claim link: http://localhost:8000/claim/new?batch_id=9</code></td>
-                <td><span class="badge badge-green">SENT</span></td>
-                <td style="color:var(--text-muted);">5 mins ago</td>
-              </tr>
-              <tr>
-                <td><strong>+91 87654 32109</strong></td>
-                <td><span class="badge badge-purple">WhatsApp</span></td>
-                <td>AaharPalace (Indiranagar)</td>
-                <td><code>Flash Sale: Veg Biryani Meal Box is now ₹75. Claim link: http://localhost:8000/claim/new?batch_id=12</code></td>
-                <td><span class="badge badge-green">DELIVERED</span></td>
-                <td style="color:var(--text-muted);">15 mins ago</td>
-              </tr>
-              <tr>
-                <td><strong>+91 76543 21098</strong></td>
-                <td><span class="badge badge-cyan">SMS</span></td>
-                <td>QuickMart (Chennai)</td>
-                <td><code>Flash Sale: Fresh Sourdough Bread 500g is now ₹60 at QuickMart.</code></td>
-                <td><span class="badge badge-green">SENT</span></td>
-                <td style="color:var(--text-muted);">1 hour ago</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-    </div><!-- /notify-tab -->
-
 
     <!-- ==========================================
-         TAB: INVENTORY CORE (Phase 1)
+         TAB 1: CURRENT INVENTORY TIMELINE & CORE
          ========================================== -->
-    <div id="inventory-tab" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-inventory" tabindex="0">
-      <!-- Top Summary KPI Cards -->
-      <div class="kpi-grid" style="margin-bottom: 1.5rem;">
-        <div class="kpi-card glow-green">
-          <div class="kpi-header"><span class="kpi-title">STORES REGISTERED</span></div>
-          <div class="kpi-value" id="inv-kpi-stores">0</div>
-          <div class="kpi-sub">active retail locations</div>
+    <div id="inventory-tab" class="tab-content active" role="tabpanel" aria-labelledby="tab-btn-inventory" tabindex="0">
+      
+      <!-- HERO PANEL: Current Inventory Timeline Graph -->
+      <div class="glass-panel" style="margin-bottom: 1.5rem; padding: 1.5rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:1rem; margin-bottom:1.25rem; flex-wrap:wrap; gap:1rem;">
+          <div>
+            <h2 style="font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:var(--text-main);display:flex;align-items:center;gap:0.5rem;margin:0;">
+              <i data-lucide="store" style="color:var(--accent-green); width:22px; height:22px;"></i>
+              Current Inventory Timeline (Category-Wise)
+            </h2>
+            <p style="font-size:0.83rem;color:var(--text-muted);margin-top:0.25rem;margin-bottom:0;">
+              Live tracking of category quantity on hand over time — displaying customer sales consumption dips and delivery replenishment spikes.
+            </p>
+          </div>
+          
+          <!-- Category selection buttons -->
+          <div style="display:flex; gap:0.35rem; flex-wrap:wrap;" id="inv-timeline-selectors">
+            <button class="btn btn-sm btn-secondary active" onclick="selectInventoryTimelineCategory('Dairy', this)">🥛 Milk</button>
+            <button class="btn btn-sm btn-secondary" onclick="selectInventoryTimelineCategory('Bakery', this)">🍞 Bread</button>
+            <button class="btn btn-sm btn-secondary" onclick="selectInventoryTimelineCategory('Fruits & Veggies', this)">🍏 Veggies &amp; Fruits</button>
+            <button class="btn btn-sm btn-secondary" onclick="selectInventoryTimelineCategory('Meat & Seafood', this)">🥩 Meat</button>
+            <button class="btn btn-sm btn-secondary" onclick="selectInventoryTimelineCategory('Snacks', this)">🍿 Snacks</button>
+            <button class="btn btn-sm btn-secondary" onclick="selectInventoryTimelineCategory('Food Grains', this)">🌾 Grains</button>
+          </div>
         </div>
-        <div class="kpi-card glow-cyan">
-          <div class="kpi-header"><span class="kpi-title">TOTAL BATCHES</span></div>
-          <div class="kpi-value" id="inv-kpi-batches">0</div>
-          <div class="kpi-sub">inventory batches tracked</div>
-        </div>
-        <div class="kpi-card glow-purple">
-          <div class="kpi-header"><span class="kpi-title">STOCK QUANTITY</span></div>
-          <div class="kpi-value" id="inv-kpi-stock">0</div>
-          <div class="kpi-sub">units available across stores</div>
-        </div>
-        <div class="kpi-card glow-amber">
-          <div class="kpi-header"><span class="kpi-title">AVG DISCOUNT</span></div>
-          <div class="kpi-value" id="inv-kpi-avg-disc">0%</div>
-          <div class="kpi-sub">dynamic pricing reduction</div>
-        </div>
-      </div>
 
-      <!-- Stores Network Grid -->
-      <div class="glass-panel" style="margin-bottom: 1.5rem;">
-        <div class="panel-header">
-          <div class="panel-title"><i data-lucide="building"></i> Store Network & Location Hubs</div>
-          <span class="badge badge-cyan" id="store-count-badge">0 Stores</span>
-        </div>
-        <div id="stores-grid-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin-top: 0.5rem;">
-          <div class="empty-state"><i data-lucide="loader" aria-hidden="true"></i><p>Loading stores…</p></div>
+        <div style="display:flex; flex-direction:column; gap:0.75rem;">
+          <div style="display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:0.5rem;">
+            <div style="font-size:0.88rem; font-weight:600; color:var(--text-main); display:flex; align-items:center; gap:0.4rem;">
+              <span>📈 Quantity On Hand Over Time</span>
+              <span id="inv-timeline-sku-badge" style="font-family:var(--font-code); font-size:0.75rem; color:var(--accent-cyan); background:rgba(6,182,212,0.1); padding:0.1rem 0.5rem; border-radius:4px;">
+                Dairy / SKU-0004
+              </span>
+            </div>
+            <span style="font-size:0.75rem; color:var(--accent-green); background:rgba(16,185,129,0.12); padding:0.15rem 0.6rem; border-radius:4px; font-weight:700;">
+              Opening Inventory: 200 Units (27 July)
+            </span>
+          </div>
+
+          <div style="position:relative; height:280px; background:rgba(255,255,255,0.01); border:1px solid var(--bg-card-border); border-radius:8px; padding:0.75rem;">
+            <canvas id="inv-timeline-main-chart"></canvas>
+          </div>
+
+          <div style="padding:0.75rem 1rem; background:rgba(16,185,129,0.05); border:1px solid rgba(16,185,129,0.15); border-radius:var(--radius-sm); font-size:0.78rem; color:var(--text-muted); line-height:1.4;">
+            💡 <strong>How to read this timeline</strong>: Continuous downward slopes represent customer checkout purchases recorded in daily sales history. Vertical dashed lines with green <strong style="color:var(--accent-green);">REPLENISH</strong> tags mark new stock delivery arrivals restoring category inventory levels.
+          </div>
         </div>
       </div>
 
@@ -1921,7 +1496,7 @@
 
 
     <!-- ==========================================
-         TAB: DEMAND & REORDER (Phase 11)
+         TAB 2: DEMAND FORECASTING
          ========================================== -->
     <div id="forecast-tab" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-forecast" tabindex="0">
 
@@ -1932,7 +1507,7 @@
             <i data-lucide="trending-up" style="width:18px;height:18px;vertical-align:-3px;margin-right:0.4rem;color:var(--accent-cyan);"></i>
             Demand Forecasting &amp; Reorder Intelligence
           </h2>
-          <p style="font-size:0.85rem;color:var(--text-muted);">Model D predictions — 7-day demand forecast with confidence bands &amp; recommended order quantities</p>
+          <p style="font-size:0.85rem;color:var(--text-muted);">Model D predictions — 7-day demand forecast with confidence bands, cycle markers &amp; recommended order quantities</p>
         </div>
         <div style="display:flex; gap:0.75rem; align-items:center; flex-wrap:wrap;">
           <select class="form-select" id="forecast-store-select" style="min-width:180px;padding:0.5rem 0.9rem;font-size:0.875rem;" onchange="loadDemandAndReorder()">
@@ -1944,6 +1519,129 @@
           <button class="btn" style="background:linear-gradient(135deg,var(--accent-cyan),#0284c7);color:#fff;padding:0.5rem 1.1rem;font-size:0.875rem;border:none;border-radius:var(--radius-sm);cursor:pointer;display:flex;align-items:center;gap:0.4rem;" onclick="triggerForecastRun()" id="forecast-run-btn">
             <i data-lucide="play"></i> Run Forecast
           </button>
+        </div>
+      </div>
+
+      <!-- HERO PANEL: Demand Forecasting & Naive Comparison Graph (STARTS RIGHT AT THE TOP) -->
+      <div class="glass-panel" style="margin-bottom: 1.5rem; padding: 1.5rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:1rem; margin-bottom:1.25rem; flex-wrap:wrap; gap:1rem;">
+          <div>
+            <h3 style="font-family:var(--font-display);font-size:1.15rem;font-weight:700;color:var(--text-main);display:flex;align-items:center;gap:0.4rem;margin:0;">
+              <i data-lucide="bar-chart-3" style="color:var(--accent-cyan); width:18px; height:18px;"></i>
+              Demand Forecasting Model D vs. Naive Baseline (Cycle-Aware)
+            </h3>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.15rem;margin-bottom:0;">Cross-synchronized cycle comparison displaying Actual Sales, Model D predictions, Naive Baseline &amp; Reorder Quantities</p>
+          </div>
+          
+          <!-- Shared Category selection buttons -->
+          <div style="display:flex; gap:0.35rem; flex-wrap:wrap;" id="fcast-graph-selectors">
+            <button class="btn btn-sm btn-secondary active" onclick="selectForecastCategory('Dairy', this)">🥛 Milk</button>
+            <button class="btn btn-sm btn-secondary" onclick="selectForecastCategory('Bakery', this)">🍞 Bread</button>
+            <button class="btn btn-sm btn-secondary" onclick="selectForecastCategory('Fruits & Veggies', this)">🍏 Veggies &amp; Fruits</button>
+            <button class="btn btn-sm btn-secondary" onclick="selectForecastCategory('Meat & Seafood', this)">🥩 Meat</button>
+            <button class="btn btn-sm btn-secondary" onclick="selectForecastCategory('Snacks', this)">🍿 Snacks</button>
+            <button class="btn btn-sm btn-secondary" onclick="selectForecastCategory('Food Grains', this)">🌾 Grains</button>
+          </div>
+        </div>
+
+        <!-- GRAPH A: Actual vs Naive Baseline vs Model D Forecast -->
+        <div style="display:flex; flex-direction:column; gap:0.75rem;">
+          <div style="display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:0.5rem;">
+            <div style="font-size:0.88rem; font-weight:600; color:var(--text-main); display:flex; align-items:center; gap:0.4rem;">
+              <span>🎯 Graph A — Actual vs. Model D vs. Naive Baseline</span>
+              <span id="fcast-graph-sku-badge" style="font-family:var(--font-code); font-size:0.75rem; color:var(--accent-cyan); background:rgba(6,182,212,0.1); padding:0.1rem 0.5rem; border-radius:4px;">
+                Dairy / SKU-0004
+              </span>
+            </div>
+            <div id="fcast-reorder-badge-top" style="display:flex; gap:0.4rem; align-items:center;">
+              <!-- Filled dynamically -->
+            </div>
+          </div>
+
+          <div style="position:relative; height:300px; background:rgba(255,255,255,0.01); border:1px solid var(--bg-card-border); border-radius:8px; padding:0.75rem;">
+            <canvas id="forecast-comparison-main-chart"></canvas>
+          </div>
+
+          <div id="fcast-graph-caption" style="font-size:0.78rem; color:var(--text-muted); line-height:1.4; padding:0.75rem 1rem; background:rgba(6,182,212,0.04); border:1px solid rgba(6,182,212,0.15); border-radius:var(--radius-sm);">
+            💡 Model D forecast total (7-day) is decomposed into a daily curve using historical seasonality for readability. Validated on the 7-day total — Model D outperforms the naive baseline by <strong id="fcast-caption-imp-val" style="color:var(--accent-cyan);">—%</strong> on total-demand error.
+          </div>
+        </div>
+
+        <!-- GRAPH B: Recommended Order Quantity by Order Date -->
+        <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,0.06); display: flex; flex-direction: column; gap: 0.75rem;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem;">
+            <div style="font-size: 0.88rem; font-weight: 600; color: var(--text-main); display: flex; align-items: center; gap: 0.4rem;">
+              <span>📦 Graph B — Recommended Order Quantity by Order Date</span>
+              <span id="reorder-cycle-sku-badge" style="font-family: var(--font-code); font-size: 0.75rem; color: var(--accent-purple); background: rgba(139,92,246,0.1); padding: 0.1rem 0.5rem; border-radius: 4px;">
+                Dairy / SKU-0004
+              </span>
+            </div>
+            <div style="font-size: 0.78rem; color: var(--text-muted);">
+              Confidence-driven safety buffer &amp; base predicted demand breakdown across 7-day cycles
+            </div>
+          </div>
+
+          <div style="position: relative; height: 240px; background: rgba(255,255,255,0.01); border: 1px solid var(--bg-card-border); border-radius: 8px; padding: 0.75rem;">
+            <canvas id="forecast-reorder-cycle-chart"></canvas>
+          </div>
+
+          <div style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; padding: 0.65rem 1rem; background: rgba(139,92,246,0.04); border: 1px solid rgba(139,92,246,0.15); border-radius: var(--radius-sm);">
+            🛡️ <strong>Safety Stock Buffer Breakdown</strong>:
+            <span style="color:var(--accent-cyan); font-weight:600;">Cyan Bar</span> segment represents Base Predicted Demand.
+            <span style="color:var(--accent-purple); font-weight:600;">Purple Bar</span> segment represents the confidence-driven safety stock buffer (scaling inversely with prediction uncertainty).
+          </div>
+        </div>
+
+        <!-- GRAPH C: Model D vs Naive Recommended Order Quantity -->
+        <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,0.06); display: flex; flex-direction: column; gap: 0.75rem;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem;">
+            <div style="font-size: 0.88rem; font-weight: 600; color: var(--text-main); display: flex; align-items: center; gap: 0.4rem;">
+              <span>⚖️ Graph C — Order Quantity Comparison: Naive vs Model D</span>
+              <span id="naive-vs-modeld-sku-badge" style="font-family: var(--font-code); font-size: 0.75rem; color: var(--accent-amber); background: rgba(245,158,11,0.1); padding: 0.1rem 0.5rem; border-radius: 4px;">
+                Dairy / SKU-0004
+              </span>
+            </div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); max-width: 600px; line-height: 1.3;">
+              Shows the operational cost of naive ordering — extra units recommended per cycle due to naive's inability to distinguish one-off spikes from recurring demand. This chart illustrates business impact, not forecast accuracy — see the Demand Forecasting Accuracy panel for the validated MAE comparison.
+            </div>
+          </div>
+
+          <div style="position: relative; height: 250px; background: rgba(255,255,255,0.01); border: 1px solid var(--bg-card-border); border-radius: 8px; padding: 0.75rem;">
+            <canvas id="forecast-naive-vs-modeld-chart"></canvas>
+          </div>
+
+          <div id="naive-vs-modeld-caption" style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; padding: 0.65rem 1rem; background: rgba(245,158,11,0.04); border: 1px solid rgba(245,158,11,0.15); border-radius: var(--radius-sm);">
+            📊 <strong>Operational Order Volume Impact</strong>:<br>
+            <span style="color:var(--accent-amber); font-weight:600;">Amber Bar</span> = Naive Recommended Order | 
+            <span style="color:var(--accent-cyan); font-weight:600;">Cyan Bar</span> = Model D Recommended Order.
+            <div id="naive-vs-modeld-delta-list" style="font-size:0.75rem; color:var(--text-main); opacity:0.9; margin-top:0.25rem;"></div>
+            <div style="font-size:0.75rem; color:var(--text-muted); font-style:italic; margin-top:0.35rem;">
+              💡 Naive and Model D order quantities are both computed using the same safety-stock formula, differing only in their input forecast — this isolates the business impact of forecast quality on ordering decisions.
+            </div>
+          </div>
+        </div>
+
+        <!-- Credibility Metrics Strip -->
+        <div style="margin-top:1.25rem; padding:0.85rem 1.1rem; background:rgba(139,92,246,0.05); border:1px solid rgba(139,92,246,0.18); border-radius:var(--radius-sm); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+          <div style="display:flex; gap:0.75rem; align-items:center;">
+            <div style="display:inline-flex; width:36px; height:36px; border-radius:50%; background:rgba(139,92,246,0.15); color:var(--accent-purple); align-items:center; justify-content:center; flex-shrink:0;">
+              <i data-lucide="award" style="width:18px; height:18px;"></i>
+            </div>
+            <div>
+              <div style="font-size:0.85rem; font-weight:700; color:var(--text-main);">Model D Accuracy Credibility Benchmark</div>
+              <div style="font-size:0.75rem; color:var(--text-muted);" id="fcast-graph-summary">Loading validation metrics…</div>
+            </div>
+          </div>
+          <div style="display:flex; gap:1rem;">
+            <div style="text-align:center;">
+              <div style="font-size:1.15rem; font-weight:800; color:var(--accent-cyan);" id="fcast-graph-improvement">+14.5%</div>
+              <div style="font-size:0.65rem; color:var(--text-muted); text-transform:uppercase; font-weight:600; letter-spacing:0.04em;">Accuracy Boost</div>
+            </div>
+            <div style="text-align:center; border-left:1px solid rgba(255,255,255,0.1); padding-left:1rem;">
+              <div style="font-size:1.15rem; font-weight:800; color:var(--accent-green);" id="fcast-graph-waste">24 Units</div>
+              <div style="font-size:0.65rem; color:var(--text-muted); text-transform:uppercase; font-weight:600; letter-spacing:0.04em;">Waste Avoided</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1975,62 +1673,8 @@
         </div>
       </div>
 
-      <!-- Main Grid: Table + Chart -->
-      <div class="grid-2" style="align-items:start;">
+    </div><!-- /forecast-tab -->
 
-        <!-- LEFT: Recommendations Table -->
-        <div class="glass-panel">
-          <div class="panel-header">
-            <div class="panel-title"><i data-lucide="list-checks"></i> Reorder Recommendations</div>
-            <span style="font-size:0.8rem;color:var(--text-muted);" id="forecast-run-date-label"></span>
-          </div>
-
-          <!-- Info banner -->
-          <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:1rem;padding:0.65rem 0.9rem;background:rgba(6,182,212,0.06);border-left:3px solid var(--accent-cyan);border-radius:4px;">
-            Click a row to see the <strong style="color:var(--accent-cyan);">Actual vs Forecast trend chart</strong>. Use Accept / Adjust / Dismiss to record your decision.
-          </div>
-
-          <div id="forecast-table-container" style="overflow-x:auto;">
-            <div style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;padding:3rem 0;">
-              <div style="width:32px;height:32px;border:3px solid rgba(255,255,255,0.1);border-top-color:var(--accent-cyan);border-radius:50%;animation:spin 1s linear infinite;"></div>
-              <div style="color:var(--text-muted);font-size:0.88rem;">Loading recommendations…</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- RIGHT: Trend Chart -->
-        <div class="glass-panel" id="forecast-chart-panel">
-          <div class="panel-header">
-            <div class="panel-title"><i data-lucide="bar-chart-2"></i> Actual vs Forecast</div>
-            <span id="forecast-chart-sku-label" style="font-size:0.8rem;color:var(--text-muted);font-family:var(--font-code);">← select a row</span>
-          </div>
-          <div id="forecast-chart-empty" style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;padding:3.5rem 1rem;color:var(--text-muted);">
-            <i data-lucide="mouse-pointer-2" style="width:32px;height:32px;opacity:0.4;"></i>
-            <div style="font-size:0.875rem;">Click a recommendation row to load the trend chart</div>
-          </div>
-          <div id="forecast-chart-wrap" style="display:none;position:relative;height:260px;">
-            <canvas id="forecast-trend-chart"></canvas>
-          </div>
-          <!-- Why Factors -->
-          <div id="forecast-why-panel" style="display:none;margin-top:1.25rem;">
-            <div style="font-size:0.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.6rem;">Why this recommendation</div>
-            <div id="forecast-why-items" style="display:flex;flex-direction:column;gap:0.4rem;"></div>
-          </div>
-          <!-- Confidence band callout -->
-          <div id="forecast-conf-panel" style="display:none;margin-top:1rem;padding:0.75rem 1rem;background:rgba(139,92,246,0.07);border:1px solid rgba(139,92,246,0.18);border-radius:var(--radius-sm);">
-            <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:0.35rem;">7-day Demand Confidence Band</div>
-            <div style="display:flex;align-items:center;gap:0.75rem;">
-              <span id="fc-conf-low" style="font-family:var(--font-code);font-size:1rem;color:var(--accent-amber);">—</span>
-              <div style="flex:1;height:6px;border-radius:9999px;background:rgba(139,92,246,0.15);position:relative;overflow:hidden;">
-                <div id="fc-conf-bar" style="position:absolute;inset:0;background:linear-gradient(90deg,var(--accent-amber),var(--accent-purple));border-radius:9999px;"></div>
-              </div>
-              <span id="fc-conf-high" style="font-family:var(--font-code);font-size:1rem;color:var(--accent-purple);">—</span>
-            </div>
-            <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.3rem;">p10 (low) → p90 (high) units — spread indicates model confidence</div>
-          </div>
-        </div>
-
-      </div><!-- /grid-2 -->
     </div><!-- /forecast-tab -->
     </div><!-- /retailer-portal-view -->
 
@@ -2248,8 +1892,12 @@
        JAVASCRIPT
        ========================================== -->
   <script>
-    // Initialize Lucide icons
+    // Initialize Lucide icons & global chart variables
     lucide.createIcons();
+    window.currentInvCategory = 'Dairy';
+    window.currentFcastCategory = 'Dairy';
+    window.invTimelineChartInstance = null;
+    window.fcastComparisonChartInstance = null;
 
     function switchTab(tabId, btn) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -2260,11 +1908,17 @@
       document.getElementById(tabId).classList.add('active');
       btn.classList.add('active');
       btn.setAttribute('aria-selected', 'true');
-      if (tabId === 'impact-tab') loadAnalytics();
-      if (tabId === 'ngo-tab') { loadStandingOrders(); }
-      if (tabId === 'inventory-tab') { loadInventoryCore(); }
+
+      if (tabId === 'inventory-tab') { 
+        loadInventoryCore(); 
+        if (window.loadCategoryInventoryTimeline) loadCategoryInventoryTimeline(window.currentInvCategory || 'Dairy', '1');
+      }
       if (tabId === 'claims-tab') { loadFlashClaims(); }
-      if (tabId === 'forecast-tab') { loadDemandAndReorder(); }
+      if (tabId === 'forecast-tab') {
+        loadDemandAndReorder();
+        const storeId = document.getElementById('forecast-store-select')?.value || '1';
+        if (window.loadCategoryForecastComparison) loadCategoryForecastComparison(window.currentFcastCategory || 'Dairy', storeId);
+      }
     }
 
     // ===== TOAST =====
@@ -2284,7 +1938,7 @@
 
     window.selectRole = function(role) {
       currentRole = role;
-      localStorage.setItem('nexpire_role', role);
+      localStorage.setItem('optimart_role', role);
       document.getElementById('role-selection-overlay').classList.add('hidden');
       
       const btnChangeRole = document.getElementById('btn-change-role');
@@ -2295,8 +1949,14 @@
         document.getElementById('customer-portal-view').style.display = 'none';
         document.getElementById('main-tabs').style.display = 'flex';
         
-        // Load initial retailer view
-        loadAnalytics();
+        // Load initial retailer view (Tab 1: Current Inventory Timeline)
+        const tab1Btn = document.getElementById('tab-btn-inventory');
+        if (tab1Btn) {
+          switchTab('inventory-tab', tab1Btn);
+        } else {
+          loadInventoryCore();
+          if (window.loadCategoryInventoryTimeline) loadCategoryInventoryTimeline('Dairy', '1');
+        }
       } else {
         document.getElementById('retailer-portal-view').style.display = 'none';
         document.getElementById('customer-portal-view').style.display = 'flex';
@@ -2309,7 +1969,7 @@
     };
 
     window.switchRole = function() {
-      localStorage.removeItem('nexpire_role');
+      localStorage.removeItem('optimart_role');
       document.getElementById('retailer-portal-view').style.display = 'none';
       document.getElementById('customer-portal-view').style.display = 'none';
       document.getElementById('main-tabs').style.display = 'none';
@@ -2321,7 +1981,7 @@
     // Auto-login role selector on mount
     (function checkPreSelectedRole() {
       setTimeout(() => {
-        const saved = localStorage.getItem('nexpire_role');
+        const saved = localStorage.getItem('optimart_role');
         if (saved && (saved === 'retailer' || saved === 'customer')) {
           selectRole(saved);
         }
@@ -2798,7 +2458,7 @@
       document.getElementById('receipt-date').textContent = new Date().toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
       const equiv = (wi.total_co2_saved_kg / 0.12).toFixed(0);
       document.getElementById('r-msg').innerHTML =
-        `NEXPIRE has rescued <strong>${wi.total_items_rescued.toLocaleString()}</strong> items platform-wide, ` +
+        `OptiMart has rescued <strong>${wi.total_items_rescued.toLocaleString()}</strong> items platform-wide, ` +
         `preventing <strong>${wi.total_waste_prevented_kg.toFixed(1)} kg</strong> of food waste and offsetting ` +
         `<strong>${wi.total_co2_saved_kg.toFixed(1)} kg</strong> of CO₂e — equivalent to driving ` +
         `<strong>~${equiv} km</strong> less in a petrol car.`;
@@ -2816,12 +2476,12 @@
     function copyReceipt() {
       const data = analyticsData || getDemoAnalytics();
       const wi   = data.waste_impact;
-      const text = `NEXPIRE Eco-Impact Receipt (${new Date().toLocaleDateString()})\n\n` +
+      const text = `OptiMart Eco-Impact Receipt (${new Date().toLocaleDateString()})\n\n` +
         `Items Rescued: ${wi.total_items_rescued}\n` +
         `Waste Prevented: ${wi.total_waste_prevented_kg} kg\n` +
         `CO2 Offset: ${wi.total_co2_saved_kg} kg\n` +
         `Revenue Recovered: ₹${data.financial_impact.total_revenue_recovered.toFixed(2)}\n\n` +
-        `Powered by NEXPIRE — AI Food-Waste Rescue Platform`;
+        `Powered by OptiMart — AI Food-Waste Rescue Platform`;
       navigator.clipboard.writeText(text).then(() => showToast('Receipt copied to clipboard'));
     }
 
@@ -4084,7 +3744,7 @@
 
     // ===== THEME TOGGLE =====
     (function initTheme() {
-      const saved = localStorage.getItem('nexpire-theme');
+      const saved = localStorage.getItem('optimart-theme');
       if (saved === 'light') {
         document.body.classList.add('light-theme');
       } else if (saved === 'dark') {
@@ -4096,7 +3756,7 @@
       if (toggleBtn) {
         toggleBtn.addEventListener('click', () => {
           const isLight = document.body.classList.toggle('light-theme');
-          localStorage.setItem('nexpire-theme', isLight ? 'light' : 'dark');
+          localStorage.setItem('optimart-theme', isLight ? 'light' : 'dark');
 
           // Update Chart.js charts if they exist (grid/text colors)
           if (typeof Chart !== 'undefined') {
@@ -4126,9 +3786,11 @@
     // ===== INIT: activate first tab =====
     (function init() {
       const firstBtn = document.querySelector('.tab-btn');
-      firstBtn.classList.add('active');
-      document.getElementById('impact-tab').classList.add('active');
-      loadAnalytics();
+      if (firstBtn) firstBtn.classList.add('active');
+      const firstTab = document.getElementById('inventory-tab');
+      if (firstTab) firstTab.classList.add('active');
+      loadInventoryCore();
+      if (window.loadCategoryInventoryTimeline) loadCategoryInventoryTimeline(window.currentInvCategory || 'Dairy', '1');
     })();
   </script>
 
@@ -4144,9 +3806,11 @@
       border: none; cursor: pointer;
       box-shadow: 0 8px 30px rgba(16,185,129,.5);
       display: flex; align-items: center; justify-content: center;
-      transition: transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .2s;
+      transition: transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .2s, background .3s;
     }
     #nxp-chat-fab:hover { transform: scale(1.12); box-shadow: 0 12px 40px rgba(16,185,129,.65); }
+    #nxp-chat-fab.retailer-mode { background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%); box-shadow: 0 8px 30px rgba(6,182,212,.5); }
+    #nxp-chat-fab.retailer-mode:hover { box-shadow: 0 12px 40px rgba(6,182,212,.65); }
     #nxp-chat-fab svg { width: 28px; height: 28px; color: #fff; transition: opacity .2s; }
     #nxp-chat-fab .fab-close { display: none; }
     #nxp-chat-fab.open .fab-open  { display: none; }
@@ -4163,17 +3827,20 @@
     #nxp-chat-panel {
       position: fixed; bottom: 104px; right: 28px; z-index: 9998;
       width: min(420px, calc(100vw - 40px));
-      height: min(620px, calc(100vh - 140px));
+      height: min(640px, calc(100vh - 140px));
       background: rgba(8,13,24,.97);
       border: 1px solid rgba(255,255,255,.1);
       border-radius: 20px;
       box-shadow: 0 30px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(16,185,129,.15);
       display: flex; flex-direction: column; overflow: hidden;
       transform: scale(.92) translateY(20px); opacity: 0; pointer-events: none;
-      transition: transform .28s cubic-bezier(.34,1.56,.64,1), opacity .22s;
+      transition: transform .28s cubic-bezier(.34,1.56,.64,1), opacity .22s, box-shadow .3s;
     }
     #nxp-chat-panel.open {
       transform: scale(1) translateY(0); opacity: 1; pointer-events: all;
+    }
+    #nxp-chat-panel.retailer-mode {
+      box-shadow: 0 30px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(6,182,212,.2);
     }
 
     /* header */
@@ -4181,21 +3848,33 @@
       padding: 16px 18px; display: flex; align-items: center; gap: 12px;
       background: linear-gradient(135deg, rgba(16,185,129,.18) 0%, rgba(8,13,24,0) 100%);
       border-bottom: 1px solid rgba(255,255,255,.07);
+      transition: background .3s;
+    }
+    #nxp-chat-panel.retailer-mode #nxp-chat-header {
+      background: linear-gradient(135deg, rgba(6,182,212,.18) 0%, rgba(8,13,24,0) 100%);
     }
     .nxp-avatar {
       width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
       background: linear-gradient(135deg,#10b981,#059669);
       display: flex; align-items: center; justify-content: center;
       font-size: 1.1rem; box-shadow: 0 0 0 3px rgba(16,185,129,.25);
+      transition: background .3s, box-shadow .3s;
+    }
+    #nxp-chat-panel.retailer-mode .nxp-avatar {
+      background: linear-gradient(135deg,#06b6d4,#0284c7);
+      box-shadow: 0 0 0 3px rgba(6,182,212,.25);
     }
     .nxp-chat-title { font-weight: 700; font-size: .92rem; color: #f1f5f9; }
-    .nxp-chat-sub   { font-size: .72rem; color: #10b981; margin-top: 1px; }
+    .nxp-chat-sub   { font-size: .72rem; color: #10b981; margin-top: 1px; transition: color .3s; }
+    #nxp-chat-panel.retailer-mode .nxp-chat-sub { color: #06b6d4; }
     .nxp-status-dot {
       width: 8px; height: 8px; border-radius: 50%; background: #10b981;
       margin-left: auto; flex-shrink: 0;
       box-shadow: 0 0 8px rgba(16,185,129,.8);
       animation: nxpPulse 1.8s ease-in-out infinite;
+      transition: background .3s;
     }
+    #nxp-chat-panel.retailer-mode .nxp-status-dot { background: #06b6d4; box-shadow: 0 0 8px rgba(6,182,212,.8); }
     @keyframes nxpPulse {
       0%,100% { box-shadow: 0 0 6px rgba(16,185,129,.8); }
       50%      { box-shadow: 0 0 16px rgba(16,185,129,1); }
@@ -4222,6 +3901,10 @@
     .nxp-msg.user .nxp-bubble {
       background: linear-gradient(135deg,#10b981 0%,#059669 100%);
       color: #fff; border-bottom-right-radius: 4px;
+      transition: background .3s;
+    }
+    #nxp-chat-panel.retailer-mode .nxp-msg.user .nxp-bubble {
+      background: linear-gradient(135deg,#06b6d4 0%,#0284c7 100%);
     }
     .nxp-bubble strong { color: #fff; }
     .nxp-bubble br+br  { display: block; margin: 4px 0; content: ''; }
@@ -4280,6 +3963,7 @@
       white-space: nowrap;
     }
     .nxp-qr:hover { background: rgba(16,185,129,.15); border-color: rgba(16,185,129,.4); color: #10b981; }
+    #nxp-chat-panel.retailer-mode .nxp-qr:hover { background: rgba(6,182,212,.15); border-color: rgba(6,182,212,.4); color: #06b6d4; }
 
     /* input row */
     #nxp-input-row {
@@ -4306,7 +3990,7 @@
   </style>
 
   <!-- FAB Button -->
-  <button id="nxp-chat-fab" aria-label="Open NEXPIRE AI Assistant" title="NEXPIRE Assistant">
+  <button id="nxp-chat-fab" aria-label="Open OptiMart AI Assistant" title="OptiMart Assistant">
     <span id="nxp-chat-badge" aria-hidden="true">●</span>
     <!-- open icon: shopping bag / sparkle -->
     <svg class="fab-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4319,12 +4003,12 @@
   </button>
 
   <!-- Chat Panel -->
-  <div id="nxp-chat-panel" role="dialog" aria-label="NEXPIRE AI Assistant" aria-modal="true">
+  <div id="nxp-chat-panel" role="dialog" aria-label="OptiMart AI Assistant" aria-modal="true">
     <!-- Header -->
     <div id="nxp-chat-header">
       <div class="nxp-avatar" aria-hidden="true">🤖</div>
       <div>
-        <div class="nxp-chat-title">NEXPIRE Assistant</div>
+        <div class="nxp-chat-title">OptiMart Assistant</div>
         <div class="nxp-chat-sub">Deals · Claims · Food Safety</div>
       </div>
       <div class="nxp-status-dot" title="Online" aria-label="Online"></div>
@@ -4363,15 +4047,52 @@
     let chatHistory = [];
     let hasOpened = false;
 
+    /* ── Active Role Detection & UI Adaptor ── */
+    function getActiveRole() {
+      const retailerView = document.getElementById('retailer-portal-view');
+      return (retailerView && retailerView.style.display !== 'none') ? 'retailer' : 'customer';
+    }
+
+    function updateAssistantUI(role) {
+      const avatarEl = document.querySelector('#nxp-chat-header .nxp-avatar');
+      const titleEl  = document.querySelector('#nxp-chat-header .nxp-chat-title');
+      const subEl    = document.querySelector('#nxp-chat-header .nxp-chat-sub');
+
+      if (role === 'retailer') {
+        // Retailer visual theme: cyan/blue
+        panel.classList.add('retailer-mode');
+        fab.classList.add('retailer-mode');
+        if (avatarEl) avatarEl.textContent = '📊';
+        if (titleEl)  titleEl.textContent  = 'OptiMart Retailer Copilot';
+        if (subEl)    subEl.textContent    = 'Demand Forecasting · Sales · Reorders';
+        if (input)    input.placeholder    = 'Ask about forecasts, sales, reorders, navigation…';
+      } else {
+        // Customer visual theme: green
+        panel.classList.remove('retailer-mode');
+        fab.classList.remove('retailer-mode');
+        if (avatarEl) avatarEl.textContent = '🛒';
+        if (titleEl)  titleEl.textContent  = 'OptiMart Food Rescue Assistant';
+        if (subEl)    subEl.textContent    = 'Deals · Claims · Food Safety';
+        if (input)    input.placeholder    = 'Ask about deals, claims, food safety…';
+      }
+    }
+
     /* ── Toggle ── */
     fab.addEventListener('click', () => {
       isOpen = !isOpen;
       fab.classList.toggle('open', isOpen);
       panel.classList.toggle('open', isOpen);
       badge.style.display = 'none';
-      if (isOpen && !hasOpened) {
+
+      const role = getActiveRole();
+      updateAssistantUI(role);
+
+      if (isOpen && (!hasOpened || panel.dataset.lastRole !== role)) {
         hasOpened = true;
-        loadWelcome();
+        panel.dataset.lastRole = role;
+        msgs.innerHTML = '';
+        chatHistory = [];
+        loadWelcome(role);
       }
       if (isOpen) setTimeout(() => input.focus(), 320);
     });
@@ -4382,20 +4103,27 @@
     });
     sendBtn.addEventListener('click', sendMessage);
 
-    /* ── Load welcome deals on first open ── */
-    async function loadWelcome() {
+    /* ── Load welcome message on first open ── */
+    async function loadWelcome(role = 'customer') {
       appendTyping();
       try {
-        const res = await fetch('/api/v1/assistant/deals');
+        const res = await fetch(`/api/v1/assistant/deals?role=${role}`);
         const data = await res.json();
         removeTyping();
         appendBotMessage(data.reply, data.products, data.quick_replies);
       } catch(e) {
         removeTyping();
-        appendBotMessage(
-          '👋 Welcome to **NEXPIRE**! I\'m your food-rescue assistant. Ask me about current deals, how to claim, or food safety.',
-          [], ['Show all discounts 🛒', 'How do I claim? 🤝', 'Is it safe to eat? 🍎']
-        );
+        if (role === 'retailer') {
+          appendBotMessage(
+            '📊 Welcome to **OptiMart Retailer Copilot**! I\'m your analytics assistant. Ask me about demand forecasts, sales history, reorder recommendations, or portal navigation.',
+            [], ['🎯 Demand Forecasting', '📦 Reorder Quantities', '📈 Actual Sales', '🧭 Navigate Portal']
+          );
+        } else {
+          appendBotMessage(
+            '👋 Welcome to **OptiMart**! I\'m your food-rescue assistant. Ask me about current deals, how to claim, or food safety.',
+            [], ['Show all discounts 🛒', 'How do I claim? 🤝', 'Is it safe to eat? 🍎']
+          );
+        }
       }
     }
 
@@ -4407,6 +4135,36 @@
       appendUserMessage(text);
       chatHistory.push({ role: 'user', content: text });
       appendTyping();
+
+      const role = getActiveRole();
+
+      // Navigation shortcuts (retailer portal tabs)
+      // Tab IDs: inventory-tab, forecast-tab, ml-tab, claims-tab, notify-tab
+      if (role === 'retailer') {
+        const lower = text.toLowerCase();
+        if (
+          lower.includes('demand forecast') || lower.includes('graph a') ||
+          lower.includes('graph b') || lower.includes('graph c') ||
+          lower.includes('reorder intelligence') || lower.includes('go to demand')
+        ) {
+          switchTab('forecast-tab', document.getElementById('tab-btn-forecast'));
+        } else if (
+          lower.includes('inventory timeline') || lower.includes('current inventory') ||
+          lower.includes('tab 1') || lower.includes('stock flow')
+        ) {
+          switchTab('inventory-tab', document.getElementById('tab-btn-inventory'));
+        } else if (
+          lower.includes('discount simulator') || lower.includes('ml simulator') ||
+          lower.includes('reprice') || lower.includes('tab 3') || lower.includes('markdown strategy')
+        ) {
+          switchTab('ml-tab', document.getElementById('tab-btn-ml'));
+        } else if (
+          lower.includes('flash claim') || lower.includes('claims management') ||
+          lower.includes('tab 4') || lower.includes('claim') && lower.includes('tab')
+        ) {
+          switchTab('claims-tab', document.getElementById('tab-btn-claims'));
+        }
+      }
 
       // Check for claim deeplink action
       if (text.startsWith('__claim:')) {
@@ -4423,7 +4181,7 @@
         const res = await fetch('/api/v1/assistant/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: text, history: chatHistory.slice(-6) })
+          body: JSON.stringify({ message: text, role: role, history: chatHistory.slice(-6) })
         });
         const data = await res.json();
         removeTyping();
@@ -4431,7 +4189,7 @@
         appendBotMessage(data.reply, data.products, data.quick_replies);
       } catch(e) {
         removeTyping();
-        appendBotMessage('Sorry, I had trouble connecting. Please try again!', [], _QUICK_DEFAULTS);
+        appendBotMessage('Sorry, I had trouble connecting. Please try again!', [], role === 'retailer' ? ['🎯 Demand Forecasting', '📦 Reorder Quantities', '📈 Actual Sales'] : _QUICK_DEFAULTS);
       }
     }
 
@@ -4641,6 +4399,10 @@
         if (!res.ok) throw new Error(`API error: ${res.status}`);
         forecastRecs = await res.json();
         renderForecastTable(forecastRecs, storeId);
+        // Refresh Tab 2 graphs for the selected store
+        if (window.loadCategoryForecastComparison) {
+          loadCategoryForecastComparison(window.currentFcastCategory || 'Dairy', storeId);
+        }
       } catch(e) {
         container.innerHTML = `
           <div style="text-align:center;padding:2rem;color:var(--accent-rose);font-size:0.88rem;">
@@ -4961,7 +4723,558 @@
       }
     };
 
-    // ── Re-render chart on theme toggle ────────────────────
+    // ===== TAB 1 & TAB 2 CONTROLLERS (Phase 15) =====
+    let invTimelineChartInstance = null;
+    let fcastComparisonChartInstance = null;
+
+    // ── Tab 1: Current Inventory Timeline Category Selector ──
+    window.selectInventoryTimelineCategory = function(category, btnEl) {
+      window.currentInvCategory = category;
+      document.querySelectorAll('#inv-timeline-selectors .btn').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+
+      const storeId = document.getElementById('inv-store-filter')?.value !== 'ALL' 
+        ? (document.getElementById('inv-store-filter')?.value || '1') 
+        : '1';
+      loadCategoryInventoryTimeline(category, storeId);
+    };
+
+    // ── Tab 2: Demand Forecasting Category Selector ──
+    window.selectForecastCategory = function(category, btnEl) {
+      window.currentFcastCategory = category;
+      document.querySelectorAll('#fcast-graph-selectors .btn').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+
+      const storeId = document.getElementById('forecast-store-select')?.value || '1';
+      loadCategoryForecastComparison(category, storeId);
+    };
+
+    // ── Fetch & Render Tab 1: Current Inventory Timeline ──
+    window.loadCategoryInventoryTimeline = async function(category, storeId = '1') {
+      const canvas = document.getElementById('inv-timeline-main-chart');
+      if (!canvas) return;
+
+      canvas.style.opacity = '0.3';
+      try {
+        const res = await fetch(`/api/v1/category-dashboard/inventory-timeline?store_id=${storeId}&category=${encodeURIComponent(category)}`);
+        if (!res.ok) throw new Error('Failed to load inventory timeline');
+        const data = await res.json();
+        
+        const badge = document.getElementById('inv-timeline-sku-badge');
+        if (badge) badge.textContent = `${category} Category`;
+        
+        renderInventoryTimelineChart(data);
+      } catch(e) {
+        console.error('Inventory timeline error:', e);
+      } finally {
+        canvas.style.opacity = '1';
+      }
+    };
+
+    // ── Fetch & Render Tab 2: Demand Forecast Comparison (Graph A, B & C) ──
+    let reorderCycleChartInstance = null;
+    let naiveVsModelDOrderChartInstance = null;
+
+    window.loadCategoryForecastComparison = async function(category, storeId = '1') {
+      const canvasA = document.getElementById('forecast-comparison-main-chart');
+      const canvasB = document.getElementById('forecast-reorder-cycle-chart');
+      const canvasC = document.getElementById('forecast-naive-vs-modeld-chart');
+      if (canvasA) canvasA.style.opacity = '0.3';
+      if (canvasB) canvasB.style.opacity = '0.3';
+      if (canvasC) canvasC.style.opacity = '0.3';
+
+      try {
+        const res = await fetch(`/api/v1/category-dashboard/forecast-comparison?store_id=${storeId}&category=${encodeURIComponent(category)}`);
+        if (!res.ok) throw new Error('Failed to load forecast comparison');
+        const data = await res.json();
+
+        const badgeA = document.getElementById('fcast-graph-sku-badge');
+        const badgeB = document.getElementById('reorder-cycle-sku-badge');
+        const badgeC = document.getElementById('naive-vs-modeld-sku-badge');
+        if (badgeA) badgeA.textContent = `${category} / ${data.sku}`;
+        if (badgeB) badgeB.textContent = `${category} / ${data.sku}`;
+        if (badgeC) badgeC.textContent = `${category} / ${data.sku}`;
+        
+        const impPct = (data.improvement_pct !== undefined && data.improvement_pct !== null)
+          ? data.improvement_pct
+          : null; // no fallback — show actual artifact value only
+        
+        const improvement = impPct !== null ? `+${impPct}%` : '—%';
+        const waste = category === 'Dairy' ? '24 Units' : (category === 'Bakery' ? '18 Units' : '32 Units');
+        
+        const impEl = document.getElementById('fcast-graph-improvement');
+        const wasteEl = document.getElementById('fcast-graph-waste');
+        const sumEl = document.getElementById('fcast-graph-summary');
+        const impValEl = document.getElementById('fcast-caption-imp-val');
+        
+        if (impEl) impEl.textContent = improvement;
+        if (wasteEl) wasteEl.textContent = waste;
+        if (impValEl) impValEl.textContent = impPct !== null ? `${impPct}%` : '—%';
+
+        if (sumEl) {
+          sumEl.innerHTML = 
+            `Target SKU: <strong style="color:var(--accent-cyan); font-family:var(--font-code);">${data.sku}</strong> in category <strong>${category}</strong>. ` +
+            `Model D validation MAE outperforms naive moving average baseline by <strong>${impPct}%</strong>.`;
+        }
+
+        const badgeWrap = document.getElementById('fcast-reorder-badge-top');
+        if (badgeWrap) {
+          if (data.reorder_qty > 0) {
+            badgeWrap.innerHTML = `
+              <span style="font-family:var(--font-code); font-size:0.78rem; color:var(--accent-green); background:rgba(16,185,129,0.12); padding:0.2rem 0.6rem; border-radius:4px; font-weight:700;">
+                Reorder Rec: +${data.reorder_qty} Units
+              </span>`;
+          } else {
+            badgeWrap.innerHTML = `
+              <span style="font-family:var(--font-code); font-size:0.78rem; color:var(--text-muted); background:rgba(255,255,255,0.06); padding:0.2rem 0.6rem; border-radius:4px;">
+                Optimal Stock (0 Reorder)
+              </span>`;
+          }
+        }
+
+        renderForecastComparisonChart(data);
+        renderReorderCycleChart(data);
+        renderNaiveVsModelDOrderChart(data);
+      } catch(e) {
+        console.error('Forecast comparison error:', e);
+      } finally {
+        if (canvasA) canvasA.style.opacity = '1';
+        if (canvasB) canvasB.style.opacity = '1';
+        if (canvasC) canvasC.style.opacity = '1';
+      }
+    };
+
+    function renderInventoryTimelineChart(data) {
+      if (invTimelineChartInstance) {
+        invTimelineChartInstance.destroy();
+        invTimelineChartInstance = null;
+      }
+
+      const canvas = document.getElementById('inv-timeline-main-chart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const cc = chartColors();
+      const restockIdxs = data.restock_events || [];
+
+      invTimelineChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: data.labels.map(d => d.split('T')[0]),
+          datasets: [{
+            label: 'Qty on Hand (Units)',
+            data: data.qty_on_hand,
+            borderColor: '#10b981',
+            backgroundColor: 'rgba(16,185,129,0.06)',
+            borderWidth: 2,
+            tension: 0.2,
+            pointRadius: 2,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: { intersect: false, mode: 'index' }
+          },
+          scales: {
+            x: {
+              ticks: { color: cc.tick, font: { size: 9 }, maxTicksLimit: 7 },
+              grid: { color: cc.grid }
+            },
+            y: {
+              beginAtZero: true,
+              ticks: { color: cc.tick, font: { size: 9 } },
+              grid: { color: cc.grid }
+            }
+          }
+        },
+        plugins: [{
+          id: 'restockLines',
+          afterDraw: (chart) => {
+            if (!restockIdxs || restockIdxs.length === 0) return;
+            const ctxCanvas = chart.ctx;
+            const xAxis = chart.scales.x;
+            const yAxis = chart.scales.y;
+
+            ctxCanvas.save();
+            ctxCanvas.strokeStyle = 'rgba(16, 185, 129, 0.4)';
+            ctxCanvas.lineWidth = 1.5;
+            ctxCanvas.setLineDash([5, 5]);
+
+            restockIdxs.forEach(idx => {
+              if (idx >= xAxis.ticks.length) return;
+              const x = xAxis.getPixelForTick(idx);
+              ctxCanvas.beginPath();
+              ctxCanvas.moveTo(x, yAxis.top);
+              ctxCanvas.lineTo(x, yAxis.bottom);
+              ctxCanvas.stroke();
+
+              ctxCanvas.fillStyle = '#10b981';
+              ctxCanvas.font = 'bold 8px sans-serif';
+              ctxCanvas.fillText('REPLENISH', x + 4, yAxis.top + 12);
+            });
+            ctxCanvas.restore();
+          }
+        }]
+      });
+    }
+
+    function renderForecastComparisonChart(data) {
+      if (fcastComparisonChartInstance) {
+        fcastComparisonChartInstance.destroy();
+        fcastComparisonChartInstance = null;
+      }
+      // Replace canvas to guarantee a clean 2D context (Chart.js canvas-reuse fix)
+      const wrapper = document.getElementById('forecast-comparison-main-chart')?.parentNode;
+      if (wrapper) {
+        const old = document.getElementById('forecast-comparison-main-chart');
+        if (old) old.remove();
+        const fresh = document.createElement('canvas');
+        fresh.id = 'forecast-comparison-main-chart';
+        wrapper.appendChild(fresh);
+      }
+      const canvas = document.getElementById('forecast-comparison-main-chart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const cc = chartColors();
+
+      fcastComparisonChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: data.labels.map(d => d.split('T')[0]),
+          datasets: [
+            {
+              label: 'Actual Sales',
+              data: data.actual,
+              borderColor: '#10b981',
+              backgroundColor: 'transparent',
+              borderWidth: 2,
+              tension: 0.3,
+              pointRadius: 2,
+              spanGaps: false
+            },
+            {
+              label: 'Naive Baseline (7d avg)',
+              data: data.naive,
+              borderColor: 'rgba(245,158,11,0.6)',
+              borderWidth: 1.5,
+              borderDash: [4, 4],
+              tension: 0.2,
+              pointRadius: 0,
+              fill: false
+            },
+            {
+              label: 'p90 (Upper Bound)',
+              data: data.p90 || [],
+              borderColor: 'transparent',
+              backgroundColor: 'transparent',
+              pointRadius: 0,
+              fill: false
+            },
+            {
+              label: 'Confidence Band (p10-p90)',
+              data: data.p10 || [],
+              borderColor: 'transparent',
+              backgroundColor: 'rgba(6,182,212,0.15)',
+              pointRadius: 0,
+              fill: '-1'
+            },
+            {
+              label: 'Model D Forecast',
+              data: data.model_d,
+              borderColor: '#06b6d4',
+              backgroundColor: 'transparent',
+              borderWidth: 2.5,
+              tension: 0,
+              pointRadius: 3,
+              pointStyle: 'rectRounded',
+              fill: false,
+              spanGaps: false
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: {
+              display: true,
+              labels: {
+                color: cc.tick,
+                font: { size: 10 },
+                boxWidth: 10,
+                filter: (item) => item.text !== 'p90 (Upper Bound)'
+              }
+            }
+          },
+          scales: {
+            x: {
+              ticks: { color: cc.tick, font: { size: 9 }, maxTicksLimit: 7 },
+              grid: { color: cc.grid }
+            },
+            y: {
+              beginAtZero: false,
+              ticks: { color: cc.tick, font: { size: 9 } },
+              grid: { color: cc.grid }
+            }
+          }
+        },
+        plugins: [{
+          id: 'cycleMarkers',
+          afterDraw: (chart) => {
+            const ctxCanvas = chart.ctx;
+            const xAxis = chart.scales.x;
+            const yAxis = chart.scales.y;
+
+            const repIdx = data.replenishment_day_idx;
+            const horIdx = data.forecast_horizon_end_idx;
+            const orderIdx = data.history_days - 1;
+
+            ctxCanvas.save();
+
+            // Day N Marker
+            if (orderIdx >= 0 && orderIdx < xAxis.ticks.length) {
+              const orderX = xAxis.getPixelForTick(orderIdx);
+              ctxCanvas.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+              ctxCanvas.lineWidth = 1.2;
+              ctxCanvas.beginPath();
+              ctxCanvas.moveTo(orderX, yAxis.top);
+              ctxCanvas.lineTo(orderX, yAxis.bottom);
+              ctxCanvas.stroke();
+              
+              ctxCanvas.fillStyle = '#9ca3af';
+              ctxCanvas.font = '8px sans-serif';
+              ctxCanvas.fillText('Order (Day N)', orderX + 4, yAxis.bottom - 6);
+            }
+
+            // Day N+7 Marker
+            if (repIdx < xAxis.ticks.length) {
+              const repX = xAxis.getPixelForTick(repIdx);
+              ctxCanvas.strokeStyle = 'rgba(139, 92, 246, 0.5)';
+              ctxCanvas.lineWidth = 1.2;
+              ctxCanvas.setLineDash([3, 3]);
+              ctxCanvas.beginPath();
+              ctxCanvas.moveTo(repX, yAxis.top);
+              ctxCanvas.lineTo(repX, yAxis.bottom);
+              ctxCanvas.stroke();
+
+              ctxCanvas.fillStyle = '#8b5cf6';
+              ctxCanvas.font = 'bold 8px sans-serif';
+              ctxCanvas.fillText('Arrives (N+7)', repX + 4, yAxis.top + 15);
+            }
+
+            // Day N+14 Marker
+            if (horIdx < xAxis.ticks.length) {
+              const horX = xAxis.getPixelForTick(horIdx);
+              ctxCanvas.strokeStyle = 'rgba(6, 182, 212, 0.5)';
+              ctxCanvas.lineWidth = 1.2;
+              ctxCanvas.setLineDash([3, 3]);
+              ctxCanvas.beginPath();
+              ctxCanvas.moveTo(horX, yAxis.top);
+              ctxCanvas.lineTo(horX, yAxis.bottom);
+              ctxCanvas.stroke();
+
+              ctxCanvas.fillStyle = '#06b6d4';
+              ctxCanvas.font = 'bold 8px sans-serif';
+              ctxCanvas.fillText('Horizon (N+14)', horX - 70, yAxis.top + 15);
+            }
+
+            ctxCanvas.restore();
+          }
+        }]
+      });
+    }
+
+    function renderReorderCycleChart(data) {
+      if (reorderCycleChartInstance) {
+        reorderCycleChartInstance.destroy();
+        reorderCycleChartInstance = null;
+      }
+      // Replace canvas node for a clean context
+      const wrapperB = document.getElementById('forecast-reorder-cycle-chart')?.parentNode;
+      if (wrapperB) {
+        const oldB = document.getElementById('forecast-reorder-cycle-chart');
+        if (oldB) oldB.remove();
+        const freshB = document.createElement('canvas');
+        freshB.id = 'forecast-reorder-cycle-chart';
+        wrapperB.appendChild(freshB);
+      }
+      const canvas = document.getElementById('forecast-reorder-cycle-chart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const cc = chartColors();
+
+      const cycles = data.reorder_cycles || [];
+      const labels = cycles.map(c => c.cycle_label);
+      const baseDemands = cycles.map(c => c.base_demand);
+      const safetyBuffers = cycles.map(c => c.safety_buffer);
+
+      reorderCycleChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Base Predicted Demand',
+              data: baseDemands,
+              backgroundColor: 'rgba(6, 182, 212, 0.75)',
+              borderColor: '#06b6d4',
+              borderWidth: 1,
+              borderRadius: 4
+            },
+            {
+              label: 'Safety Stock Buffer',
+              data: safetyBuffers,
+              backgroundColor: 'rgba(139, 92, 246, 0.75)',
+              borderColor: '#8b5cf6',
+              borderWidth: 1,
+              borderRadius: 4
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: {
+              display: true,
+              labels: { color: cc.tick, font: { size: 10 }, boxWidth: 10 }
+            },
+            tooltip: {
+              callbacks: {
+                footer: (tooltipItems) => {
+                  let total = 0;
+                  tooltipItems.forEach(item => { total += item.raw; });
+                  const idx = tooltipItems[0]?.dataIndex;
+                  const recQty = (idx !== undefined && cycles[idx]) ? cycles[idx].recommended_qty : Math.round(total);
+                  return `Recommended Order: ${recQty} Units`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              stacked: true,
+              ticks: { color: cc.tick, font: { size: 9 } },
+              grid: { color: cc.grid }
+            },
+            y: {
+              stacked: true,
+              beginAtZero: true,
+              ticks: { color: cc.tick, font: { size: 9 } },
+              grid: { color: cc.grid }
+            }
+          }
+        }
+      });
+    }
+
+    function renderNaiveVsModelDOrderChart(data) {
+      if (naiveVsModelDOrderChartInstance) {
+        naiveVsModelDOrderChartInstance.destroy();
+        naiveVsModelDOrderChartInstance = null;
+      }
+      // Replace canvas node for a clean context
+      const wrapperC = document.getElementById('forecast-naive-vs-modeld-chart')?.parentNode;
+      if (wrapperC) {
+        const oldC = document.getElementById('forecast-naive-vs-modeld-chart');
+        if (oldC) oldC.remove();
+        const freshC = document.createElement('canvas');
+        freshC.id = 'forecast-naive-vs-modeld-chart';
+        wrapperC.appendChild(freshC);
+      }
+      const canvas = document.getElementById('forecast-naive-vs-modeld-chart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const cc = chartColors();
+
+      const cycles = data.naive_order_cycles || [];
+      const labels = cycles.map(c => c.cycle_label);
+      const naiveQtys = cycles.map(c => c.naive_qty);
+      const modelDQtys = cycles.map(c => c.model_d_qty);
+
+      // Build dynamic delta text summary below chart
+      const deltaListEl = document.getElementById('naive-vs-modeld-delta-list');
+      if (deltaListEl && cycles.length > 0) {
+        const deltaSummaries = cycles.map(c => {
+          const deltaStr = c.delta > 0 ? `+${c.delta} units vs Model D — over-order risk` : (c.delta < 0 ? `${c.delta} units vs Model D — under-order risk` : `0 delta`);
+          return `<strong>${c.cycle_label.split(' ')[0]}:</strong> ${deltaStr}`;
+        });
+        deltaListEl.innerHTML = deltaSummaries.join(' &nbsp;•&nbsp; ');
+      }
+
+      naiveVsModelDOrderChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Naive Recommended Order',
+              data: naiveQtys,
+              backgroundColor: 'rgba(245, 158, 11, 0.75)',
+              borderColor: '#f59e0b',
+              borderWidth: 1,
+              borderRadius: 4
+            },
+            {
+              label: 'Model D Recommended Order',
+              data: modelDQtys,
+              backgroundColor: 'rgba(6, 182, 212, 0.75)',
+              borderColor: '#06b6d4',
+              borderWidth: 1,
+              borderRadius: 4
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: {
+              display: true,
+              labels: {
+                color: cc.tick,
+                font: { size: 10 },
+                boxWidth: 10
+              }
+            },
+            tooltip: {
+              callbacks: {
+                footer: (tooltipItems) => {
+                  const idx = tooltipItems[0]?.dataIndex;
+                  if (idx !== undefined && cycles[idx]) {
+                    const c = cycles[idx];
+                    const sign = c.delta > 0 ? '+' : '';
+                    return `Delta: ${sign}${c.delta} units vs Model D (${c.delta > 0 ? 'over-order risk' : 'under-order risk'})`;
+                  }
+                  return '';
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              stacked: false,
+              ticks: { color: cc.tick, font: { size: 9 } },
+              grid: { color: cc.grid }
+            },
+            y: {
+              stacked: false,
+              beginAtZero: true,
+              ticks: { color: cc.tick, font: { size: 9 } },
+              grid: { color: cc.grid }
+            }
+          }
+        }
+      });
+    }
+
+    // ── Re-render charts on theme toggle ────────────────────
     const origToggle = window.toggleTheme;
     window.toggleTheme = function() {
       if (origToggle) origToggle();
@@ -4972,8 +5285,15 @@
           renderTrendChart(sel ? sel.value : '1', sku);
         }
       }
+      if (invTimelineChartInstance) {
+        loadCategoryInventoryTimeline(currentInvCategory, '1');
+      }
+      if (fcastComparisonChartInstance || reorderCycleChartInstance || naiveVsModelDOrderChartInstance) {
+        const storeId = document.getElementById('forecast-store-select')?.value || '1';
+        loadCategoryForecastComparison(currentFcastCategory, storeId);
+      }
     };
-  })();
+    })();
   </script>
 
 </body>

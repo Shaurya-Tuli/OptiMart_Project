@@ -1,4 +1,4 @@
-# RULES.md — NEXPIRE Working Rules
+# RULES.md — OptiMart Working Rules
 
 These rules are **binding** for every contributor to this repository — human or AI agent. They exist
 because this project is being built under a short, phased timeline (see the Implementation Roadmap in

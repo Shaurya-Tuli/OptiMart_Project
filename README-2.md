@@ -1,8 +1,8 @@
-# NEXPIRE
+# OptiMart
 
 **Hyper-local food waste rescue platform — AI-driven dynamic markdown and real-time redistribution.**
 
-NEXPIRE integrates with grocery inventories to continuously evaluate batch expiration timelines
+OptiMart integrates with grocery inventories to continuously evaluate batch expiration timelines
 against real-time variables (weather, historical demand, foot traffic). Instead of static, calendar-based
 discounts, a machine learning engine computes the optimal markdown to liquidate stock efficiently. When
 a batch crosses a critical expiry threshold, the platform automatically triggers targeted B2B/B2C flash
@@ -10,7 +10,7 @@ sales via SMS and WhatsApp to nearby buyers and shelters — turning potential r
 resources before spoilage occurs.
 
 > For the full problem/market/ML/roadmap writeup this repo is built from, see the project playbook
-> (`NEXPIRE_Hackathon_Playbook.pdf`, shared alongside this repo).
+> (`OptiMart_Hackathon_Playbook.pdf`, shared alongside this repo).
 
 ---
 
@@ -58,7 +58,7 @@ Full rationale for each choice lives in [`ARCHITECTURE.md`](./ARCHITECTURE.md).
 ## Repository Structure
 
 ```
-nexpire/
+optimart/
 ├── backend/
 │   ├── app/                # FastAPI application
 │   │   ├── api/             # route modules (inventory, claims, payments, standing-orders)
@@ -91,7 +91,7 @@ nexpire/
 
 ```bash
 # 1. Clone and configure
-git clone <repo-url> nexpire && cd nexpire
+git clone <repo-url> optimart && cd optimart
 cp infra/.env.example infra/.env   # fill in Twilio / Stripe-Razorpay / weather API keys
 
 # 2. Boot the stack

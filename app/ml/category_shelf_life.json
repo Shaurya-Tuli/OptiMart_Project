@@ -1,5 +1,5 @@
 {
-  "_comment": "NEXPIRE Model A — Category Shelf-Life Baseline Lookup Table",
+  "_comment": "OptiMart Model A — Category Shelf-Life Baseline Lookup Table",
   "_note": "This is the single source of truth for urgency normalization. Edit here to add categories.",
   "_urgency_curve_types": {
     "linear_convex": "Used for short-shelf perishables. Urgency rises roughly linearly from day 0, with a slight convex acceleration in the final 20% of shelf life.",

@@ -1,5 +1,5 @@
 """
-discount_engine.py — NEXPIRE Single Source of Truth for Dynamic Discount Calculation
+discount_engine.py — OptiMart Single Source of Truth for Dynamic Discount Calculation
 =======================================================================================
 Calculates discount percentages continuously based on normalized risk_score, 
 hours_to_expiry, and product damage condition multipliers.
@@ -81,7 +81,7 @@ def calculate_discount(
 
 
 if __name__ == "__main__":
-    print("=== NEXPIRE Discount Engine Sanity Check ===")
+    print("=== OptiMart Discount Engine Sanity Check ===")
     print(f"Constants: MIN_DISCOUNT={MIN_DISCOUNT}%, MAX_DISCOUNT={MAX_DISCOUNT}%, CURVE_EXPONENT={CURVE_EXPONENT}\n")
     
     spread = [0.0, 0.1, 0.3, 0.5, 0.7, 0.9, 1.0]

@@ -1,1 +1,1 @@
-# NEXPIRE Test Suite
+# OptiMart Test Suite

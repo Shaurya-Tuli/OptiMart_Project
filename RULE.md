@@ -1,4 +1,4 @@
-# RULE.md — InvenSight working rules
+# RULE.md — OptiMart working rules
 
 These rules apply to every contributor — human or coding agent — working on this repository, across both the original liquidation/redistribution build (Phases 0-7) and the demand forecasting extension (Phases 8-13). Read this file before writing the first line of code in any session.
 

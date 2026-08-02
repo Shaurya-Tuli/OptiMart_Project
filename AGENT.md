@@ -9,7 +9,7 @@ wins — but flag the conflict rather than silently resolving it.
 
 ## 1. What this project is (one paragraph)
 
-NEXPIRE is a hyper-local food-waste rescue platform: a FastAPI backend scores grocery inventory
+OptiMart is a hyper-local food-waste rescue platform: a FastAPI backend scores grocery inventory
 batches against expiry timelines using a Scikit-Learn model informed by weather and demand data, picks
 an optimal markdown, and — when a threshold is crossed — triggers geofenced SMS/WhatsApp flash-sale
 alerts via Twilio to nearby consumers and NGOs. Claimants reserve (Redis TTL lock), pay (Stripe/

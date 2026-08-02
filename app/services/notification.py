@@ -95,9 +95,9 @@ class TwilioNotificationService:
         self, batch_id: int, recipients: List[str], channel: str = "sms"
     ) -> Dict[str, Any]:
         """Dispatches a flash-sale alert broadcast to a list of geofenced recipients."""
-        claim_url = f"https://nexpire.app/claim/batch-{batch_id}"
+        claim_url = f"https://optimart.app/claim/batch-{batch_id}"
         message_body = (
-            f"⚡ NEXPIRE FLASH SALE! Food batch #{batch_id} is on deep discount near you. "
+            f"⚡ OptiMart FLASH SALE! Food batch #{batch_id} is on deep discount near you. "
             f"Claim now before it expires: {claim_url} or reply 'YES' to claim."
         )
 

@@ -1,8 +1,8 @@
 # Architecture Decision Records (ADR)
 
-## ADR 001: Project Rebranding to NEXPIRE
-- **Context**: Project named ResQ-Chain renamed to NEXPIRE across codebase, configuration, and documentation.
-- **Decision**: Update all docker service names, environment variables, documentation, and API metadata to `NEXPIRE`.
+## ADR 001: Project Rebranding to OptiMart
+- **Context**: Project named ResQ-Chain renamed to OptiMart across codebase, configuration, and documentation.
+- **Decision**: Update all docker service names, environment variables, documentation, and API metadata to `OptiMart`.
 - **Status**: Implemented & Verified.
 
 ## ADR 010: Sales History & Synthetic Data Pipeline (Phase 8)
@@ -83,7 +83,7 @@
 - **Status**: Implemented & Verified.
 
 ## ADR 007: Multi-rail Payments (Stripe & Razorpay) (Phase 6)
-- **Context**: NEXPIRE operates across regions requiring regional payment gateway integration (Razorpay for India/INR, Stripe for North America & Global/USD) plus non-commercial bypass for food banks.
+- **Context**: OptiMart operates across regions requiring regional payment gateway integration (Razorpay for India/INR, Stripe for North America & Global/USD) plus non-commercial bypass for food banks.
 - **Decision**:
   - Unified checkout endpoint `POST /api/v1/payments/checkout-session` routing to Razorpay Orders API or Stripe Checkout Sessions based on request parameters/region.
   - Automatic payment bypass for claims flag `is_subsidized=True` — instantly transitions claim to `PAID` with `payment_ref="SUBSIDIZED_BYPASS"`.
@@ -126,3 +126,43 @@
   - Integrate a Customer Claim Modal (`#customer-claim-modal`) supporting self-pickup, delivery, or NGO Subsidized Bypass. Simulates Razorpay/Stripe payments by hitting the reservation (`POST /api/v1/claims`) and patch payment endpoints (`PATCH /api/v1/claims/{token}`) sequentially.
 - **Status**: Implemented & Verified.
 - **Source**: Original to this hackathon.
+
+## ADR 015: Retailer Category Intelligence View (Phase 15)
+- **Context**: The retailer needed an end-to-end synchronized picture of demand forecasting at the product category level, visual cycle markers (lead time vs. horizon), and a naive baseline comparison.
+- **Decision**:
+  - Implement a category-dashboard API (`/api/v1/category-dashboard`) delivering simulated category-wise inventory timeline flows (dips for consumption, replenishment spikes) and a three-series forecast comparison.
+  - Compute a 7-day rolling average naive baseline on the backend to match the existing model evaluation logic.
+  - Build two synchronized Chart.js graphs inside the Demand & Reorder tab: Current Inventory Timeline, and Forecast vs Naive Comparison.
+  - Implement inline canvas drawing plugins to render vertical cycle boundary lines for Order Placement (Day N), Replenishment Arrival (Day N+7), and Forecast Horizon (Day N+14) automatically.
+- **Status**: Implemented & Verified.
+- **Source**: Original to this hackathon.
+
+## ADR 016: Unified Demand Forecasting & Reorder Cycle View Layout
+- **Context**: The Retailer Portal's Demand Forecasting tab required a restructured, co-located layout containing two synchronized graphs driven by a single category selector so retailers experience one continuous decision-making view.
+- **Decision**:
+  - Implement a single, top-level shared category selector (`Milk`, `Bread`, `Veggies & Fruits`, `Meat`, `Snacks`, `Grains`) at the top of Tab 2 that drives both Graph A and Graph B simultaneously.
+  - **Graph A (Actual vs Naive Baseline vs Model D)**: Displays Actual Sales (solid green), 7-day Naive Baseline (dashed amber), and Model D Forecast (solid cyan) with a shaded `p10-p90` confidence band in the forecast window, vertical cycle markers (`Order Placed Day N`, `Lead Arrival Day N+7`, `Horizon End Day N+14`), and a dynamic caption displaying live Model D MAE improvement percentage (`[X]%`) pulled from stored training metrics.
+  - **Graph B (Recommended Order Quantity by Order Date)**: Positioned directly below Graph A, presenting a stacked bar chart over 7-day replenishment cycles (`Day N`, `Day N+7`, `Day N+14`, `Day N+21`) with visual breakdown of Base Predicted Demand + Safety Stock Buffer segment.
+- **Status**: Implemented & Verified.
+- **Source**: Original to this hackathon.
+
+## ADR 017: Naive vs Model D Order Quantity Business Impact Graph (Graph C)
+- **Context**: Retailers need to see the tangible business impact (avoided over-ordering/waste and under-ordering/stockouts) of Model D's order recommendations compared to a naive 7-day moving average order baseline across replenishment cycles.
+- **Decision**:
+  - Add **Graph C (Model D vs. Naive Recommended Order Quantities)** directly below Graph B in the Retailer Portal's Demand Forecasting tab, sharing the exact same top category filter (`Milk`, `Bread`, `Veggies & Fruits`, `Meat`, `Snacks`, `Grains`).
+  - Compute `naive_order_cycles` in `/api/v1/category-dashboard/forecast-comparison` using the exact `reorder_recommendation.py` formula (`max(0, int(round(predicted_demand + safety_stock - current_qty)))`), substituting the naive 7-day moving average demand as the input.
+  - Render a paired/grouped bar chart on the frontend comparing Naive Recommended Order Quantity (Amber bar) vs. Model D Recommended Order Quantity (Cyan bar) for each 7-day order date (`Order Placed Day N`, `Lead Arrival Day N+7`, `Horizon 2 Day N+14`, `Horizon 3 Day N+21`).
+  - Provide a dynamic delta breakdown per cycle pair (e.g. `+83 units vs Model D`) in the chart caption and tooltip to make over-order waste risk immediately visible.
+- **Status**: Implemented & Verified.
+- **Source**: Original to this hackathon.
+
+## ADR 018: Bifurcated Role-Aware AI Assistant (Retailer Copilot vs Customer Marketplace Assistant)
+- **Context**: The AI Assistant required dual-role intelligence to adapt its persona, intent recognition, and interaction capabilities based on whether the user is in Retailer mode or Customer mode.
+- **Decision**:
+  - Add optional `role: "retailer" | "customer"` parameter to `ChatRequest` schema and GET `/api/v1/assistant/deals`.
+  - **Retailer Copilot Mode**: Answers queries regarding Model D 7-day demand forecasting, $p10-p90$ confidence bands, actual sales history (`sales_history`), safety stock buffer formulas, and automated portal tab navigation.
+  - **Customer Mode**: Filters live discounted inventory, provides product cards with expiration countdowns, guides self-pickup/delivery claims, and answers food safety & payment FAQs.
+  - **Frontend UI Adaptation**: Dynamically updates assistant avatar (`📊` vs `🛒`), title, subtitle, input placeholder, and quick reply chips. Automatically executes tab switches (`forecast-tab`, `inv-timeline-tab`, `discount-sim-tab`, `claims-management-tab`, `notifications-tab`) when navigation actions are triggered.
+- **Status**: Implemented & Verified.
+- **Source**: Original to this hackathon.
+

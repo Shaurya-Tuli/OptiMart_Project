@@ -1,5 +1,5 @@
 """
-urgency.py — NEXPIRE Model A
+urgency.py — OptiMart Model A
 =============================
 Category-relative urgency normalization.
 
@@ -229,7 +229,7 @@ def _run_tests() -> None:
             print(f"  PASS [{label}]")
 
     lookup = load_shelf_life_lookup()
-    print("\n=== NEXPIRE urgency.py unit tests ===\n")
+    print("\n=== OptiMart urgency.py unit tests ===\n")
 
     # -----------------------------------------------------------------------
     # Test 1 — Perfume at 60 days left: urgency should be near 0

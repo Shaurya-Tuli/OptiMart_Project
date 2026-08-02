@@ -19,6 +19,7 @@ from app.api.assistant import router as assistant_router
 from app.api.sales_history import router as sales_history_router
 from app.api.forecasting import router as forecasting_router
 from app.api.forecast_routes import router as forecast_recommendation_router
+from app.api.category_dashboard import router as category_dashboard_router
 from app.ml.predictor import get_predictor
 from app.ml.forecaster import get_forecaster
 
@@ -40,7 +41,7 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI(title="NEXPIRE API", version="0.1.0", lifespan=lifespan)
+app = FastAPI(title="OptiMart API", version="0.1.0", lifespan=lifespan)
 
 # Register API Routers
 app.include_router(stores_router)
@@ -55,6 +56,7 @@ app.include_router(assistant_router)
 app.include_router(sales_history_router)
 app.include_router(forecasting_router)
 app.include_router(forecast_recommendation_router)
+app.include_router(category_dashboard_router)
 
 
 
@@ -68,7 +70,11 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 @app.get("/")
 def root():
-    return FileResponse("app/static/index.html")
+    response = FileResponse("app/static/index.html")
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
 
 
 @app.get("/claim/new")

@@ -1,11 +1,11 @@
-# NEXPIRE — Extended Demo Script (Ch. 14.1)
+# OptiMart — Extended Demo Script (Ch. 14.1)
 **Phase 13 deliverable | ~5–5.5 minutes total**
 
 ---
 
 ## The One-Sentence Opener
 
-> *"InvenSight predicts what to order, watches what's at risk, and rescues what would otherwise be lost — one system, one data flow."*
+> *"OptiMart predicts what to order, watches what's at risk, and rescues what would otherwise be lost — one system, one data flow."*
 
 Open on the **loop diagram** (the closed-loop architecture diagram in the dashboard or slide). Hold it for 15 seconds. Let it read. Do not click anything yet.
 
@@ -18,7 +18,7 @@ Open on the **loop diagram** (the closed-loop architecture diagram in the dashbo
 **Action:** Display the closed-loop architecture.
 
 **Narration:**
-> "Before I show you any numbers, I want you to see the structure. InvenSight is two models that talk to each other. On the left: **Model D** — it reads our sales history and forecasts demand seven days forward per SKU. On the right: **Model A** — it watches expiry risk and sets optimal markdown prices. The connection between them is the point: when Model D flags that a SKU is selling slower than forecast, Model A automatically triggers an earlier, deeper discount. That's the loop. Everything you're about to see is one system."
+> "Before I show you any numbers, I want you to see the structure. OptiMart is two models that talk to each other. On the left: **Model D** — it reads our sales history and forecasts demand seven days forward per SKU. On the right: **Model A** — it watches expiry risk and sets optimal markdown prices. The connection between them is the point: when Model D flags that a SKU is selling slower than forecast, Model A automatically triggers an earlier, deeper discount. That's the loop. Everything you're about to see is one system."
 
 ---
 
@@ -109,6 +109,6 @@ Open on the **loop diagram** (the closed-loop architecture diagram in the dashbo
 ## Backup Recording Plan
 
 - **Before the demo day:** Record a full 5.5-minute screen-capture walkthrough with narration using the seeded data.
-- **Seeded state to lock in:** Ensure `docker exec nexpire-api python scripts/seed.py` re-creates reproducible store/batch/sales data before recording.
+- **Seeded state to lock in:** Ensure `docker exec optimart-api python scripts/seed.py` re-creates reproducible store/batch/sales data before recording.
 - **Fallback trigger:** If live demo fails (network, Docker, DB), switch to the recording immediately. Do not attempt a re-run mid-presentation.
 - **File storage:** Keep the recording in two locations (local + cloud) before the event.

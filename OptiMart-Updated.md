@@ -1,9 +1,9 @@
-# 📋 NEXPIRE — Updated Project Write-Up
+# 📋 OptiMart — Updated Project Write-Up
 
 ## The 60-Second Elevator Pitch
 
 > "Every single day, grocery stores, distribution centers, and restaurants throw away millions of tons of perfectly good food simply because it is approaching an expiration date or weather changes drop foot traffic.
-> **NEXPIRE** solves this by converting potential financial losses and environmental waste into an automated, real-time marketplace. It uses an embedded machine learning engine to monitor store inventories, predict how fast food will spoil based on external variables like weather, dynamically slash prices to an optimized point, and automatically broadcast instant SMS and WhatsApp flash sales to local buyers and shelters within a geo-fenced radius. Users pay securely through the claim link and choose to pick the item up themselves or have it delivered — while shelters and NGOs receive it free, subsidized by consumer payments. We don't just track waste; we eliminate it programmatically, sustainably, and as frictionlessly as replying 'YES' to a text."
+> **OptiMart** solves this by converting potential financial losses and environmental waste into an automated, real-time marketplace. It uses an embedded machine learning engine to monitor store inventories, predict how fast food will spoil based on external variables like weather, dynamically slash prices to an optimized point, and automatically broadcast instant SMS and WhatsApp flash sales to local buyers and shelters within a geo-fenced radius. Users pay securely through the claim link and choose to pick the item up themselves or have it delivered — while shelters and NGOs receive it free, subsidized by consumer payments. We don't just track waste; we eliminate it programmatically, sustainably, and as frictionlessly as replying 'YES' to a text."
 
 ---
 

@@ -1,4 +1,4 @@
-# NEXPIRE Synthetic Dataset — Data Dictionary
+# OptiMart Synthetic Dataset — Data Dictionary
 
 > **Currency**: All monetary values are in Indian Rupees (INR / ₹).  
 > **Dates**: ISO 8601 format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS).  

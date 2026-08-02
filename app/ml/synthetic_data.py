@@ -1,5 +1,5 @@
 """
-synthetic_data.py — NEXPIRE Model A
+synthetic_data.py — OptiMart Model A
 =====================================
 Synthetic training data generator.
 
@@ -209,7 +209,7 @@ def generate_synthetic_dataset(
     holiday_dates: Optional[List[str]] = None,
 ) -> pd.DataFrame:
     """
-    Generate a synthetic training dataset for the NEXPIRE pricing model.
+    Generate a synthetic training dataset for the OptiMart pricing model.
 
     !! THIS IS SYNTHETIC DATA — NOT REAL RETAILER DATA !!
 

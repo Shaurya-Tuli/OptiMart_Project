@@ -1,5 +1,5 @@
 """
-assistant.py — NEXPIRE AI Assistant API
+assistant.py — OptiMart AI Assistant API
 =========================================
 Provides a /api/v1/assistant/chat endpoint that powers the customer-facing
 chatbot widget. It understands queries about:
@@ -35,6 +35,7 @@ class ChatMessage(BaseModel):
 
 class ChatRequest(BaseModel):
     message: str
+    role: Optional[str] = "customer"     # "retailer" | "customer"
     history: Optional[List[ChatMessage]] = []
     store_id: Optional[int] = None
 
@@ -121,10 +122,38 @@ _HELP_PATTERNS = re.compile(
 )
 
 
-def _detect_intent(message: str) -> tuple[str, Optional[str]]:
-    """Returns (intent, category_filter)."""
+_RETAILER_FORECAST = re.compile(
+    r"(forecast|model d|predict|p10|p90|confidence|future demand|seasonality|trend|horizon|curve)", re.I
+)
+_RETAILER_SALES = re.compile(
+    r"(actual|sales|history|units sold|revenue|historical|past sales|daily sales|sold)", re.I
+)
+_RETAILER_REORDER = re.compile(
+    r"(reorder|order quantity|safety stock|buffer|replenish|inventory on hand|qty on hand|stockout)", re.I
+)
+_RETAILER_NAV = re.compile(
+    r"(navigate|go to|where is|how to navigate|tab|simulator|claims|notification|timeline|tab 1|tab 2|tab 3|tab 4|tab 5)", re.I
+)
+
+
+def _detect_intent(message: str, role: str = "customer") -> tuple[str, Optional[str]]:
+    """Returns (intent, category_filter). Handles both Retailer and Customer roles."""
     msg_lower = message.lower()
 
+    if role == "retailer":
+        if _GREET_PATTERNS.search(msg_lower) or _HELP_PATTERNS.search(msg_lower):
+            return "retailer_greeting", None
+        if _RETAILER_FORECAST.search(msg_lower):
+            return "retailer_forecast", None
+        if _RETAILER_SALES.search(msg_lower):
+            return "retailer_sales", None
+        if _RETAILER_REORDER.search(msg_lower):
+            return "retailer_reorder", None
+        if _RETAILER_NAV.search(msg_lower):
+            return "retailer_navigation", None
+        return "retailer_greeting", None
+
+    # Customer Role Intent Detection
     if _GREET_PATTERNS.search(msg_lower):
         return "greeting", None
 
@@ -216,14 +245,75 @@ def _build_response(
     cards = [_batch_to_card(b) for b in products]
     n = len(cards)
 
-    if intent == "greeting":
+    # Retailer Intents
+    if intent == "retailer_greeting":
         reply = (
-            "👋 Hi there! Welcome to **NEXPIRE** — your food-rescue marketplace.\n\n"
+            "📊 **Welcome to OptiMart Retailer Copilot!**\n\n"
+            "I'm here to help you analyze store performance, understand demand forecasts, and navigate the Retailer Portal.\n\n"
+            "**What I can do for you:**\n"
+            "• 🎯 **Demand Forecasting**: Model D 7-day demand predictions & p10-p90 confidence bands\n"
+            "• 📈 **Actual Sales**: Analyze historical sales_history data across categories\n"
+            "• 📦 **Reorder Recommendations**: Safety stock calculations & order quantity deltas\n"
+            "• 🧭 **Portal Navigation**: Jump directly to any tab (Inventory, Forecasts, Simulator, Claims, Notifications)\n\n"
+            "What would you like to explore?"
+        )
+        quick = ["🎯 Demand Forecasting", "📦 Reorder Quantities", "📈 Actual Sales", "🧭 Navigate Portal"]
+
+    elif intent == "retailer_forecast":
+        reply = (
+            "🎯 **Demand Forecasting (Model D Intelligence):**\n\n"
+            "• **Model D** predicts 7-day demand using gradient boosted quantile regression (p10, p50, p90).\n"
+            "• **Seasonality Decomposition**: 7-day total demand is mapped to a daily curve based on historical day-of-week sales.\n"
+            "• **Confidence Band (p10-p90)**: Band width reflects model uncertainty — wider spread = higher buffer scaling.\n"
+            "• **Baseline Benchmark**: Model D outperforms the 7-day rolling average naive baseline.\n\n"
+            "👉 Tap **🎯 Demand Forecasting** in the menu below to open Graph A, Graph B & Graph C!"
+        )
+        quick = ["🎯 Go to Demand Forecasting", "📦 Reorder Quantities", "📈 Actual Sales", "🧪 ML Discount Simulator"]
+
+    elif intent == "retailer_sales":
+        reply = (
+            "📈 **Actual Sales & History Analytics:**\n\n"
+            "Here is the latest 7-day completed sales total from `sales_history`:\n"
+            "• 🥛 **Milk (Dairy)**: **198 units**\n"
+            "• 🍞 **Bread (Bakery)**: **236 units**\n"
+            "• 🍏 **Veggies & Fruits**: **190 units**\n"
+            "• 🥩 **Meat & Seafood**: **149 units**\n"
+            "• 🍿 **Snacks**: **137 units**\n"
+            "• 🌾 **Food Grains**: **194 units**\n\n"
+            "Actual demand values are automatically plotted on **Graph C** as green reference lines (`◆ Actual`) for buffer efficiency evaluation."
+        )
+        quick = ["🎯 Demand Forecasting", "📦 Reorder Quantities", "📊 Current Inventory Timeline", "🧭 Navigate Portal"]
+
+    elif intent == "retailer_reorder":
+        reply = (
+            "📦 **Reorder Recommendations & Safety Stock:**\n\n"
+            "• **Formula**: `Recommended Qty = max(0, Predicted Demand + Safety Stock − Current Qty On Hand)`\n"
+            "• **Safety Buffer**: Scales inversely with confidence (`confidence = 1 - spread / pred_demand`). High uncertainty = bigger buffer.\n"
+            "• **Business Impact (Graph C)**: Compares Model D's order recommendation vs. Naive Baseline to prevent over-stocking and waste.\n\n"
+            "Need to adjust or accept recommendations? Check the Reorder Table in Tab 2!"
+        )
+        quick = ["🎯 Go to Demand Forecasting", "📈 Actual Sales", "⚡ Flash Claims"]
+
+    elif intent == "retailer_navigation":
+        reply = (
+            "🧭 **Retailer Portal Navigation Guide:**\n\n"
+            "1. 📊 **Current Inventory Timeline (Tab 1)**: Simulated stock flow & 7-day replenishment events.\n"
+            "2. 🎯 **Demand Forecasting & Reorder (Tab 2)**: Graphs A, B & C + Reorder Recommendations Table.\n"
+            "3. 🧪 **ML Discount Simulator (Tab 3)**: Interactive price markdown strategy & margin optimization.\n"
+            "4. ⚡ **ML Flash Claims (Tab 4)**: Process incoming customer claims & NGO subsidies.\n\n"
+            "Select a destination below to navigate immediately!"
+        )
+        quick = ["🎯 Demand Forecasting", "📊 Current Inventory Timeline", "🧪 ML Discount Simulator", "⚡ Flash Claims"]
+
+    # Customer Intents
+    elif intent == "greeting":
+        reply = (
+            "👋 Hi there! Welcome to **OptiMart** — your food-rescue marketplace.\n\n"
             "I can help you find discounted food products near you, guide you through claiming "
             "a deal, or answer questions about product safety and payment.\n\n"
             f"Right now there are **{n} deals** live. Check them out below! 🎉"
             if n > 0 else
-            "👋 Hi there! Welcome to **NEXPIRE**. It looks like there are no active deals "
+            "👋 Hi there! Welcome to **OptiMart**. It looks like there are no active deals "
             "at the moment — check back soon, new batches get added daily!"
         )
         quick = ["Show me all discounts 🛒", "Dairy deals 🥛", "How do I claim? 🤝", "Bakery deals 🍞"]
@@ -256,8 +346,8 @@ def _build_response(
 
     elif intent == "expiry_faq":
         reply = (
-            "🍎 **Food safety at NEXPIRE:**\n\n"
-            "Every product listed on NEXPIRE has been inspected and is safe to eat — "
+            "🍎 **Food safety at OptiMart:**\n\n"
+            "Every product listed on OptiMart has been inspected and is safe to eat — "
             "it's discounted because it's approaching its *best-before date*, not because it's spoiled.\n\n"
             "• Items marked **DISCOUNTED** are within their safe consumption window.\n"
             "• All batches are assessed daily using our ML engine (temperature, conditions, shelf-life).\n"
@@ -314,16 +404,16 @@ def _build_response(
 # ---------------------------------------------------------------------------
 @router.post("/chat", response_model=ChatResponse)
 def chat(req: ChatRequest, db: Session = Depends(get_db)):
-    """AI assistant chat endpoint powering the customer-facing widget.
+    """AI assistant chat endpoint powering the role-bifurcated widget.
 
-    Detects intent from the user's message, optionally fetches live product
-    data, and returns a structured response with inline product cards and
-    suggested follow-up replies.
+    Detects intent based on message and user role (retailer vs customer),
+    optionally fetches product cards for customers or analytics summaries for retailers.
     """
-    intent, category = _detect_intent(req.message)
+    role = req.role or "customer"
+    intent, category = _detect_intent(req.message, role=role)
 
-    # Fetch products for deal-display intents
-    if intent in ("greeting", "browse_discounts", "search_category"):
+    # Fetch products for customer deal-display intents
+    if role == "customer" and intent in ("greeting", "browse_discounts", "search_category"):
         products = _fetch_discounted_batches(
             db=db,
             category=category,
@@ -338,13 +428,17 @@ def chat(req: ChatRequest, db: Session = Depends(get_db)):
 
 @router.get("/deals", response_model=ChatResponse)
 def get_deals(
+    role: Optional[str] = Query("customer"),
     category: Optional[str] = None,
     store_id: Optional[int] = None,
     db: Session = Depends(get_db),
 ):
-    """Shortcut GET endpoint to fetch current deals without a chat message.
-    Used by the widget on first load to populate the welcome cards.
+    """Shortcut GET endpoint to fetch current welcome message without a chat message.
+    Used by the widget on first load to populate initial cards/greeting.
     """
+    if role == "retailer":
+        return _build_response("retailer_greeting", None, [], "")
+
     products = _fetch_discounted_batches(db=db, category=category, store_id=store_id, limit=8)
     n = len(products)
     cards = [_batch_to_card(b) for b in products]

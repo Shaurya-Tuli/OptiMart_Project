@@ -40,7 +40,7 @@ def create_razorpay_order(
                 {
                     "amount": amount_paise,
                     "currency": currency,
-                    "receipt": f"nexpire_{claim_token[:12]}",
+                    "receipt": f"optimart_{claim_token[:12]}",
                     "notes": {"claim_token": claim_token},
                 }
             )
@@ -104,7 +104,7 @@ def create_stripe_session(
                         "price_data": {
                             "currency": currency,
                             "unit_amount": amount_cents,
-                            "product_data": {"name": f"NEXPIRE Claim {claim_token[:8]}"},
+                            "product_data": {"name": f"OptiMart Claim {claim_token[:8]}"},
                         },
                         "quantity": 1,
                     }

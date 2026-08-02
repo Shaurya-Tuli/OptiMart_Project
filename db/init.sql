@@ -1,4 +1,4 @@
--- NEXPIRE Database Initialization Script
+-- OptiMart Database Initialization Script
 
 CREATE EXTENSION IF NOT EXISTS postgis;
 

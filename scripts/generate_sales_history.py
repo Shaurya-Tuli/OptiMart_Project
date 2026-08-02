@@ -1,5 +1,5 @@
 """
-Generates synthetic sales history data for InvenSight (Demand Forecasting Extension Volume II - Phase 8).
+Generates synthetic sales history data for OptiMart (Demand Forecasting Extension Volume II - Phase 8).
 Populates the `sales_history` table with 12 to 24 weeks of daily sales records per store/SKU,
 incorporating day-of-week seasonality, promotion spikes, and stockout events.
 """

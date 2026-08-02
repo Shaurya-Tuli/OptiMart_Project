@@ -1,6 +1,6 @@
-# NEXPIRE AI Pricing & Markdown Engine Formulas
+# OptiMart AI Pricing & Markdown Engine Formulas
 
-This document lists the primary mathematical formulas and logic used by the machine learning dynamic discounting engine in NEXPIRE.
+This document lists the primary mathematical formulas and logic used by the machine learning dynamic discounting engine in OptiMart.
 
 ---
 

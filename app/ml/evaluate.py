@@ -1,5 +1,5 @@
 """
-evaluate.py — NEXPIRE Model A
+evaluate.py — OptiMart Model A
 ================================
 Evaluation report on the held-out time window (most recent 20% of data).
 
@@ -76,7 +76,7 @@ def evaluate(
     """
     if verbose:
         print(f"\n{'='*60}")
-        print("NEXPIRE Model A — Evaluation Report")
+        print("OptiMart Model A — Evaluation Report")
         print(f"{'='*60}")
 
     # --- Load held-out data ---

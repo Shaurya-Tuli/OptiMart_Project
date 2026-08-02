@@ -1,5 +1,5 @@
 """
-trainer.py — NEXPIRE Model A (V2)
+trainer.py — OptiMart Model A (V2)
 ====================================
 Thin wrapper around train_model.py that preserves the existing import interface
 used by predictor.py and the FastAPI route.

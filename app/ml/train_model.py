@@ -1,5 +1,5 @@
 """
-train_model.py — NEXPIRE Model A
+train_model.py — OptiMart Model A
 ==================================
 Trains the pricing ML model on synthetic (or real) data.
 
@@ -164,7 +164,7 @@ def train(
 
     if verbose:
         print(f"\n{'='*60}")
-        print("NEXPIRE Model A — Training Pipeline")
+        print("OptiMart Model A — Training Pipeline")
         print(f"{'='*60}")
         print("!! Training data is SYNTHETIC — not real retailer data !!")
         print(f"Generating {num_samples:,} synthetic samples...")

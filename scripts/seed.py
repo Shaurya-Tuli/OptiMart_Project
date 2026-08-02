@@ -169,7 +169,7 @@ def run():
                         (batch_id, claim_token, reserver_phone, reserver_email,
                          reserved_quantity, fulfillment_type, status, is_subsidized, created_at, updated_at)
                     VALUES
-                        (:batch_id, :token, '+919876543210', 'consumer@nexpire.app',
+                        (:batch_id, :token, '+919876543210', 'consumer@optimart.app',
                          :qty, 'pickup', :status, FALSE, NOW(), NOW())
                     """
                 ),

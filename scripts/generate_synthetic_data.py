@@ -2,10 +2,10 @@
 """
 generate_synthetic_data.py
 ==========================
-NEXPIRE Synthetic Dataset Generator — Indian Market Edition
+OptiMart Synthetic Dataset Generator — Indian Market Edition
 
 Generates a complete, reproducible synthetic dataset for training and demoing
-the NEXPIRE AI food-waste rescue platform, grounded in Indian grocery market
+the OptiMart AI food-waste rescue platform, grounded in Indian grocery market
 realities (INR pricing, Indian cities, Indian festivals, etc.).
 
 Category / price-range reference:
@@ -21,7 +21,7 @@ All outputs land in:
     output/full_dataset/       — full training corpus
     output/seed_demo_subset/   — 1-store, ~20 SKU, 2-week slice for live demo
 
-Author: NEXPIRE Team
+Author: OptiMart Team
 Seed: 42 (fixed throughout for reproducibility)
 """
 
@@ -1039,7 +1039,7 @@ def make_demo_subset(stores, products, batches, sales, weather_hist,
 # DATA DICTIONARY
 # ─────────────────────────────────────────────────────────────────────────────
 
-DATA_DICTIONARY = """# NEXPIRE Synthetic Dataset — Data Dictionary
+DATA_DICTIONARY = """# OptiMart Synthetic Dataset — Data Dictionary
 
 > **Currency**: All monetary values are in Indian Rupees (INR / ₹).  
 > **Dates**: ISO 8601 format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS).  
@@ -1240,7 +1240,7 @@ def main():
     import sys
     sys.stdout.reconfigure(encoding='utf-8')
     print("=" * 65)
-    print("  NEXPIRE Synthetic Dataset Generator - Indian Market Edition")
+    print("  OptiMart Synthetic Dataset Generator - Indian Market Edition")
     print(f"  Seed: {SEED}  |  History: {SIM_START_DATE} -> {SIM_END_DATE}")
     print("=" * 65)
 

@@ -1,5 +1,5 @@
 """
-price_engine.py — NEXPIRE Model A
+price_engine.py — OptiMart Model A
 ====================================
 The core discount-selection engine.
 

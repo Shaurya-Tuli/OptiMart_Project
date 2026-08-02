@@ -1,4 +1,4 @@
-# NEXPIRE Model A — Pricing Model Notes
+# OptiMart Model A — Pricing Model Notes
 
 > **Audience:** Hackathon judges, investors, technical reviewers.  
 > **Purpose:** Plain-English explanation of how the ML pricing engine works and why it was built this way.
@@ -17,7 +17,7 @@ Most food-waste reduction systems answer the question "how much should we discou
 
 Feeding raw `days_to_expiry` into a pricing model trains it to believe that 2 days is always an emergency. It isn't. The model learns a completely wrong signal.
 
-**NEXPIRE's solution: category-relative urgency normalization.**
+**OptiMart's solution: category-relative urgency normalization.**
 
 ---
 
@@ -141,4 +141,4 @@ For unknown categories or SKUs with no history, we fall back to a category-level
 
 ---
 
-*NEXPIRE — AI Food-Waste Rescue Platform | Model A Documentation*
+*OptiMart — AI Food-Waste Rescue Platform | Model A Documentation*
