@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OptiMart — Claim Your Deal</title>
+  <meta name="description" content="Claim your flash-sale food rescue deal. Lock in the discounted price before it expires.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #0b0f19;
+      --accent-green: #10b981;
+      --accent-green-glow: rgba(16,185,129,0.3);
+      --accent-cyan: #06b6d4;
+      --accent-rose: #f43f5e;
+      --accent-amber: #f59e0b;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --bg-card: rgba(18,26,43,0.85);
+      --bg-card-border: rgba(255,255,255,0.09);
+      --font-main: 'Outfit', sans-serif;
+      --font-code: 'Space Grotesk', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: radial-gradient(circle at 20% 20%, #0d1527 0%, #070a12 100%);
+      color: var(--text-main);
+      font-family: var(--font-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      overflow-x: hidden;
+    }
+
+    /* Ambient orbs */
+    .orb { position: fixed; border-radius: 50%; filter: blur(100px); pointer-events: none; z-index: 0; }
+    .orb-1 { top: -10%; left: 10%; width: 400px; height: 400px; background: rgba(16,185,129,0.12); }
+    .orb-2 { bottom: 0; right: 0; width: 500px; height: 500px; background: rgba(6,182,212,0.09); }
+
+    .page-wrap {
+      position: relative; z-index: 10;
+      width: 100%; max-width: 480px;
+    }
+
+    /* Brand header */
+    .brand {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-bottom: 2rem; justify-content: center;
+    }
+    .brand-logo {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--accent-green), var(--accent-cyan));
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 24px var(--accent-green-glow);
+    }
+    .brand-title {
+      font-family: var(--font-code); font-size: 1.6rem; font-weight: 700;
+      background: linear-gradient(90deg, #fff, #a7f3d0);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    /* Main claim card */
+    .claim-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(24px);
+      border: 1px solid var(--bg-card-border);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 16px 60px rgba(0,0,0,0.5);
+    }
+
+    .claim-state { display: none; }
+    .claim-state.active { display: block; }
+
+    /* Loading state */
+    .spinner-wrap {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 1rem; padding: 3rem 0;
+    }
+    .spinner {
+      width: 48px; height: 48px;
+      border: 3px solid rgba(255,255,255,0.1);
+      border-top-color: var(--accent-green);
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Live deal badge */
+    .live-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: rgba(244,63,94,0.15); border: 1px solid rgba(244,63,94,0.3);
+      color: var(--accent-rose); font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px;
+      padding: 0.3rem 0.75rem; border-radius: 9999px;
+      margin-bottom: 1rem;
+    }
+    .live-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent-rose);
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .deal-product-name {
+      font-size: 1.45rem; font-weight: 700; line-height: 1.25;
+      margin-bottom: 0.3rem;
+    }
+    .deal-store {
+      font-size: 0.88rem; color: var(--text-muted);
+      display: flex; align-items: center; gap: 0.35rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Price block */
+    .price-block {
+      background: rgba(10,15,28,0.7);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px; padding: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .price-row {
+      display: flex; justify-content: space-between; align-items: flex-end;
+    }
+    .price-orig {
+      font-size: 0.9rem; color: var(--text-muted);
+      text-decoration: line-through;
+      font-family: var(--font-code);
+    }
+    .price-current {
+      font-family: var(--font-code); font-size: 2.6rem; font-weight: 700;
+      color: var(--accent-green); line-height: 1;
+    }
+    .price-badge {
+      background: rgba(16,185,129,0.2); color: var(--accent-green);
+      border: 1px solid rgba(16,185,129,0.35);
+      font-size: 0.85rem; font-weight: 700;
+      padding: 0.3rem 0.7rem; border-radius: 8px;
+    }
+    .price-meta {
+      margin-top: 0.75rem; padding-top: 0.75rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex; gap: 1rem; font-size: 0.82rem; color: var(--text-muted);
+    }
+    .price-meta-item { display: flex; align-items: center; gap: 0.3rem; }
+
+    /* Expiry urgency */
+    .expiry-bar-wrap { margin-bottom: 1.5rem; }
+    .expiry-label {
+      display: flex; justify-content: space-between;
+      font-size: 0.82rem; margin-bottom: 0.4rem;
+    }
+    .expiry-bar-bg {
+      height: 6px; background: rgba(255,255,255,0.07);
+      border-radius: 9999px; overflow: hidden;
+    }
+    .expiry-bar-fill {
+      height: 100%; border-radius: 9999px;
+      transition: width 1s ease;
+    }
+
+    /* Fulfillment choice */
+    .section-label {
+      font-size: 0.78rem; font-weight: 600; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.8px;
+      margin-bottom: 0.75rem;
+    }
+    .fulfillment-options {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0.75rem; margin-bottom: 1.5rem;
+    }
+    .fulfillment-btn {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--bg-card-border);
+      border-radius: 12px; padding: 1rem 0.75rem;
+      cursor: pointer; text-align: center;
+      transition: all 0.2s ease;
+      color: var(--text-muted); font-family: var(--font-main);
+    }
+    .fulfillment-btn:hover {
+      border-color: rgba(16,185,129,0.3);
+      background: rgba(16,185,129,0.07);
+      color: var(--text-main);
+    }
+    .fulfillment-btn.selected {
+      border-color: var(--accent-green);
+      background: rgba(16,185,129,0.12);
+      color: var(--accent-green);
+    }
+    .fulfillment-btn svg { width: 22px; height: 22px; margin-bottom: 0.4rem; display: block; margin-left: auto; margin-right: auto; }
+    .fulfillment-btn .ft-label { font-size: 0.88rem; font-weight: 600; }
+    .fulfillment-btn .ft-sub { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+    /* Contact form */
+    .form-row { margin-bottom: 1rem; }
+    .form-label {
+      display: block; font-size: 0.8rem; font-weight: 500;
+      color: var(--text-muted); margin-bottom: 0.35rem;
+    }
+    .form-input {
+      width: 100%; padding: 0.75rem 1rem;
+      background: rgba(10,15,28,0.8);
+      border: 1px solid var(--bg-card-border);
+      border-radius: 10px; color: var(--text-main);
+      font-family: var(--font-main); font-size: 0.92rem;
+      transition: border 0.2s;
+    }
+    .form-input:focus {
+      outline: none; border-color: var(--accent-green);
+      box-shadow: 0 0 10px var(--accent-green-glow);
+    }
+
+    /* CTA button */
+    .btn-claim {
+      width: 100%; padding: 1.1rem;
+      background: linear-gradient(135deg, var(--accent-green), #0ea5e9);
+      color: #fff; border: none; border-radius: 12px;
+      font-family: var(--font-main); font-size: 1.05rem; font-weight: 700;
+      cursor: pointer; letter-spacing: 0.3px;
+      box-shadow: 0 6px 24px var(--accent-green-glow);
+      transition: all 0.25s ease;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    }
+    .btn-claim:hover { transform: translateY(-2px); box-shadow: 0 10px 30px var(--accent-green-glow); }
+    .btn-claim:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* Razorpay pay button */
+    .btn-pay {
+      width: 100%; padding: 1.15rem;
+      background: linear-gradient(135deg, #1a56db, #6c3bfa);
+      color: #fff; border: none; border-radius: 12px;
+      font-family: var(--font-main); font-size: 1.1rem; font-weight: 700;
+      cursor: pointer; letter-spacing: 0.3px;
+      box-shadow: 0 6px 28px rgba(108,59,250,0.35);
+      transition: all 0.25s ease;
+      display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+    .btn-pay:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(108,59,250,0.5); }
+    .btn-pay:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .rzp-badge {
+      display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+      font-size: 0.75rem; color: var(--text-muted); margin-top: 0.6rem;
+    }
+    .rzp-badge svg { width: 14px; height: 14px; }
+
+    /* TTL timer */
+    .ttl-notice {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.25);
+      border-radius: 10px; padding: 0.75rem 1rem;
+      font-size: 0.82rem; color: var(--accent-amber);
+      margin-bottom: 1.25rem;
+    }
+
+    /* Confirmed state */
+    .confirm-icon {
+      width: 72px; height: 72px;
+      background: linear-gradient(135deg, rgba(16,185,129,0.2), rgba(6,182,212,0.2));
+      border: 2px solid var(--accent-green);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.25rem;
+    }
+    .confirm-title {
+      font-size: 1.6rem; font-weight: 700; text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    .confirm-sub {
+      text-align: center; color: var(--text-muted); font-size: 0.9rem;
+      margin-bottom: 1.75rem;
+    }
+    .confirm-detail-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.88rem;
+    }
+    .confirm-detail-row:last-child { border-bottom: none; }
+    .confirm-detail-row .lbl { color: var(--text-muted); }
+    .confirm-detail-row .val { font-weight: 600; font-family: var(--font-code); }
+    .token-box {
+      background: rgba(10,15,28,0.9);
+      border: 1px solid rgba(16,185,129,0.3);
+      border-radius: 10px; padding: 0.9rem;
+      font-family: var(--font-code); font-size: 0.92rem;
+      color: var(--accent-green); word-break: break-all;
+      margin: 1.25rem 0; text-align: center;
+    }
+    .eco-pill {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2);
+      border-radius: 10px; padding: 0.75rem 1rem;
+      font-size: 0.82rem; color: var(--accent-green);
+      margin-top: 1rem;
+    }
+
+    /* Error state */
+    .error-icon {
+      width: 64px; height: 64px;
+      background: rgba(244,63,94,0.15); border: 2px solid var(--accent-rose);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.25rem;
+    }
+
+    /* Trust strip */
+    .trust-strip {
+      display: flex; justify-content: center; gap: 1.5rem;
+      margin-top: 1.5rem; flex-wrap: wrap;
+    }
+    .trust-item {
+      display: flex; align-items: center; gap: 0.4rem;
+      font-size: 0.78rem; color: var(--text-muted);
+    }
+    .trust-item svg { width: 13px; height: 13px; color: var(--accent-green); }
+
+    /* Qty selector */
+    .qty-row {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .qty-btn {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: rgba(255,255,255,0.07); border: 1px solid var(--bg-card-border);
+      color: var(--text-main); font-size: 1.2rem;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s;
+    }
+    .qty-btn:hover { background: rgba(255,255,255,0.12); }
+    .qty-display {
+      font-family: var(--font-code); font-size: 1.4rem; font-weight: 700;
+      min-width: 40px; text-align: center;
+    }
+    .qty-label { font-size: 0.82rem; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <div class="page-wrap">
+    <div class="brand">
+      <div class="brand-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" width="22" height="22">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/>
+        </svg>
+      </div>
+      <span class="brand-title">OptiMart</span>
+    </div>
+
+    <div class="claim-card">
+
+      <!-- LOADING -->
+      <div id="state-loading" class="claim-state active">
+        <div class="spinner-wrap">
+          <div class="spinner"></div>
+          <div style="color:var(--text-muted); font-size:0.9rem;">Fetching your deal...</div>
+        </div>
+      </div>
+
+      <!-- CLAIM FORM -->
+      <div id="state-claim" class="claim-state">
+        <div class="live-badge">
+          <div class="live-dot"></div>
+          Flash Sale · Limited Stock
+        </div>
+
+        <div class="deal-product-name" id="c-product-name">—</div>
+        <div class="deal-store">
+          <i data-lucide="map-pin" style="width:14px;height:14px;color:var(--accent-cyan);flex-shrink:0;"></i>
+          <span id="c-store-name">—</span>
+        </div>
+
+        <!-- Price block -->
+        <div class="price-block">
+          <div class="price-row">
+            <div>
+              <div class="price-orig" id="c-orig-price">₹—</div>
+              <div class="price-current" id="c-curr-price">₹—</div>
+            </div>
+            <div>
+              <div class="price-badge" id="c-discount-badge">—% OFF</div>
+            </div>
+          </div>
+          <div class="price-meta">
+            <div class="price-meta-item">
+              <i data-lucide="package" style="width:13px;height:13px;"></i>
+              <span id="c-qty-left">— units left</span>
+            </div>
+            <div class="price-meta-item">
+              <i data-lucide="calendar-x" style="width:13px;height:13px;"></i>
+              <span id="c-expiry">Expires —</span>
+            </div>
+            <div class="price-meta-item">
+              <i data-lucide="tag" style="width:13px;height:13px;"></i>
+              <span id="c-category">—</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Expiry urgency bar -->
+        <div class="expiry-bar-wrap">
+          <div class="expiry-label">
+            <span style="color:var(--text-muted);font-size:0.8rem;">Shelf life remaining</span>
+            <span id="c-days-left" style="font-size:0.82rem;font-weight:600;"></span>
+          </div>
+          <div class="expiry-bar-bg">
+            <div class="expiry-bar-fill" id="c-expiry-bar" style="width:100%;background:var(--accent-green);"></div>
+          </div>
+        </div>
+
+        <!-- TTL notice -->
+        <div class="ttl-notice">
+          <i data-lucide="clock" style="width:15px;height:15px;flex-shrink:0;"></i>
+          Your reservation holds for <strong style="margin: 0 0.25rem;">3 minutes</strong> after claiming. Complete checkout to secure it.
+        </div>
+
+        <!-- Quantity selector -->
+        <div class="section-label">How many units?</div>
+        <div class="qty-row">
+          <button class="qty-btn" onclick="changeQty(-1)">−</button>
+          <div>
+            <div class="qty-display" id="qty-val">1</div>
+            <div class="qty-label" style="text-align:center;">units</div>
+          </div>
+          <button class="qty-btn" onclick="changeQty(1)">+</button>
+          <div style="flex:1;font-size:0.85rem;color:var(--text-muted);">
+            Total: <span id="qty-total" style="font-family:var(--font-code);font-weight:700;color:var(--accent-green);">₹—</span>
+          </div>
+        </div>
+
+        <!-- Fulfillment -->
+        <div class="section-label">How will you collect it?</div>
+        <div class="fulfillment-options">
+          <div class="fulfillment-btn selected" id="ft-pickup" onclick="selectFulfillment('pickup')">
+            <i data-lucide="store"></i>
+            <div class="ft-label">Pickup</div>
+            <div class="ft-sub">Come to store</div>
+          </div>
+          <div class="fulfillment-btn" id="ft-delivery" onclick="selectFulfillment('delivery')">
+            <i data-lucide="truck"></i>
+            <div class="ft-label">Delivery</div>
+            <div class="ft-sub">Delivered to you</div>
+          </div>
+        </div>
+
+        <!-- Contact -->
+        <div class="section-label">Your contact (for confirmation)</div>
+        <div class="form-row">
+          <label class="form-label">Phone Number</label>
+          <input type="tel" class="form-input" id="inp-phone" placeholder="+91 98765 43210">
+        </div>
+        <div class="form-row">
+          <label class="form-label">Email (optional)</label>
+          <input type="email" class="form-input" id="inp-email" placeholder="you@example.com">
+        </div>
+
+        <button class="btn-claim" id="claim-btn" onclick="submitClaim()">
+          <i data-lucide="zap"></i> Lock In This Deal
+        </button>
+      </div>
+
+      <!-- PAY NOW STATE (after reservation, before payment) -->
+      <div id="state-pay" class="claim-state">
+        <div style="text-align:center; margin-bottom:1.5rem;">
+          <div style="width:64px;height:64px;background:linear-gradient(135deg,rgba(108,59,250,0.2),rgba(26,86,219,0.2));border:2px solid rgba(108,59,250,0.5);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;">
+            <i data-lucide="shield-check" style="width:28px;height:28px;color:#a78bfa;"></i>
+          </div>
+          <div style="font-size:1.5rem;font-weight:700;margin-bottom:0.4rem;">Deal Reserved! ✅</div>
+          <div style="color:var(--text-muted);font-size:0.88rem;">Your slot is held for <strong style="color:var(--accent-amber);">3 minutes</strong>. Complete payment to confirm.</div>
+        </div>
+
+        <div id="pay-summary" style="background:rgba(10,15,28,0.7);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:1.1rem;margin-bottom:1.5rem;"></div>
+
+        <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:0.4rem;">Claim token:</div>
+        <div class="token-box" id="pay-token" style="margin-bottom:1.5rem;">—</div>
+
+        <button class="btn-pay" id="pay-btn" onclick="initiateRazorpayPayment()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+          Pay ₹<span id="pay-amount">—</span> via Razorpay
+        </button>
+        <div class="rzp-badge">
+          <i data-lucide="lock"></i> Secured by Razorpay · 256-bit SSL
+        </div>
+
+        <div class="eco-pill" style="margin-top:1.25rem;">
+          <i data-lucide="leaf" style="width:16px;height:16px;flex-shrink:0;"></i>
+          <span>You're preventing <strong id="pay-eco-kg">—</strong> kg of food waste by completing this purchase.</span>
+        </div>
+      </div>
+
+      <!-- CONFIRMED / PAID -->
+      <div id="state-confirmed" class="claim-state">
+        <div class="confirm-icon">
+          <i data-lucide="check" style="width:32px;height:32px;color:var(--accent-green);"></i>
+        </div>
+        <div class="confirm-title">Payment Successful! 🎉</div>
+        <div class="confirm-sub">Your order is confirmed. Show the token below at the store for pickup.</div>
+
+        <div id="confirm-details" style="background:rgba(10,15,28,0.7);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:1.1rem;margin-bottom:1.25rem;">
+        </div>
+
+        <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.4rem;">Your claim token:</div>
+        <div class="token-box" id="confirm-token">—</div>
+
+        <button class="btn-claim" onclick="copyToken()" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);color:var(--text-main);box-shadow:none;margin-bottom:1rem;">
+          <i data-lucide="copy"></i> Copy Claim Token
+        </button>
+
+        <div class="eco-pill">
+          <i data-lucide="leaf" style="width:16px;height:16px;flex-shrink:0;"></i>
+          <span>By claiming this deal you're preventing <strong id="eco-kg">—</strong> kg of food waste and saving <strong id="eco-co2">—</strong> kg CO₂e.</span>
+        </div>
+      </div>
+
+      <!-- ERROR -->
+      <div id="state-error" class="claim-state">
+        <div class="error-icon">
+          <i data-lucide="x" style="width:28px;height:28px;color:var(--accent-rose);"></i>
+        </div>
+        <div style="text-align:center;font-size:1.3rem;font-weight:700;margin-bottom:0.5rem;">Deal Unavailable</div>
+        <div style="text-align:center;color:var(--text-muted);font-size:0.9rem;margin-bottom:1.75rem;" id="err-message">
+          This deal may have already been claimed or has expired.
+        </div>
+        <a href="/" style="display:block;text-align:center;color:var(--accent-cyan);font-size:0.88rem;">
+          ← Back to OptiMart Platform
+        </a>
+      </div>
+
+    </div>
+
+    <div class="trust-strip">
+      <div class="trust-item">
+        <i data-lucide="shield-check"></i> No account needed
+      </div>
+      <div class="trust-item">
+        <i data-lucide="clock"></i> 3-min hold
+      </div>
+      <div class="trust-item">
+        <i data-lucide="leaf"></i> Food rescue
+      </div>
+      <div class="trust-item">
+        <i data-lucide="lock"></i> Redis-locked
+      </div>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    const RAZORPAY_KEY = 'rzp_test_TJMRSMjyO9AVBO';
+
+    let claimData = null;   // claim record from API (if existing token)
+    let batchData = null;   // batch details
+    let storeData = null;   // store details
+    let selectedFulfillment = 'pickup';
+    let qty = 1;
+    let maxQty = 1;
+    let auctionPrice = null; // ML-locked price from claim URL
+    let auctionToken = null;
+
+    function showState(id) {
+      document.querySelectorAll('.claim-state').forEach(el => el.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      lucide.createIcons();
+    }
+
+    function showError(msg) {
+      document.getElementById('err-message').textContent = msg || 'This deal may have already been claimed or has expired.';
+      showState('state-error');
+    }
+
+    // Parse URL: /claim/{token} or /claim/new?batch_id=X&price=Y
+    async function init() {
+      const pathParts = window.location.pathname.split('/');
+      const token = pathParts[pathParts.length - 1];
+      const params = new URLSearchParams(window.location.search);
+      const batchId = params.get('batch_id');
+      auctionPrice = params.get('price') ? parseFloat(params.get('price')) : null;
+
+      if (token === 'new' && batchId) {
+        // New claim from auction — load batch details directly
+        await loadBatchAndRenderForm(parseInt(batchId));
+      } else if (token && token !== 'claim') {
+        // Existing claim token — fetch claim record
+        await loadExistingClaim(token);
+      } else {
+        showError('Invalid claim link. Please use the link sent to your phone or WhatsApp.');
+      }
+    }
+
+    async function loadBatchAndRenderForm(batchId) {
+      try {
+        const [batchRes, storesRes] = await Promise.all([
+          fetch(`/api/v1/inventory/batches/${batchId}`),
+          fetch(`/api/v1/stores`)
+        ]);
+        if (!batchRes.ok) throw new Error('Batch not found');
+        batchData = await batchRes.json();
+        const stores = await storesRes.json();
+        storeData = stores.find(s => s.id === batchData.store_id) || { name: 'Local Store', address: '—' };
+
+        // Use auction-locked price if provided, otherwise use current_price
+        const displayPrice = auctionPrice !== null ? auctionPrice : batchData.current_price;
+        const discPct = auctionPrice !== null
+          ? ((batchData.original_selling_price - auctionPrice) / batchData.original_selling_price * 100).toFixed(0)
+          : batchData.discount_percentage.toFixed(0);
+
+        maxQty = Math.min(batchData.quantity, 10);
+        qty = 1;
+
+        document.getElementById('c-product-name').textContent = batchData.product_name;
+        document.getElementById('c-store-name').textContent = `${storeData.name} · ${storeData.address}`;
+        document.getElementById('c-orig-price').textContent = '₹' + batchData.original_selling_price.toFixed(2);
+        document.getElementById('c-curr-price').textContent = '₹' + displayPrice.toFixed(2);
+        document.getElementById('c-discount-badge').textContent = discPct + '% OFF';
+        document.getElementById('c-qty-left').textContent = batchData.quantity + ' units left';
+        document.getElementById('c-expiry').textContent = 'Expires ' + batchData.expiration_date;
+        document.getElementById('c-category').textContent = batchData.category;
+
+        // Days left & urgency bar
+        const expDate = new Date(batchData.expiration_date);
+        const now = new Date();
+        const daysLeft = Math.max(0, Math.ceil((expDate - now) / (1000*60*60*24)));
+        const maxDays = 7;
+        const pct = Math.min(100, (daysLeft / maxDays) * 100);
+        let barColor = '#10b981';
+        let daysText = daysLeft + ' day' + (daysLeft !== 1 ? 's' : '') + ' left';
+        if (daysLeft <= 1) { barColor = '#f43f5e'; daysText = daysLeft === 0 ? 'Expires today!' : '1 day left!'; }
+        else if (daysLeft <= 3) { barColor = '#f59e0b'; }
+
+        document.getElementById('c-expiry-bar').style.width = pct + '%';
+        document.getElementById('c-expiry-bar').style.background = barColor;
+        document.getElementById('c-days-left').textContent = daysText;
+        document.getElementById('c-days-left').style.color = barColor;
+
+        updateQtyTotal(displayPrice);
+        showState('state-claim');
+      } catch(err) {
+        showError('Could not load deal details. ' + err.message);
+      }
+    }
+
+    async function loadExistingClaim(token) {
+      try {
+        const res = await fetch(`/api/v1/claims/${token}`);
+        if (!res.ok) throw new Error('Claim not found or expired');
+        claimData = await res.json();
+
+        if (claimData.status === 'RESERVED') {
+          // Show already-claimed confirmation
+          await renderConfirmed(claimData);
+        } else if (claimData.status === 'PAID' || claimData.status === 'FULFILLED') {
+          showError(`This claim has already been ${claimData.status.toLowerCase()}. Nothing to do here!`);
+        } else {
+          showError('This claim has expired or been cancelled.');
+        }
+      } catch(err) {
+        showError('Claim token not found. It may have expired (3-min TTL). ' + err.message);
+      }
+    }
+
+    function changeQty(delta) {
+      qty = Math.max(1, Math.min(maxQty, qty + delta));
+      document.getElementById('qty-val').textContent = qty;
+      const displayPrice = auctionPrice !== null ? auctionPrice : (batchData ? batchData.current_price : 0);
+      updateQtyTotal(displayPrice);
+    }
+
+    function updateQtyTotal(pricePerUnit) {
+      const total = (pricePerUnit * qty).toFixed(2);
+      document.getElementById('qty-total').textContent = '₹' + total;
+    }
+
+    function selectFulfillment(type) {
+      selectedFulfillment = type;
+      document.getElementById('ft-pickup').classList.toggle('selected', type === 'pickup');
+      document.getElementById('ft-delivery').classList.toggle('selected', type === 'delivery');
+      lucide.createIcons();
+    }
+
+    async function submitClaim() {
+      if (!batchData) { showError('No batch loaded.'); return; }
+
+      const phone = document.getElementById('inp-phone').value.trim();
+      const email = document.getElementById('inp-email').value.trim();
+
+      const btn = document.getElementById('claim-btn');
+      btn.disabled = true;
+      btn.innerHTML = '<div style="width:18px;height:18px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto;"></div> Locking your deal...';
+
+      try {
+        const res = await fetch('/api/v1/claims', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            batch_id: batchData.id,
+            reserver_phone: phone || null,
+            reserver_email: email || null,
+            reserved_quantity: qty,
+            fulfillment_type: selectedFulfillment,
+            is_subsidized: false
+          })
+        });
+
+        if (res.status === 409) {
+          const err = await res.json();
+          throw new Error(err.detail || 'Batch already claimed by another user.');
+        }
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.detail || 'Failed to create claim.');
+        }
+
+        claimData = await res.json();
+        await renderConfirmed(claimData);
+
+      } catch(err) {
+        btn.disabled = false;
+        btn.innerHTML = '<i data-lucide="zap"></i> Lock In This Deal';
+        lucide.createIcons();
+        alert('⚠️ ' + err.message);
+      }
+    }
+
+    async function renderConfirmed(claim) {
+      // Fetch batch if not loaded
+      if (!batchData) {
+        try {
+          const r = await fetch(`/api/v1/inventory/batches/${claim.batch_id}`);
+          batchData = await r.json();
+        } catch(e) { batchData = { product_name: 'Your Deal', original_selling_price: 0, current_price: 0, expiration_date: '—', quantity: 0 }; }
+      }
+
+      const price = auctionPrice !== null ? auctionPrice : batchData.current_price;
+      const total = (price * claim.reserved_quantity).toFixed(2);
+
+      // If already PAID, show final confirmed screen directly
+      if (claim.status === 'PAID' || claim.status === 'FULFILLED') {
+        renderPaidConfirmed(claim, price);
+        return;
+      }
+
+      // Otherwise show the Pay Now screen
+      document.getElementById('pay-summary').innerHTML = `
+        <div class="confirm-detail-row"><span class="lbl">Product</span><span class="val">${batchData.product_name}</span></div>
+        <div class="confirm-detail-row"><span class="lbl">Qty</span><span class="val">${claim.reserved_quantity} unit${claim.reserved_quantity > 1 ? 's' : ''}</span></div>
+        <div class="confirm-detail-row"><span class="lbl">ML Price / unit</span><span class="val" style="color:var(--accent-green);">₹${price.toFixed(2)}</span></div>
+        <div class="confirm-detail-row"><span class="lbl">Total Amount</span><span class="val" style="color:var(--accent-green);font-size:1.1rem;">₹${total}</span></div>
+        <div class="confirm-detail-row"><span class="lbl">Fulfillment</span><span class="val">${claim.fulfillment_type.toUpperCase()}</span></div>
+      `;
+      document.getElementById('pay-token').textContent = claim.claim_token;
+      document.getElementById('pay-amount').textContent = total;
+
+      const kgWaste = (0.5 * claim.reserved_quantity).toFixed(1);
+      document.getElementById('pay-eco-kg').textContent = kgWaste;
+
+      showState('state-pay');
+    }
+
+    function renderPaidConfirmed(claim, price) {
+      const total = (price * claim.reserved_quantity).toFixed(2);
+      document.getElementById('confirm-details').innerHTML = `
+        <div class="confirm-detail-row"><span class="lbl">Product</span><span class="val">${batchData.product_name}</span></div>
+        <div class="confirm-detail-row"><span class="lbl">Units</span><span class="val">${claim.reserved_quantity}</span></div>
+        <div class="confirm-detail-row"><span class="lbl">Amount Paid</span><span class="val" style="color:var(--accent-green);">₹${total}</span></div>
+        <div class="confirm-detail-row"><span class="lbl">Fulfillment</span><span class="val">${claim.fulfillment_type.toUpperCase()}</span></div>
+        <div class="confirm-detail-row"><span class="lbl">Status</span><span class="val" style="color:var(--accent-green);">✅ PAID</span></div>
+      `;
+      document.getElementById('confirm-token').textContent = claim.claim_token;
+      const kgWaste = (0.5 * claim.reserved_quantity).toFixed(1);
+      const kgCO2 = (parseFloat(kgWaste) * 2.5).toFixed(1);
+      document.getElementById('eco-kg').textContent = kgWaste;
+      document.getElementById('eco-co2').textContent = kgCO2;
+      showState('state-confirmed');
+    }
+
+    async function initiateRazorpayPayment() {
+      if (!claimData) return;
+      const btn = document.getElementById('pay-btn');
+      btn.disabled = true;
+      btn.innerHTML = '<div style="width:18px;height:18px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite;"></div> Creating order...';
+
+      try {
+        const res = await fetch('/api/v1/payments/checkout-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            claim_token: claimData.claim_token,
+            provider: 'razorpay',
+            success_url: window.location.href,
+            cancel_url: window.location.href
+          })
+        });
+
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.detail || 'Failed to create payment order.');
+        }
+
+        const session = await res.json();
+
+        const price = auctionPrice !== null ? auctionPrice : batchData.current_price;
+        const totalPaise = session.amount_paise || Math.round(price * claimData.reserved_quantity * 100);
+
+        const options = {
+          key: RAZORPAY_KEY,
+          amount: totalPaise,
+          currency: 'INR',
+          name: 'OptiMart',
+          description: `Flash Claim: ${batchData.product_name}`,
+          order_id: session.order_id || undefined,
+          image: '',
+          notes: { claim_token: claimData.claim_token },
+          theme: { color: '#10b981' },
+          handler: async function(response) {
+            // Payment success — mark claim as PAID via backend
+            try {
+              await fetch('/api/v1/payments/webhooks/razorpay', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'x-razorpay-signature': 'mock_success' },
+                body: JSON.stringify({
+                  event: 'payment.captured',
+                  claim_token: claimData.claim_token,
+                  payload: {
+                    payment: {
+                      entity: {
+                        id: response.razorpay_payment_id || 'rzp_pay_success',
+                        notes: { claim_token: claimData.claim_token }
+                      }
+                    }
+                  }
+                })
+              });
+            } catch(e) { console.warn('Webhook call failed, continuing:', e); }
+
+            claimData.status = 'PAID';
+            renderPaidConfirmed(claimData, price);
+          },
+          modal: {
+            ondismiss: function() {
+              btn.disabled = false;
+              btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg> Pay ₹<span id="pay-amount">' + (totalPaise/100).toFixed(2) + '</span> via Razorpay';
+            }
+          },
+          prefill: {
+            contact: document.getElementById('inp-phone') ? document.getElementById('inp-phone').value : '',
+            email: document.getElementById('inp-email') ? document.getElementById('inp-email').value : ''
+          }
+        };
+
+        const rzp = new Razorpay(options);
+        rzp.on('payment.failed', function(resp) {
+          btn.disabled = false;
+          btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg> Retry Payment via Razorpay';
+          alert('⚠️ Payment failed: ' + (resp.error.description || 'Unknown error'));
+        });
+        rzp.open();
+
+      } catch(err) {
+        btn.disabled = false;
+        btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg> Pay via Razorpay';
+        alert('⚠️ ' + err.message);
+      }
+    }
+
+    function copyToken() {
+      const token = document.getElementById('confirm-token').textContent;
+      navigator.clipboard.writeText(token).then(() => alert('✅ Claim token copied!'));
+    }
+
+    // Start
+    init();
+  </script>
+</body>
+</html>

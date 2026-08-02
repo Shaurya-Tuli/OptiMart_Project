@@ -1,0 +1,21 @@
+sku_id,product_name,category,sub_category,unit_cost_inr,standard_retail_price_inr,typical_shelf_life_days,b2b_eligible
+SKU-0010,Milk (litre / 500g),Dairy,Milk,46.5,75.5,7,False
+SKU-0013,Cheese (litre / 500g),Dairy,Cheese,32.0,103.0,6,False
+SKU-0019,Whole Wheat Bread (loaf / pack),Bakery,Whole Wheat Bread,39.5,59.5,4,False
+SKU-0020,Rusks (loaf / pack),Bakery,Rusks,57.0,112.0,5,False
+SKU-0032,Biscuits & Cookies (loaf / pack),Bakery,Biscuits & Cookies,43.0,47.5,4,False
+SKU-0037,Onions (kg),Fruits & Veggies,Onions,112.5,157.0,4,False
+SKU-0056,Moong Dal (kg),Food Grains,Moong Dal,124.0,156.5,253,True
+SKU-0057,Maida (kg),Food Grains,Maida,105.5,150.5,322,True
+SKU-0065,Energy Drinks (bottle / litre),Beverages,Energy Drinks,94.5,104.0,110,False
+SKU-0069,Fruit Juice (bottle / litre),Beverages,Fruit Juice,60.5,86.0,63,False
+SKU-0070,Energy Drinks (bottle / litre),Beverages,Energy Drinks,90.0,134.5,124,False
+SKU-0074,Soft Drinks (bottle / litre),Beverages,Soft Drinks,38.0,98.5,117,False
+SKU-0077,Fruit Juice (bottle / litre),Beverages,Fruit Juice,69.0,128.0,41,False
+SKU-0079,Soft Drinks (bottle / litre),Beverages,Soft Drinks,78.0,91.5,139,False
+SKU-0083,Potato Chips (pack / 100g),Snacks,Potato Chips,55.0,60.5,91,False
+SKU-0105,Red Chilli Powder (litre / kg),Oil & Masala,Red Chilli Powder,100.5,198.5,335,True
+SKU-0111,Red Chilli Powder (litre / kg),Oil & Masala,Red Chilli Powder,82.5,116.0,192,True
+SKU-0119,Prawns (kg / dozen),Meat & Seafood,Prawns,262.5,574.5,2,False
+SKU-0133,Ready Curry Paste (pack),Ready-to-Eat,Ready Curry Paste,74.0,82.0,72,False
+SKU-0142,Instant Noodles (pack),Ready-to-Eat,Instant Noodles,120.0,132.0,18,False

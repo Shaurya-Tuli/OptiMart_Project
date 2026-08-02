@@ -1,0 +1,135 @@
+{
+  "_comment": "OptiMart Model A — Category Shelf-Life Baseline Lookup Table",
+  "_note": "This is the single source of truth for urgency normalization. Edit here to add categories.",
+  "_urgency_curve_types": {
+    "linear_convex": "Used for short-shelf perishables. Urgency rises roughly linearly from day 0, with a slight convex acceleration in the final 20% of shelf life.",
+    "sigmoid": "Used for long-shelf items (pantry, perfume, frozen). Stays near-0 until the final ~10% of shelf life, then rises sharply. Parameters: steepness k, inflection point (fraction of shelf life)."
+  },
+  "categories": {
+    "Dairy": {
+      "typical_shelf_life_days": 12,
+      "shelf_life_range_days": [7, 14],
+      "urgency_curve": "linear_convex",
+      "convex_power": 1.15,
+      "markdown_ceiling_pct": 90,
+      "weather_sensitivity": 0.8,
+      "description": "Milk, yogurt, paneer, butter, cheese. Near-zero tolerance for delay. Spoilage risk compounds daily in warm conditions.",
+      "cold_start_elasticity": -2.2
+    },
+    "Bakery": {
+      "typical_shelf_life_days": 4,
+      "shelf_life_range_days": [2, 6],
+      "urgency_curve": "linear_convex",
+      "convex_power": 1.15,
+      "markdown_ceiling_pct": 80,
+      "weather_sensitivity": 0.3,
+      "description": "Bread, buns, cakes, pastries. Very fast decay, often stale before unsafe.",
+      "cold_start_elasticity": -1.8
+    },
+    "Fruits & Veggies": {
+      "typical_shelf_life_days": 7,
+      "shelf_life_range_days": [3, 14],
+      "urgency_curve": "linear_convex",
+      "convex_power": 1.15,
+      "markdown_ceiling_pct": 75,
+      "weather_sensitivity": 0.9,
+      "description": "Fresh produce. High weather sensitivity — heat accelerates decay, monsoon can reduce demand for certain items.",
+      "cold_start_elasticity": -1.6
+    },
+    "Meat & Seafood": {
+      "typical_shelf_life_days": 5,
+      "shelf_life_range_days": [2, 7],
+      "urgency_curve": "linear_convex",
+      "convex_power": 1.15,
+      "markdown_ceiling_pct": 85,
+      "weather_sensitivity": 0.7,
+      "description": "Fresh meat, poultry, fish, shellfish. Fastest decay and highest food-safety risk. Markdown ceiling is aggressive.",
+      "cold_start_elasticity": -2.0
+    },
+    "Ready-to-Eat": {
+      "typical_shelf_life_days": 3,
+      "shelf_life_range_days": [1, 5],
+      "urgency_curve": "linear_convex",
+      "convex_power": 1.15,
+      "markdown_ceiling_pct": 75,
+      "weather_sensitivity": 0.5,
+      "description": "Prepared meals, meal kits, hot counter items. Very short window, similar dynamics to Bakery.",
+      "cold_start_elasticity": -1.9
+    },
+    "Beverages": {
+      "typical_shelf_life_days": 90,
+      "shelf_life_range_days": [30, 180],
+      "urgency_curve": "sigmoid",
+      "sigmoid_steepness": 12.0,
+      "sigmoid_inflection_fraction": 0.92,
+      "markdown_ceiling_pct": 40,
+      "weather_sensitivity": 0.6,
+      "description": "Packaged juices, dairy drinks, carbonated. Moderate shelf life. Weather affects demand (hot weather boosts cold drink sales).",
+      "cold_start_elasticity": -0.9
+    },
+    "Snacks": {
+      "typical_shelf_life_days": 120,
+      "shelf_life_range_days": [60, 240],
+      "urgency_curve": "sigmoid",
+      "sigmoid_steepness": 10.0,
+      "sigmoid_inflection_fraction": 0.90,
+      "markdown_ceiling_pct": 35,
+      "weather_sensitivity": 0.2,
+      "description": "Chips, biscuits, namkeen. Moderate shelf life. Low weather sensitivity.",
+      "cold_start_elasticity": -0.8
+    },
+    "Food Grains": {
+      "typical_shelf_life_days": 270,
+      "shelf_life_range_days": [180, 365],
+      "urgency_curve": "sigmoid",
+      "sigmoid_steepness": 14.0,
+      "sigmoid_inflection_fraction": 0.93,
+      "markdown_ceiling_pct": 30,
+      "weather_sensitivity": 0.1,
+      "description": "Rice, atta, dal, pulses. Long shelf life. Urgency near-zero until final 7% of shelf life. Very low weather sensitivity.",
+      "cold_start_elasticity": -0.6
+    },
+    "Oil & Masala": {
+      "typical_shelf_life_days": 365,
+      "shelf_life_range_days": [270, 540],
+      "urgency_curve": "sigmoid",
+      "sigmoid_steepness": 14.0,
+      "sigmoid_inflection_fraction": 0.94,
+      "markdown_ceiling_pct": 25,
+      "weather_sensitivity": 0.05,
+      "description": "Cooking oils, masalas, condiments. Long shelf, near-irrelevant urgency until close to expiry. Tiny weather sensitivity.",
+      "cold_start_elasticity": -0.5
+    },
+    "Frozen": {
+      "typical_shelf_life_days": 120,
+      "shelf_life_range_days": [60, 180],
+      "urgency_curve": "sigmoid",
+      "sigmoid_steepness": 11.0,
+      "sigmoid_inflection_fraction": 0.91,
+      "markdown_ceiling_pct": 50,
+      "weather_sensitivity": 0.3,
+      "description": "Frozen vegetables, ice cream, frozen meals. Moderate shelf. Cold-chain dependent.",
+      "cold_start_elasticity": -1.1
+    },
+    "Perfume & Cosmetics": {
+      "typical_shelf_life_days": 900,
+      "shelf_life_range_days": [730, 1095],
+      "urgency_curve": "sigmoid",
+      "sigmoid_steepness": 50.0,
+      "sigmoid_inflection_fraction": 0.98,
+      "markdown_ceiling_pct": 20,
+      "weather_sensitivity": 0.0,
+      "description": "Perfumes, lotions, cosmetics. Urgency is near-irrelevant until well under 5% of shelf life remains (~45 days for a 2-yr product). Zero weather sensitivity.",
+      "cold_start_elasticity": -0.4
+    }
+  },
+  "_default_fallback": {
+    "typical_shelf_life_days": 60,
+    "urgency_curve": "sigmoid",
+    "sigmoid_steepness": 10.0,
+    "sigmoid_inflection_fraction": 0.90,
+    "markdown_ceiling_pct": 40,
+    "weather_sensitivity": 0.2,
+    "cold_start_elasticity": -1.0
+  }
+}

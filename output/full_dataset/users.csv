@@ -1,0 +1,501 @@
+user_id,city,coarse_lat,coarse_lng,phone,category_opt_ins,preferred_channel,reliability_score,price_sensitivity_threshold_pct,response_latency_minutes_avg
+USR-00001,Bengaluru,13.09,77.676,+917413571682,Bakery|Ready-to-Eat|Dairy|Snacks,WhatsApp,1.0,34,12
+USR-00002,Mumbai,19.016,72.935,+919347873541,Snacks|Ready-to-Eat|Oil & Masala,WhatsApp,0.97,38,14
+USR-00003,Mumbai,18.978,73.023,+916688592663,Dairy|Ready-to-Eat|Beverages|Snacks,reply-YES,0.76,27,16
+USR-00004,Pune,18.623,73.977,+917014857816,Oil & Masala|Dairy|Beverages,SMS,0.76,53,18
+USR-00005,Mumbai,19.133,72.783,+916244628826,Meat & Seafood,reply-YES,0.6,34,4
+USR-00006,Pune,18.505,73.86,+919363149318,Food Grains,SMS,0.73,58,11
+USR-00007,Pune,18.48,73.919,+917804503083,Bakery|Ready-to-Eat|Food Grains,WhatsApp,0.64,26,39
+USR-00008,Chennai,13.174,80.248,+919386813372,Meat & Seafood|Bakery,WhatsApp,0.78,32,15
+USR-00009,Pune,18.555,73.802,+917588302136,Bakery|Oil & Masala|Dairy|Snacks,reply-YES,0.62,29,6
+USR-00010,Pune,18.362,73.74,+919876028749,Meat & Seafood,reply-YES,0.58,53,18
+USR-00011,Pune,18.551,73.967,+916050391678,Fruits & Veggies,reply-YES,0.77,25,30
+USR-00012,Pune,18.375,73.77,+917985930822,Ready-to-Eat|Bakery|Fruits & Veggies|Food Grains,SMS,0.79,47,22
+USR-00013,Chennai,13.09,80.199,+919982320724,Bakery|Ready-to-Eat|Fruits & Veggies|Food Grains,reply-YES,0.9,60,12
+USR-00014,Chennai,13.147,80.177,+916678019467,Bakery,SMS,0.64,19,37
+USR-00015,Mumbai,18.973,72.942,+918471208362,Ready-to-Eat|Meat & Seafood|Fruits & Veggies,WhatsApp,0.75,21,15
+USR-00016,Bengaluru,13.117,77.545,+919173277606,Snacks|Bakery,WhatsApp,0.85,45,38
+USR-00017,Pune,18.494,73.897,+916657416984,Oil & Masala|Ready-to-Eat,SMS,0.97,53,17
+USR-00018,Bengaluru,12.876,77.68,+918618453577,Meat & Seafood|Snacks|Beverages|Bakery,WhatsApp,0.84,31,34
+USR-00019,Chennai,12.97,80.221,+919188374489,Food Grains|Oil & Masala,SMS,0.52,27,19
+USR-00020,Bengaluru,13.035,77.687,+916256702178,Snacks|Bakery,SMS,0.96,56,2
+USR-00021,Chennai,13.165,80.441,+919632940380,Food Grains|Meat & Seafood|Fruits & Veggies,SMS,0.55,37,41
+USR-00022,Pune,18.652,73.967,+916865510861,Dairy|Meat & Seafood|Oil & Masala|Snacks,SMS,0.87,49,15
+USR-00023,Pune,18.542,73.709,+916329402759,Fruits & Veggies|Snacks|Dairy,WhatsApp,0.53,33,30
+USR-00024,Bengaluru,13.085,77.524,+918574863281,Meat & Seafood,SMS,0.83,60,23
+USR-00025,Bengaluru,12.986,77.624,+916557384109,Dairy|Ready-to-Eat|Snacks|Food Grains,SMS,0.96,36,45
+USR-00026,Mumbai,19.206,72.965,+918317660244,Oil & Masala|Meat & Seafood|Snacks,reply-YES,0.79,15,20
+USR-00027,Chennai,13.103,80.43,+917697575546,Oil & Masala,WhatsApp,0.78,59,13
+USR-00028,Bengaluru,13.125,77.571,+916533882499,Oil & Masala|Ready-to-Eat|Snacks|Dairy,reply-YES,0.77,53,9
+USR-00029,Pune,18.441,73.841,+919588041403,Food Grains|Beverages|Meat & Seafood|Ready-to-Eat,SMS,0.63,18,26
+USR-00030,Mumbai,19.171,72.912,+917790229309,Beverages|Food Grains|Dairy,SMS,0.84,60,14
+USR-00031,Bengaluru,12.851,77.533,+918579990072,Oil & Masala|Ready-to-Eat|Meat & Seafood,reply-YES,0.93,41,10
+USR-00032,Chennai,13.215,80.446,+916636578371,Bakery|Dairy|Fruits & Veggies,WhatsApp,0.55,41,31
+USR-00033,Bengaluru,12.91,77.76,+919795932249,Meat & Seafood|Food Grains|Ready-to-Eat|Dairy,WhatsApp,0.79,30,23
+USR-00034,Bengaluru,13.057,77.707,+916209454028,Beverages|Food Grains|Ready-to-Eat,reply-YES,0.96,18,26
+USR-00035,Pune,18.605,73.767,+919694136674,Ready-to-Eat|Oil & Masala|Beverages|Dairy,WhatsApp,0.76,43,29
+USR-00036,Chennai,13.138,80.208,+916418359094,Beverages,WhatsApp,0.89,39,19
+USR-00037,Chennai,13.083,80.273,+919072544527,Bakery|Dairy|Beverages|Fruits & Veggies,reply-YES,0.63,20,37
+USR-00038,Bengaluru,13.123,77.512,+918075193914,Dairy|Food Grains|Meat & Seafood|Beverages,reply-YES,0.58,11,16
+USR-00039,Bengaluru,13.07,77.544,+919899108587,Meat & Seafood|Dairy|Snacks|Food Grains,SMS,0.68,22,38
+USR-00040,Pune,18.375,73.892,+917925679746,Bakery|Meat & Seafood,SMS,0.89,43,27
+USR-00041,Chennai,13.251,80.433,+919678616338,Food Grains|Bakery|Meat & Seafood|Dairy,SMS,0.97,57,28
+USR-00042,Chennai,13.229,80.275,+918986409466,Beverages|Meat & Seafood|Food Grains,WhatsApp,0.52,24,27
+USR-00043,Bengaluru,12.876,77.697,+918349541217,Fruits & Veggies|Dairy|Beverages|Snacks,SMS,0.52,54,13
+USR-00044,Pune,18.366,74.007,+917482800920,Food Grains|Oil & Masala|Fruits & Veggies,reply-YES,0.51,32,27
+USR-00045,Pune,18.468,73.933,+919969001923,Bakery|Snacks,WhatsApp,0.57,10,19
+USR-00046,Mumbai,19.056,72.91,+918758427686,Fruits & Veggies,reply-YES,0.74,46,14
+USR-00047,Chennai,13.052,80.262,+917356942018,Beverages|Snacks|Food Grains,WhatsApp,0.7,15,28
+USR-00048,Pune,18.464,73.929,+917950641031,Bakery|Meat & Seafood|Ready-to-Eat,reply-YES,0.83,36,25
+USR-00049,Chennai,13.014,80.298,+917465546120,Ready-to-Eat|Beverages,WhatsApp,0.87,39,45
+USR-00050,Chennai,13.043,80.191,+919440198928,Beverages,WhatsApp,0.84,23,23
+USR-00051,Pune,18.575,73.957,+918256286078,Food Grains,reply-YES,0.89,28,31
+USR-00052,Bengaluru,12.888,77.55,+916340749185,Snacks,reply-YES,0.85,18,44
+USR-00053,Bengaluru,13.08,77.703,+916554651206,Oil & Masala,reply-YES,0.55,60,24
+USR-00054,Pune,18.571,73.864,+919372530315,Oil & Masala|Beverages|Bakery,reply-YES,0.98,60,18
+USR-00055,Bengaluru,12.861,77.616,+917805400923,Snacks,SMS,0.97,40,37
+USR-00056,Bengaluru,12.984,77.563,+917053900343,Fruits & Veggies|Oil & Masala,WhatsApp,0.57,53,25
+USR-00057,Pune,18.605,73.818,+918562849756,Meat & Seafood|Food Grains|Oil & Masala,SMS,0.99,48,17
+USR-00058,Pune,18.509,73.848,+918310951888,Meat & Seafood|Ready-to-Eat|Beverages,reply-YES,0.96,10,45
+USR-00059,Pune,18.567,73.788,+918728397830,Ready-to-Eat,WhatsApp,0.8,33,42
+USR-00060,Pune,18.554,73.848,+918607456256,Dairy|Food Grains|Bakery|Meat & Seafood,reply-YES,0.55,50,34
+USR-00061,Bengaluru,13.098,77.624,+918875098020,Snacks|Fruits & Veggies|Dairy|Meat & Seafood,reply-YES,0.7,13,31
+USR-00062,Bengaluru,12.924,77.472,+917906484773,Dairy|Fruits & Veggies,WhatsApp,0.65,59,19
+USR-00063,Mumbai,19.095,72.817,+919319718901,Fruits & Veggies,SMS,0.53,58,27
+USR-00064,Bengaluru,13.139,77.542,+917916942616,Oil & Masala|Beverages|Food Grains|Dairy,WhatsApp,1.0,54,38
+USR-00065,Chennai,13.192,80.306,+918275652083,Food Grains,SMS,0.51,14,26
+USR-00066,Mumbai,18.945,72.804,+917215290074,Oil & Masala,reply-YES,0.94,54,19
+USR-00067,Chennai,13.227,80.259,+916860428316,Fruits & Veggies|Food Grains|Bakery|Ready-to-Eat,reply-YES,0.69,26,19
+USR-00068,Bengaluru,13.045,77.642,+916060606737,Ready-to-Eat|Fruits & Veggies|Dairy|Meat & Seafood,SMS,0.56,12,5
+USR-00069,Bengaluru,13.067,77.753,+917908479801,Meat & Seafood,WhatsApp,0.53,59,27
+USR-00070,Bengaluru,13.036,77.606,+919658575790,Food Grains|Oil & Masala,reply-YES,0.81,30,42
+USR-00071,Pune,18.63,73.955,+918791099993,Ready-to-Eat|Beverages|Meat & Seafood|Snacks,WhatsApp,0.93,20,15
+USR-00072,Mumbai,19.017,72.794,+916453343049,Dairy|Meat & Seafood,SMS,0.92,11,11
+USR-00073,Bengaluru,13.124,77.505,+919554753964,Oil & Masala,SMS,0.61,31,7
+USR-00074,Mumbai,18.996,72.934,+919230358217,Oil & Masala|Food Grains,SMS,0.84,44,5
+USR-00075,Pune,18.412,73.95,+918808861125,Beverages,SMS,0.65,13,27
+USR-00076,Bengaluru,12.874,77.519,+919721127168,Dairy,SMS,0.78,52,31
+USR-00077,Bengaluru,13.026,77.649,+919352152673,Bakery|Ready-to-Eat|Dairy|Food Grains,WhatsApp,0.88,44,28
+USR-00078,Pune,18.524,73.863,+919464147359,Oil & Masala|Snacks|Bakery,WhatsApp,0.82,21,23
+USR-00079,Chennai,12.974,80.343,+918776899773,Bakery|Oil & Masala|Snacks,SMS,0.95,24,12
+USR-00080,Pune,18.584,73.833,+917701409507,Snacks,SMS,0.82,49,41
+USR-00081,Bengaluru,12.955,77.508,+917230477259,Bakery|Ready-to-Eat|Fruits & Veggies|Snacks,reply-YES,0.98,55,24
+USR-00082,Pune,18.455,73.969,+917384162906,Ready-to-Eat|Bakery,reply-YES,0.66,56,28
+USR-00083,Bengaluru,12.98,77.688,+916309805183,Food Grains|Beverages|Oil & Masala,WhatsApp,0.78,25,22
+USR-00084,Bengaluru,12.958,77.504,+916877934724,Bakery|Oil & Masala|Food Grains,SMS,0.69,44,33
+USR-00085,Pune,18.62,73.755,+918309647429,Fruits & Veggies|Oil & Masala,reply-YES,0.76,29,35
+USR-00086,Bengaluru,12.893,77.583,+916929516289,Ready-to-Eat,WhatsApp,0.66,43,11
+USR-00087,Bengaluru,13.125,77.496,+917773312581,Ready-to-Eat|Meat & Seafood,WhatsApp,0.7,24,19
+USR-00088,Mumbai,18.989,72.939,+918197447652,Beverages|Oil & Masala,WhatsApp,0.92,43,23
+USR-00089,Mumbai,19.045,72.894,+919921751713,Fruits & Veggies|Beverages|Ready-to-Eat,WhatsApp,0.63,11,42
+USR-00090,Bengaluru,12.926,77.73,+916057458076,Beverages|Meat & Seafood|Ready-to-Eat|Fruits & Veggies,reply-YES,0.56,52,17
+USR-00091,Mumbai,19.199,72.955,+917760783359,Ready-to-Eat|Fruits & Veggies|Snacks,SMS,0.96,26,25
+USR-00092,Chennai,13.153,80.317,+918881603534,Meat & Seafood,WhatsApp,0.71,29,28
+USR-00093,Mumbai,19.063,72.725,+918119101473,Fruits & Veggies,reply-YES,0.91,51,17
+USR-00094,Bengaluru,13.019,77.607,+918480127712,Meat & Seafood|Bakery|Fruits & Veggies|Food Grains,WhatsApp,0.82,22,40
+USR-00095,Mumbai,18.97,72.932,+916744794080,Dairy|Fruits & Veggies,reply-YES,0.58,12,27
+USR-00096,Bengaluru,12.973,77.539,+916996584029,Meat & Seafood|Oil & Masala,SMS,0.63,36,42
+USR-00097,Bengaluru,12.883,77.629,+919280238656,Oil & Masala|Dairy,reply-YES,0.99,10,25
+USR-00098,Pune,18.415,73.876,+916188800300,Food Grains|Meat & Seafood|Beverages,WhatsApp,0.58,43,32
+USR-00099,Pune,18.577,73.93,+917203071081,Fruits & Veggies|Ready-to-Eat|Bakery|Snacks,WhatsApp,0.8,51,27
+USR-00100,Chennai,13.079,80.287,+916541519807,Fruits & Veggies,SMS,0.73,49,44
+USR-00101,Chennai,13.111,80.267,+918286358349,Oil & Masala|Food Grains,reply-YES,0.78,44,33
+USR-00102,Pune,18.616,73.891,+918955910923,Snacks|Ready-to-Eat,reply-YES,0.92,32,31
+USR-00103,Chennai,13.062,80.219,+917463891619,Snacks,reply-YES,0.66,41,25
+USR-00104,Chennai,13.245,80.455,+916296149909,Bakery|Oil & Masala|Food Grains,reply-YES,0.78,52,12
+USR-00105,Pune,18.426,73.776,+916279891454,Bakery,reply-YES,0.78,17,32
+USR-00106,Pune,18.442,73.796,+917845848749,Dairy|Ready-to-Eat|Beverages,WhatsApp,0.93,21,37
+USR-00107,Pune,18.451,73.726,+919580720080,Meat & Seafood|Dairy|Ready-to-Eat,WhatsApp,0.78,28,15
+USR-00108,Pune,18.589,73.864,+918752925556,Ready-to-Eat,reply-YES,0.63,56,2
+USR-00109,Mumbai,18.965,73.015,+916581236242,Beverages|Meat & Seafood|Snacks,SMS,0.52,32,9
+USR-00110,Pune,18.457,73.981,+916672446095,Meat & Seafood|Fruits & Veggies|Oil & Masala|Ready-to-Eat,WhatsApp,0.77,28,31
+USR-00111,Bengaluru,13.151,77.472,+917083572890,Dairy,reply-YES,0.52,36,17
+USR-00112,Bengaluru,13.103,77.549,+919418042022,Dairy|Snacks,reply-YES,0.89,40,24
+USR-00113,Bengaluru,12.899,77.638,+917368287657,Snacks|Ready-to-Eat|Bakery,WhatsApp,0.67,45,22
+USR-00114,Bengaluru,12.881,77.558,+918066487826,Ready-to-Eat|Meat & Seafood|Dairy,SMS,0.61,13,13
+USR-00115,Bengaluru,13.065,77.675,+918464533479,Fruits & Veggies|Beverages|Snacks,reply-YES,0.81,28,20
+USR-00116,Bengaluru,13.16,77.476,+916414505633,Dairy|Oil & Masala|Beverages|Fruits & Veggies,SMS,0.82,43,8
+USR-00117,Pune,18.522,73.754,+919138759559,Fruits & Veggies|Ready-to-Eat|Beverages,SMS,0.76,52,14
+USR-00118,Chennai,13.225,80.178,+917419977118,Bakery,WhatsApp,0.86,38,31
+USR-00119,Bengaluru,13.091,77.528,+917604890985,Meat & Seafood|Bakery,SMS,1.0,53,28
+USR-00120,Pune,18.557,73.856,+918749347688,Ready-to-Eat|Oil & Masala,reply-YES,0.54,57,7
+USR-00121,Pune,18.539,73.818,+919764580843,Oil & Masala,SMS,0.82,56,6
+USR-00122,Pune,18.571,73.746,+919900531260,Snacks|Meat & Seafood|Fruits & Veggies,reply-YES,0.53,44,21
+USR-00123,Bengaluru,12.909,77.508,+918876955912,Ready-to-Eat|Bakery|Meat & Seafood|Dairy,SMS,0.75,38,15
+USR-00124,Mumbai,19.034,72.774,+917594123459,Food Grains|Fruits & Veggies,reply-YES,0.91,43,5
+USR-00125,Pune,18.541,73.828,+917455711627,Food Grains|Snacks|Dairy,WhatsApp,0.96,48,10
+USR-00126,Pune,18.476,73.982,+919327023174,Fruits & Veggies,SMS,0.76,12,26
+USR-00127,Mumbai,19.121,72.887,+919634433460,Oil & Masala|Food Grains,WhatsApp,0.62,35,19
+USR-00128,Mumbai,19.143,72.91,+919298702521,Bakery|Beverages|Snacks,reply-YES,0.82,24,24
+USR-00129,Mumbai,19.136,72.913,+919236850448,Fruits & Veggies|Oil & Masala|Dairy,SMS,0.82,56,17
+USR-00130,Bengaluru,12.899,77.65,+918722405530,Bakery|Ready-to-Eat|Meat & Seafood|Beverages,WhatsApp,0.51,33,43
+USR-00131,Pune,18.509,73.956,+917752340870,Oil & Masala|Food Grains|Bakery,WhatsApp,0.67,35,17
+USR-00132,Pune,18.457,73.881,+918981828439,Beverages|Oil & Masala|Ready-to-Eat|Meat & Seafood,WhatsApp,0.52,55,25
+USR-00133,Bengaluru,13.094,77.571,+917380792660,Dairy|Beverages|Fruits & Veggies,WhatsApp,0.73,11,8
+USR-00134,Bengaluru,13.082,77.695,+918056655899,Oil & Masala,WhatsApp,0.66,47,33
+USR-00135,Pune,18.521,73.756,+917232420430,Oil & Masala,SMS,0.62,46,8
+USR-00136,Mumbai,19.222,72.865,+919971363591,Beverages,SMS,0.99,13,11
+USR-00137,Pune,18.615,73.995,+919122328614,Fruits & Veggies,WhatsApp,0.82,29,10
+USR-00138,Chennai,12.975,80.294,+918922430232,Dairy,SMS,0.51,18,30
+USR-00139,Pune,18.48,73.867,+917824350979,Food Grains,SMS,0.67,48,22
+USR-00140,Bengaluru,12.927,77.748,+916762948467,Beverages|Dairy|Oil & Masala|Ready-to-Eat,reply-YES,0.88,39,31
+USR-00141,Pune,18.401,73.759,+918361408307,Dairy,SMS,0.7,34,5
+USR-00142,Chennai,13.028,80.19,+919315672617,Oil & Masala|Fruits & Veggies,WhatsApp,0.79,30,40
+USR-00143,Pune,18.477,73.761,+919773824382,Beverages,reply-YES,0.72,20,12
+USR-00144,Chennai,13.096,80.337,+917833813852,Food Grains|Snacks,SMS,0.8,34,11
+USR-00145,Bengaluru,13.023,77.734,+916940144124,Fruits & Veggies|Ready-to-Eat|Beverages,WhatsApp,0.99,33,26
+USR-00146,Bengaluru,13.137,77.646,+916893935046,Food Grains|Ready-to-Eat,WhatsApp,0.82,27,9
+USR-00147,Bengaluru,12.973,77.554,+917583387895,Dairy,SMS,0.67,47,42
+USR-00148,Pune,18.564,73.757,+918587595082,Meat & Seafood|Fruits & Veggies|Bakery,reply-YES,0.59,53,14
+USR-00149,Mumbai,19.022,72.889,+916708618694,Oil & Masala|Meat & Seafood|Fruits & Veggies,reply-YES,0.73,58,24
+USR-00150,Chennai,13.133,80.382,+916483565086,Fruits & Veggies|Meat & Seafood,reply-YES,0.92,10,13
+USR-00151,Bengaluru,13.103,77.452,+917541105562,Bakery|Fruits & Veggies|Food Grains,WhatsApp,0.83,36,43
+USR-00152,Pune,18.548,73.875,+916940596470,Food Grains|Oil & Masala,SMS,0.91,28,22
+USR-00153,Chennai,13.07,80.194,+917065432614,Beverages|Dairy,SMS,0.85,40,6
+USR-00154,Bengaluru,13.024,77.658,+917431091568,Dairy|Snacks,SMS,0.62,57,13
+USR-00155,Chennai,13.001,80.375,+918264974787,Oil & Masala,reply-YES,0.72,52,26
+USR-00156,Bengaluru,12.825,77.484,+918286307078,Dairy,reply-YES,0.87,12,8
+USR-00157,Chennai,13.013,80.456,+918480569421,Ready-to-Eat,reply-YES,0.74,47,43
+USR-00158,Mumbai,19.107,72.876,+916449100723,Beverages,SMS,0.96,11,20
+USR-00159,Pune,18.651,73.771,+917064041210,Dairy|Beverages|Snacks|Bakery,WhatsApp,0.54,33,2
+USR-00160,Chennai,13.244,80.237,+916588785066,Oil & Masala,WhatsApp,0.72,51,9
+USR-00161,Bengaluru,13.013,77.667,+916483515609,Bakery|Beverages|Snacks,WhatsApp,0.57,40,5
+USR-00162,Pune,18.359,73.913,+917153861151,Bakery,WhatsApp,0.95,21,32
+USR-00163,Mumbai,19.093,72.879,+918359341061,Snacks|Dairy|Ready-to-Eat|Fruits & Veggies,WhatsApp,0.98,21,22
+USR-00164,Bengaluru,12.909,77.709,+917107371220,Fruits & Veggies|Snacks|Meat & Seafood|Dairy,WhatsApp,0.77,30,13
+USR-00165,Bengaluru,12.872,77.551,+916886096925,Food Grains|Oil & Masala,reply-YES,0.52,10,39
+USR-00166,Pune,18.369,73.826,+917191400998,Fruits & Veggies,reply-YES,0.92,38,9
+USR-00167,Pune,18.631,73.796,+917288741594,Snacks|Beverages,WhatsApp,0.82,55,23
+USR-00168,Mumbai,19.177,72.735,+917664273869,Oil & Masala|Beverages|Meat & Seafood|Dairy,SMS,0.94,31,6
+USR-00169,Chennai,13.198,80.26,+917724306777,Oil & Masala|Meat & Seafood,SMS,0.73,10,33
+USR-00170,Mumbai,18.96,72.823,+917408935133,Snacks,SMS,0.73,13,37
+USR-00171,Chennai,13.12,80.445,+917661620172,Bakery|Fruits & Veggies|Food Grains,WhatsApp,0.82,13,45
+USR-00172,Pune,18.455,73.835,+919961108403,Fruits & Veggies,reply-YES,0.83,40,27
+USR-00173,Bengaluru,13.077,77.474,+917608633399,Dairy|Oil & Masala|Food Grains,reply-YES,0.85,41,29
+USR-00174,Mumbai,19.152,72.735,+918508005090,Dairy|Oil & Masala,SMS,0.81,33,5
+USR-00175,Pune,18.64,73.991,+916556441994,Fruits & Veggies,WhatsApp,0.63,14,27
+USR-00176,Mumbai,19.164,72.855,+918029990761,Ready-to-Eat,WhatsApp,0.55,49,36
+USR-00177,Chennai,13.006,80.179,+919784903217,Beverages|Bakery|Dairy|Food Grains,WhatsApp,0.72,33,3
+USR-00178,Pune,18.605,73.925,+916437531575,Fruits & Veggies|Snacks,reply-YES,0.53,25,37
+USR-00179,Bengaluru,13.145,77.548,+916390367486,Snacks|Oil & Masala|Food Grains|Fruits & Veggies,WhatsApp,0.93,14,22
+USR-00180,Chennai,13.077,80.44,+918743927081,Dairy|Meat & Seafood,reply-YES,0.77,11,15
+USR-00181,Bengaluru,12.98,77.549,+916010320823,Bakery|Oil & Masala|Dairy,reply-YES,0.8,11,38
+USR-00182,Bengaluru,13.044,77.61,+918788516619,Meat & Seafood,WhatsApp,0.94,29,19
+USR-00183,Pune,18.418,73.987,+916439461622,Meat & Seafood|Ready-to-Eat,SMS,0.57,11,23
+USR-00184,Bengaluru,13.006,77.518,+916260284655,Bakery|Snacks,reply-YES,0.69,35,18
+USR-00185,Pune,18.546,74.009,+917397453918,Fruits & Veggies,WhatsApp,0.62,45,30
+USR-00186,Bengaluru,12.924,77.656,+916444337360,Ready-to-Eat,WhatsApp,0.66,24,31
+USR-00187,Pune,18.656,73.871,+918763183429,Dairy,reply-YES,0.58,20,43
+USR-00188,Bengaluru,13.099,77.68,+918234615121,Meat & Seafood|Oil & Masala|Snacks|Dairy,reply-YES,0.91,36,4
+USR-00189,Mumbai,19.089,72.851,+916665897824,Snacks|Oil & Masala,SMS,0.68,58,38
+USR-00190,Chennai,13.155,80.345,+918404450398,Food Grains|Ready-to-Eat|Snacks|Fruits & Veggies,WhatsApp,0.69,48,3
+USR-00191,Pune,18.5,73.759,+916449860296,Food Grains|Fruits & Veggies|Snacks,SMS,0.78,14,24
+USR-00192,Pune,18.59,73.933,+917070791904,Ready-to-Eat|Oil & Masala|Dairy|Meat & Seafood,reply-YES,0.68,55,42
+USR-00193,Chennai,13.052,80.26,+917451298294,Beverages|Bakery|Ready-to-Eat,WhatsApp,0.6,45,35
+USR-00194,Mumbai,19.081,72.829,+918742507438,Dairy|Food Grains,reply-YES,0.8,13,43
+USR-00195,Pune,18.589,73.98,+916786775500,Food Grains|Snacks|Ready-to-Eat,reply-YES,0.9,50,26
+USR-00196,Pune,18.385,73.735,+916367336142,Meat & Seafood|Beverages|Dairy,SMS,1.0,37,16
+USR-00197,Chennai,13.065,80.302,+918661482436,Ready-to-Eat|Snacks|Dairy,SMS,0.72,54,30
+USR-00198,Pune,18.433,73.962,+918773061460,Meat & Seafood,SMS,0.83,48,26
+USR-00199,Bengaluru,13.036,77.7,+916009256835,Fruits & Veggies|Meat & Seafood|Beverages|Bakery,reply-YES,0.81,40,32
+USR-00200,Bengaluru,12.974,77.733,+919540234714,Bakery|Food Grains|Meat & Seafood,SMS,0.64,59,10
+USR-00201,Pune,18.631,73.998,+917656529367,Oil & Masala|Fruits & Veggies|Food Grains,WhatsApp,0.68,31,45
+USR-00202,Bengaluru,12.816,77.58,+916349893975,Snacks|Food Grains|Meat & Seafood,reply-YES,0.83,20,13
+USR-00203,Pune,18.57,73.927,+916947054476,Ready-to-Eat|Food Grains|Beverages,reply-YES,0.83,10,6
+USR-00204,Pune,18.422,73.903,+919692704388,Fruits & Veggies|Meat & Seafood|Dairy,WhatsApp,0.93,59,35
+USR-00205,Chennai,13.09,80.367,+918430299738,Beverages|Ready-to-Eat|Oil & Masala,WhatsApp,0.92,13,11
+USR-00206,Pune,18.578,73.86,+918804688698,Ready-to-Eat,WhatsApp,0.86,22,18
+USR-00207,Pune,18.367,73.879,+917724771157,Food Grains|Meat & Seafood|Oil & Masala|Beverages,WhatsApp,0.54,17,27
+USR-00208,Chennai,13.251,80.406,+916736713873,Beverages,reply-YES,0.51,23,6
+USR-00209,Pune,18.424,73.932,+916666162469,Meat & Seafood|Oil & Masala|Bakery|Snacks,SMS,0.54,21,21
+USR-00210,Bengaluru,12.994,77.559,+917247686707,Oil & Masala,SMS,0.92,50,19
+USR-00211,Pune,18.481,73.924,+918792578523,Fruits & Veggies|Dairy|Meat & Seafood,SMS,0.89,28,6
+USR-00212,Chennai,13.165,80.186,+919345424711,Snacks|Fruits & Veggies|Oil & Masala,SMS,0.59,45,9
+USR-00213,Pune,18.579,73.986,+918171907067,Oil & Masala|Food Grains|Ready-to-Eat|Dairy,WhatsApp,0.6,29,22
+USR-00214,Chennai,13.159,80.283,+917364255035,Food Grains|Fruits & Veggies,SMS,0.91,12,8
+USR-00215,Chennai,13.207,80.306,+918467591499,Meat & Seafood|Ready-to-Eat|Dairy,reply-YES,0.62,40,2
+USR-00216,Bengaluru,13.002,77.493,+919825832014,Snacks|Beverages,SMS,0.69,60,27
+USR-00217,Bengaluru,12.874,77.657,+917686364449,Dairy,SMS,0.83,58,10
+USR-00218,Bengaluru,12.924,77.483,+919392060429,Fruits & Veggies|Ready-to-Eat|Oil & Masala,reply-YES,0.54,21,19
+USR-00219,Bengaluru,12.925,77.689,+918350697820,Ready-to-Eat|Meat & Seafood,SMS,0.57,16,10
+USR-00220,Mumbai,19.02,72.91,+917829983990,Snacks,reply-YES,0.94,59,45
+USR-00221,Bengaluru,13.022,77.504,+918476168068,Food Grains,reply-YES,0.52,11,2
+USR-00222,Bengaluru,12.998,77.519,+918680131433,Dairy|Snacks|Food Grains|Fruits & Veggies,SMS,0.6,57,8
+USR-00223,Mumbai,19.147,72.794,+918495992917,Oil & Masala,reply-YES,0.92,52,5
+USR-00224,Pune,18.495,73.807,+916364176592,Snacks,WhatsApp,0.99,44,42
+USR-00225,Chennai,13.25,80.365,+919090168011,Food Grains|Oil & Masala|Dairy,WhatsApp,0.81,23,40
+USR-00226,Bengaluru,12.848,77.722,+918349732009,Dairy|Bakery|Fruits & Veggies|Meat & Seafood,reply-YES,0.67,60,3
+USR-00227,Bengaluru,13.02,77.603,+917256248888,Beverages,WhatsApp,1.0,12,18
+USR-00228,Bengaluru,12.967,77.595,+918855516932,Dairy|Snacks|Oil & Masala,WhatsApp,0.82,58,45
+USR-00229,Bengaluru,13.011,77.501,+916193539103,Oil & Masala,WhatsApp,0.91,41,30
+USR-00230,Pune,18.49,73.892,+916952185868,Beverages,SMS,0.85,48,18
+USR-00231,Chennai,13.113,80.435,+916088925857,Ready-to-Eat|Dairy,SMS,0.6,23,30
+USR-00232,Bengaluru,12.955,77.743,+917120588694,Food Grains|Dairy|Ready-to-Eat,WhatsApp,0.63,45,6
+USR-00233,Chennai,13.159,80.269,+918095140501,Food Grains,reply-YES,0.86,34,6
+USR-00234,Bengaluru,12.913,77.556,+916004854123,Ready-to-Eat|Bakery|Dairy,reply-YES,0.94,28,45
+USR-00235,Bengaluru,12.883,77.711,+917553962556,Beverages,SMS,0.63,52,38
+USR-00236,Pune,18.509,73.925,+919010932152,Bakery|Meat & Seafood|Oil & Masala,SMS,0.72,16,21
+USR-00237,Pune,18.377,74.007,+917240965261,Bakery|Oil & Masala,WhatsApp,0.91,55,38
+USR-00238,Bengaluru,13.08,77.588,+916001123301,Meat & Seafood|Oil & Masala|Fruits & Veggies|Ready-to-Eat,WhatsApp,0.81,51,31
+USR-00239,Chennai,13.237,80.325,+917383684143,Beverages|Oil & Masala|Bakery,reply-YES,0.59,11,33
+USR-00240,Bengaluru,13.072,77.626,+916538905950,Fruits & Veggies|Bakery|Food Grains,WhatsApp,0.77,19,23
+USR-00241,Bengaluru,12.96,77.69,+919210872741,Snacks,WhatsApp,0.79,57,31
+USR-00242,Pune,18.448,73.818,+916555184955,Oil & Masala|Beverages,WhatsApp,0.62,18,10
+USR-00243,Mumbai,19.173,72.895,+919328424872,Fruits & Veggies,SMS,0.51,49,6
+USR-00244,Pune,18.528,73.823,+919265134204,Meat & Seafood|Bakery|Ready-to-Eat,WhatsApp,0.55,58,26
+USR-00245,Chennai,13.033,80.368,+918303024130,Bakery,SMS,0.56,28,29
+USR-00246,Bengaluru,13.111,77.487,+918214377805,Fruits & Veggies|Ready-to-Eat|Food Grains,SMS,0.98,52,10
+USR-00247,Bengaluru,12.91,77.575,+916497697998,Fruits & Veggies|Snacks|Food Grains|Meat & Seafood,reply-YES,0.8,59,21
+USR-00248,Mumbai,19.137,72.95,+916350764996,Fruits & Veggies|Meat & Seafood|Snacks|Food Grains,reply-YES,0.6,36,34
+USR-00249,Mumbai,19.083,72.728,+916711947505,Fruits & Veggies|Dairy,SMS,0.55,60,32
+USR-00250,Mumbai,19.052,72.993,+918225933238,Beverages,SMS,0.62,36,6
+USR-00251,Bengaluru,13.002,77.492,+919974469707,Bakery,reply-YES,0.8,55,39
+USR-00252,Bengaluru,12.858,77.619,+916115787239,Food Grains,WhatsApp,0.75,51,25
+USR-00253,Pune,18.481,73.729,+919026423624,Ready-to-Eat|Beverages|Snacks,reply-YES,0.69,23,30
+USR-00254,Mumbai,19.191,72.875,+918787508057,Bakery,WhatsApp,0.94,43,18
+USR-00255,Pune,18.592,73.941,+918400274894,Beverages|Ready-to-Eat,WhatsApp,0.97,48,15
+USR-00256,Bengaluru,12.919,77.733,+919604486711,Oil & Masala,SMS,0.53,57,33
+USR-00257,Pune,18.464,73.748,+919347749678,Snacks|Fruits & Veggies|Food Grains,reply-YES,0.95,25,43
+USR-00258,Pune,18.47,73.985,+916881567541,Snacks|Beverages,reply-YES,0.81,32,23
+USR-00259,Pune,18.631,73.978,+919970790770,Snacks|Ready-to-Eat|Bakery,SMS,0.51,14,33
+USR-00260,Chennai,12.953,80.236,+916412725921,Ready-to-Eat|Snacks,reply-YES,0.69,18,18
+USR-00261,Mumbai,19.159,72.962,+918552517748,Oil & Masala|Snacks|Bakery,WhatsApp,0.96,29,11
+USR-00262,Pune,18.512,73.792,+918374282202,Dairy|Beverages,WhatsApp,0.54,28,38
+USR-00263,Bengaluru,12.972,77.629,+916726520148,Oil & Masala|Dairy|Beverages|Food Grains,SMS,0.73,38,12
+USR-00264,Bengaluru,12.816,77.645,+916093219569,Fruits & Veggies|Dairy,SMS,0.69,37,24
+USR-00265,Mumbai,19.113,72.876,+919961588445,Food Grains|Oil & Masala,WhatsApp,0.63,14,8
+USR-00266,Pune,18.416,73.745,+916020896760,Dairy|Oil & Masala|Bakery,SMS,0.62,16,25
+USR-00267,Mumbai,18.972,72.998,+919519679296,Snacks,WhatsApp,0.76,24,7
+USR-00268,Bengaluru,13.075,77.612,+917422070431,Meat & Seafood,SMS,0.73,19,37
+USR-00269,Bengaluru,12.951,77.695,+918995893674,Ready-to-Eat|Oil & Masala,WhatsApp,0.52,59,27
+USR-00270,Pune,18.401,73.936,+919873880111,Dairy|Snacks,reply-YES,0.59,19,15
+USR-00271,Pune,18.601,73.809,+917522377504,Ready-to-Eat|Dairy|Food Grains,reply-YES,0.83,21,18
+USR-00272,Bengaluru,12.962,77.622,+919846041261,Snacks|Ready-to-Eat|Meat & Seafood|Fruits & Veggies,reply-YES,0.56,25,14
+USR-00273,Pune,18.417,73.794,+919021461690,Meat & Seafood|Oil & Masala|Dairy,reply-YES,0.53,37,44
+USR-00274,Pune,18.536,73.858,+918441904377,Fruits & Veggies,WhatsApp,0.81,39,4
+USR-00275,Bengaluru,12.947,77.506,+916356237246,Snacks|Oil & Masala|Dairy,WhatsApp,0.65,15,7
+USR-00276,Pune,18.518,73.834,+916656322679,Bakery,WhatsApp,0.54,42,23
+USR-00277,Mumbai,19.003,72.814,+917592729169,Fruits & Veggies|Ready-to-Eat|Bakery,reply-YES,0.94,19,24
+USR-00278,Chennai,13.023,80.28,+918187576176,Meat & Seafood|Fruits & Veggies|Bakery,WhatsApp,0.83,43,35
+USR-00279,Chennai,13.241,80.447,+919607983340,Food Grains|Meat & Seafood,WhatsApp,0.76,50,9
+USR-00280,Bengaluru,13.013,77.662,+917668668080,Snacks|Oil & Masala|Fruits & Veggies|Bakery,SMS,0.53,21,11
+USR-00281,Bengaluru,12.987,77.7,+918093604709,Ready-to-Eat|Dairy,SMS,0.62,38,7
+USR-00282,Bengaluru,13.069,77.677,+917137472793,Fruits & Veggies|Oil & Masala,reply-YES,0.99,42,41
+USR-00283,Bengaluru,12.873,77.684,+918427629336,Fruits & Veggies|Beverages,WhatsApp,0.51,21,34
+USR-00284,Mumbai,19.185,72.938,+918981618098,Ready-to-Eat,SMS,0.78,26,3
+USR-00285,Pune,18.61,73.976,+917362724452,Meat & Seafood|Snacks,SMS,0.8,34,33
+USR-00286,Chennai,13.125,80.369,+917722215532,Dairy|Bakery|Food Grains,reply-YES,0.81,22,13
+USR-00287,Pune,18.46,73.757,+919451165160,Fruits & Veggies|Beverages|Oil & Masala|Meat & Seafood,SMS,0.89,24,14
+USR-00288,Pune,18.517,73.88,+919605752966,Meat & Seafood|Bakery|Snacks,SMS,0.55,23,10
+USR-00289,Pune,18.595,73.75,+916723919184,Snacks|Ready-to-Eat|Oil & Masala|Dairy,SMS,0.89,37,39
+USR-00290,Pune,18.611,73.93,+918167655999,Oil & Masala,WhatsApp,1.0,47,30
+USR-00291,Bengaluru,13.087,77.523,+916223644995,Beverages,reply-YES,0.62,10,19
+USR-00292,Chennai,13.048,80.292,+918249162631,Meat & Seafood|Ready-to-Eat|Oil & Masala|Fruits & Veggies,WhatsApp,0.85,19,13
+USR-00293,Chennai,12.952,80.226,+916242197381,Food Grains,SMS,0.63,16,31
+USR-00294,Bengaluru,13.014,77.61,+916029583850,Food Grains|Fruits & Veggies,SMS,0.74,29,22
+USR-00295,Chennai,13.236,80.217,+918135634317,Bakery,WhatsApp,0.95,24,14
+USR-00296,Bengaluru,12.97,77.444,+918715433825,Bakery|Meat & Seafood|Oil & Masala,reply-YES,0.71,19,45
+USR-00297,Chennai,13.127,80.198,+916682994580,Ready-to-Eat|Beverages,SMS,0.67,53,37
+USR-00298,Bengaluru,12.896,77.6,+916981625499,Bakery|Beverages,reply-YES,0.66,36,23
+USR-00299,Mumbai,19.042,72.859,+917386136746,Oil & Masala,SMS,0.55,30,19
+USR-00300,Chennai,12.961,80.189,+917707367127,Meat & Seafood|Dairy|Food Grains,WhatsApp,0.8,25,6
+USR-00301,Chennai,12.974,80.205,+916789406972,Meat & Seafood|Fruits & Veggies|Oil & Masala|Dairy,reply-YES,0.64,37,12
+USR-00302,Pune,18.486,73.855,+917191678758,Beverages|Meat & Seafood|Fruits & Veggies|Dairy,SMS,0.94,48,11
+USR-00303,Pune,18.454,73.724,+918531755046,Oil & Masala,reply-YES,0.56,24,36
+USR-00304,Pune,18.615,73.881,+918039726754,Meat & Seafood|Oil & Masala|Ready-to-Eat,SMS,0.79,47,20
+USR-00305,Mumbai,19.13,72.817,+918250956360,Ready-to-Eat|Snacks,SMS,0.82,42,35
+USR-00306,Chennai,13.22,80.258,+917132996783,Food Grains|Snacks|Beverages,reply-YES,0.85,33,41
+USR-00307,Pune,18.551,73.998,+916977638586,Fruits & Veggies|Snacks,reply-YES,0.86,27,16
+USR-00308,Bengaluru,13.167,77.529,+919366287117,Oil & Masala,SMS,0.69,50,23
+USR-00309,Pune,18.617,73.937,+918539450698,Ready-to-Eat|Fruits & Veggies|Beverages,WhatsApp,0.63,25,5
+USR-00310,Pune,18.378,73.776,+919285541793,Food Grains|Bakery|Fruits & Veggies,reply-YES,0.95,17,18
+USR-00311,Chennai,13.105,80.319,+916544096762,Fruits & Veggies|Snacks|Food Grains,WhatsApp,0.63,11,25
+USR-00312,Chennai,13.188,80.296,+919703547663,Meat & Seafood,reply-YES,0.89,38,38
+USR-00313,Pune,18.572,74.022,+919510906519,Dairy|Meat & Seafood|Bakery,SMS,0.91,27,28
+USR-00314,Mumbai,19.226,72.886,+918041170829,Fruits & Veggies|Dairy,WhatsApp,0.79,15,15
+USR-00315,Pune,18.587,73.826,+916029501147,Meat & Seafood|Fruits & Veggies|Beverages,reply-YES,0.79,32,25
+USR-00316,Bengaluru,13.049,77.629,+917378390497,Meat & Seafood|Beverages|Fruits & Veggies,reply-YES,0.69,28,20
+USR-00317,Chennai,13.081,80.311,+919333388465,Dairy,WhatsApp,0.6,45,14
+USR-00318,Mumbai,19.076,72.919,+917413016064,Dairy|Food Grains|Fruits & Veggies,reply-YES,0.82,25,20
+USR-00319,Mumbai,19.152,72.87,+919733430718,Bakery|Fruits & Veggies,WhatsApp,0.55,52,3
+USR-00320,Bengaluru,13.128,77.752,+917923186781,Dairy,SMS,0.77,19,17
+USR-00321,Pune,18.559,73.78,+917697025795,Snacks|Oil & Masala,reply-YES,0.65,14,6
+USR-00322,Pune,18.41,74.023,+917547286399,Fruits & Veggies|Beverages|Oil & Masala|Dairy,SMS,0.83,42,18
+USR-00323,Pune,18.514,73.921,+917031759145,Dairy,SMS,0.8,51,14
+USR-00324,Pune,18.508,73.922,+918728693953,Dairy,reply-YES,0.69,40,16
+USR-00325,Chennai,13.09,80.428,+917827653480,Beverages|Oil & Masala,reply-YES,0.7,46,12
+USR-00326,Chennai,13.036,80.465,+918855201015,Beverages|Ready-to-Eat|Meat & Seafood,WhatsApp,0.92,48,11
+USR-00327,Mumbai,19.126,72.75,+919405187032,Bakery|Meat & Seafood,reply-YES,0.73,49,5
+USR-00328,Chennai,13.089,80.286,+918498391032,Beverages,SMS,0.55,24,42
+USR-00329,Bengaluru,13.149,77.557,+917810297295,Snacks|Ready-to-Eat|Dairy|Bakery,WhatsApp,0.72,13,43
+USR-00330,Mumbai,19.081,72.94,+919963302251,Oil & Masala|Ready-to-Eat|Food Grains|Beverages,SMS,0.81,17,12
+USR-00331,Bengaluru,12.896,77.524,+918621334595,Snacks|Oil & Masala,WhatsApp,0.97,20,6
+USR-00332,Pune,18.553,73.753,+917959099441,Meat & Seafood|Snacks|Bakery,WhatsApp,0.88,22,30
+USR-00333,Pune,18.442,73.848,+917564858647,Oil & Masala|Snacks|Meat & Seafood|Fruits & Veggies,WhatsApp,0.84,56,2
+USR-00334,Bengaluru,12.881,77.536,+916865067996,Snacks|Bakery|Dairy,reply-YES,0.69,10,22
+USR-00335,Pune,18.428,73.956,+917568704264,Meat & Seafood|Snacks|Dairy|Ready-to-Eat,WhatsApp,0.77,54,27
+USR-00336,Bengaluru,12.942,77.704,+916638285041,Fruits & Veggies|Meat & Seafood|Ready-to-Eat|Dairy,reply-YES,0.93,50,12
+USR-00337,Mumbai,19.015,72.742,+917252123802,Beverages|Oil & Masala|Meat & Seafood,WhatsApp,0.57,34,17
+USR-00338,Bengaluru,13.081,77.655,+916487497151,Snacks|Beverages,reply-YES,0.68,48,17
+USR-00339,Pune,18.42,73.784,+918335849999,Oil & Masala,SMS,0.8,32,43
+USR-00340,Pune,18.426,73.914,+918228751209,Bakery,WhatsApp,0.77,52,21
+USR-00341,Pune,18.36,74.012,+919311149633,Dairy|Bakery|Oil & Masala|Ready-to-Eat,SMS,0.66,28,45
+USR-00342,Bengaluru,12.927,77.524,+919197400597,Ready-to-Eat|Food Grains|Fruits & Veggies,WhatsApp,0.96,32,40
+USR-00343,Pune,18.592,73.789,+918210420841,Ready-to-Eat|Oil & Masala,reply-YES,0.66,12,31
+USR-00344,Pune,18.527,73.845,+919255054151,Food Grains,WhatsApp,0.73,58,31
+USR-00345,Mumbai,19.129,72.754,+919960616941,Snacks|Bakery,reply-YES,0.59,26,37
+USR-00346,Chennai,13.068,80.437,+919955958277,Oil & Masala,SMS,0.79,18,28
+USR-00347,Pune,18.649,73.757,+916569490608,Meat & Seafood|Oil & Masala,SMS,0.56,20,16
+USR-00348,Bengaluru,13.012,77.561,+916209459691,Meat & Seafood|Food Grains|Snacks,WhatsApp,0.63,22,37
+USR-00349,Bengaluru,12.921,77.444,+919337598491,Ready-to-Eat|Meat & Seafood,reply-YES,0.95,41,2
+USR-00350,Mumbai,18.975,72.793,+916113379523,Bakery|Beverages,WhatsApp,0.62,15,42
+USR-00351,Bengaluru,13.008,77.668,+916712787963,Ready-to-Eat|Meat & Seafood,reply-YES,0.88,51,4
+USR-00352,Pune,18.522,73.852,+916322082204,Ready-to-Eat|Beverages|Snacks,SMS,0.91,30,9
+USR-00353,Pune,18.544,73.852,+919881649571,Beverages,reply-YES,0.99,31,41
+USR-00354,Pune,18.465,74.016,+916028422417,Bakery,reply-YES,0.77,24,42
+USR-00355,Mumbai,19.194,72.754,+917774340305,Fruits & Veggies|Snacks|Meat & Seafood|Oil & Masala,SMS,0.55,24,17
+USR-00356,Bengaluru,13.014,77.736,+916368220152,Oil & Masala|Snacks|Fruits & Veggies|Food Grains,SMS,0.59,34,30
+USR-00357,Mumbai,19.126,72.791,+916620821240,Oil & Masala|Ready-to-Eat|Fruits & Veggies|Snacks,WhatsApp,0.82,52,15
+USR-00358,Bengaluru,13.07,77.524,+917921350113,Beverages|Oil & Masala|Ready-to-Eat,reply-YES,0.96,30,3
+USR-00359,Pune,18.602,73.881,+917918489945,Beverages|Meat & Seafood|Bakery,WhatsApp,0.68,19,44
+USR-00360,Mumbai,19.023,72.828,+918744217563,Dairy|Beverages|Oil & Masala,SMS,0.69,28,21
+USR-00361,Bengaluru,13.03,77.472,+918657481452,Fruits & Veggies|Oil & Masala|Ready-to-Eat,SMS,0.69,45,41
+USR-00362,Chennai,13.224,80.202,+916431784213,Food Grains,reply-YES,0.89,48,41
+USR-00363,Bengaluru,12.993,77.697,+918483937772,Bakery|Snacks|Fruits & Veggies|Ready-to-Eat,SMS,0.58,20,22
+USR-00364,Mumbai,19.176,72.753,+917834124722,Meat & Seafood|Fruits & Veggies,WhatsApp,0.52,14,40
+USR-00365,Bengaluru,12.952,77.573,+918370063239,Meat & Seafood|Food Grains|Bakery|Fruits & Veggies,SMS,0.58,43,23
+USR-00366,Pune,18.631,73.861,+917755826321,Snacks|Bakery|Ready-to-Eat,reply-YES,0.53,32,34
+USR-00367,Pune,18.626,73.98,+916811994281,Ready-to-Eat|Food Grains|Fruits & Veggies|Bakery,SMS,0.89,36,18
+USR-00368,Chennai,12.964,80.376,+917955343349,Bakery|Meat & Seafood|Ready-to-Eat|Snacks,SMS,0.51,46,45
+USR-00369,Chennai,13.216,80.276,+917424300917,Bakery|Oil & Masala,SMS,0.6,28,43
+USR-00370,Chennai,13.097,80.237,+916872447839,Meat & Seafood,SMS,0.56,15,12
+USR-00371,Bengaluru,12.971,77.544,+919989691024,Ready-to-Eat,reply-YES,0.92,21,32
+USR-00372,Chennai,13.168,80.238,+918495207699,Snacks,reply-YES,0.57,23,7
+USR-00373,Mumbai,19.094,72.864,+919789516650,Ready-to-Eat,WhatsApp,0.52,27,20
+USR-00374,Mumbai,19.062,72.799,+917776012316,Snacks|Meat & Seafood,SMS,0.68,12,3
+USR-00375,Chennai,13.166,80.233,+919685743973,Meat & Seafood|Bakery|Snacks,WhatsApp,0.85,33,34
+USR-00376,Mumbai,19.211,72.906,+919302129182,Oil & Masala|Food Grains,WhatsApp,0.99,18,23
+USR-00377,Mumbai,19.236,72.999,+916298031026,Food Grains|Meat & Seafood,SMS,0.51,34,31
+USR-00378,Pune,18.4,73.928,+918825229254,Snacks|Beverages|Food Grains|Oil & Masala,SMS,0.61,37,40
+USR-00379,Mumbai,18.994,73.006,+918559036535,Fruits & Veggies|Food Grains|Meat & Seafood,WhatsApp,0.58,37,29
+USR-00380,Bengaluru,13.074,77.524,+919226761747,Beverages,WhatsApp,0.9,20,11
+USR-00381,Bengaluru,12.866,77.662,+917059642549,Ready-to-Eat|Dairy|Food Grains|Fruits & Veggies,SMS,0.61,49,43
+USR-00382,Bengaluru,13.054,77.507,+916348973116,Bakery,WhatsApp,0.67,25,38
+USR-00383,Pune,18.507,73.971,+918211542401,Dairy|Beverages|Bakery,WhatsApp,0.92,49,5
+USR-00384,Pune,18.401,73.697,+919808835855,Oil & Masala|Beverages,reply-YES,0.66,45,30
+USR-00385,Bengaluru,12.854,77.493,+919997425429,Beverages,reply-YES,0.61,20,32
+USR-00386,Bengaluru,13.004,77.539,+919849785078,Meat & Seafood|Fruits & Veggies|Oil & Masala|Ready-to-Eat,reply-YES,0.62,16,23
+USR-00387,Pune,18.388,73.842,+916867894511,Fruits & Veggies|Beverages,SMS,0.71,51,43
+USR-00388,Pune,18.532,73.815,+917752371002,Oil & Masala|Food Grains|Fruits & Veggies,reply-YES,0.54,41,24
+USR-00389,Bengaluru,13.044,77.741,+916532093613,Bakery,WhatsApp,0.64,27,8
+USR-00390,Pune,18.477,74.005,+919294103675,Oil & Masala,reply-YES,0.78,24,11
+USR-00391,Pune,18.615,73.699,+918011713037,Meat & Seafood,WhatsApp,0.55,36,31
+USR-00392,Pune,18.557,73.825,+916877373169,Meat & Seafood|Snacks,WhatsApp,0.8,29,28
+USR-00393,Mumbai,19.017,72.945,+916006977400,Dairy|Bakery|Beverages|Meat & Seafood,reply-YES,0.57,53,27
+USR-00394,Bengaluru,13.088,77.674,+916806108537,Dairy,SMS,0.75,16,2
+USR-00395,Chennai,12.964,80.344,+917212683905,Dairy,SMS,0.56,58,36
+USR-00396,Mumbai,19.12,73.014,+919934910676,Bakery|Dairy|Oil & Masala|Meat & Seafood,WhatsApp,0.64,15,7
+USR-00397,Bengaluru,13.103,77.576,+917282251964,Snacks|Oil & Masala,WhatsApp,0.56,19,8
+USR-00398,Mumbai,19.132,72.991,+919025449655,Fruits & Veggies,reply-YES,0.85,20,7
+USR-00399,Pune,18.601,73.853,+917548057595,Fruits & Veggies,WhatsApp,0.65,51,10
+USR-00400,Bengaluru,13.147,77.76,+917352317548,Meat & Seafood|Bakery|Oil & Masala|Snacks,SMS,0.98,10,11
+USR-00401,Mumbai,19.172,72.776,+919139203186,Oil & Masala|Meat & Seafood|Fruits & Veggies|Ready-to-Eat,SMS,0.76,21,34
+USR-00402,Pune,18.581,73.813,+919807390049,Food Grains|Dairy|Snacks|Beverages,WhatsApp,0.96,35,30
+USR-00403,Bengaluru,12.942,77.502,+917960296499,Dairy,reply-YES,0.63,41,9
+USR-00404,Bengaluru,12.9,77.589,+918954584465,Meat & Seafood|Bakery|Ready-to-Eat|Snacks,reply-YES,0.91,38,9
+USR-00405,Bengaluru,12.983,77.641,+917427893287,Fruits & Veggies|Ready-to-Eat,WhatsApp,0.9,37,22
+USR-00406,Bengaluru,13.075,77.481,+918274946454,Food Grains,SMS,0.95,56,3
+USR-00407,Chennai,13.046,80.176,+916436659453,Food Grains|Fruits & Veggies,WhatsApp,0.99,60,23
+USR-00408,Pune,18.556,73.7,+917356682289,Snacks|Meat & Seafood|Ready-to-Eat|Fruits & Veggies,reply-YES,0.65,19,44
+USR-00409,Mumbai,18.955,72.903,+917980133761,Snacks,WhatsApp,0.84,10,8
+USR-00410,Bengaluru,12.873,77.635,+916115816231,Food Grains|Beverages|Bakery,SMS,0.77,32,36
+USR-00411,Bengaluru,12.976,77.545,+919509163975,Snacks,reply-YES,0.94,48,10
+USR-00412,Mumbai,19.169,72.946,+918109810094,Food Grains|Dairy|Meat & Seafood,WhatsApp,0.57,24,10
+USR-00413,Mumbai,18.959,72.941,+919569427638,Ready-to-Eat,SMS,0.59,20,27
+USR-00414,Bengaluru,13.153,77.61,+919311431075,Ready-to-Eat|Meat & Seafood,WhatsApp,1.0,16,19
+USR-00415,Chennai,13.112,80.268,+919429306461,Food Grains|Ready-to-Eat|Oil & Masala,reply-YES,0.95,57,6
+USR-00416,Bengaluru,13.098,77.697,+919428954058,Meat & Seafood|Beverages|Bakery,reply-YES,0.78,28,33
+USR-00417,Bengaluru,13.082,77.655,+917897245979,Fruits & Veggies|Beverages,reply-YES,0.67,28,3
+USR-00418,Pune,18.65,73.984,+918210014996,Bakery,WhatsApp,0.88,38,35
+USR-00419,Bengaluru,12.937,77.654,+918539057986,Fruits & Veggies|Oil & Masala|Beverages|Bakery,SMS,0.92,25,38
+USR-00420,Bengaluru,12.82,77.553,+917002553952,Oil & Masala|Food Grains|Meat & Seafood,WhatsApp,0.92,52,15
+USR-00421,Mumbai,19.063,72.973,+917524587013,Bakery,WhatsApp,0.53,17,33
+USR-00422,Chennai,13.034,80.231,+917583624921,Bakery|Snacks|Food Grains,WhatsApp,0.79,24,37
+USR-00423,Bengaluru,13.008,77.536,+919171359358,Dairy,WhatsApp,0.96,44,13
+USR-00424,Bengaluru,12.867,77.58,+919273964331,Bakery|Fruits & Veggies|Dairy|Snacks,SMS,0.8,45,28
+USR-00425,Pune,18.438,73.729,+919842775153,Meat & Seafood|Fruits & Veggies|Dairy|Snacks,reply-YES,0.79,32,4
+USR-00426,Bengaluru,12.946,77.692,+919991285685,Beverages|Bakery|Food Grains,reply-YES,0.64,25,15
+USR-00427,Mumbai,18.974,72.752,+916156854026,Bakery|Dairy,reply-YES,0.7,52,2
+USR-00428,Pune,18.479,73.741,+917632351852,Bakery|Oil & Masala,WhatsApp,0.91,15,14
+USR-00429,Pune,18.473,73.968,+916739871484,Beverages|Ready-to-Eat|Oil & Masala,SMS,0.6,39,43
+USR-00430,Bengaluru,12.859,77.653,+918777414651,Bakery|Oil & Masala,SMS,0.62,33,16
+USR-00431,Chennai,12.975,80.4,+919305757866,Meat & Seafood,SMS,1.0,31,3
+USR-00432,Bengaluru,13.15,77.701,+919660695085,Oil & Masala|Bakery,WhatsApp,0.97,42,41
+USR-00433,Bengaluru,13.134,77.69,+918532647414,Fruits & Veggies,SMS,0.84,53,18
+USR-00434,Chennai,13.035,80.235,+919848359600,Bakery,reply-YES,0.78,19,2
+USR-00435,Pune,18.626,73.732,+919163881939,Meat & Seafood|Bakery,reply-YES,0.78,47,38
+USR-00436,Chennai,13.114,80.267,+916987921650,Ready-to-Eat,WhatsApp,0.98,57,25
+USR-00437,Bengaluru,13.143,77.517,+919018086752,Oil & Masala|Fruits & Veggies,SMS,0.65,31,10
+USR-00438,Pune,18.467,73.722,+917281665177,Bakery|Food Grains,reply-YES,0.54,59,31
+USR-00439,Bengaluru,13.096,77.538,+917135276255,Meat & Seafood|Oil & Masala,SMS,0.83,15,35
+USR-00440,Chennai,13.064,80.185,+918665163917,Meat & Seafood|Bakery,WhatsApp,0.88,44,14
+USR-00441,Bengaluru,12.9,77.747,+917813413503,Beverages|Oil & Masala,WhatsApp,0.51,29,39
+USR-00442,Bengaluru,13.063,77.651,+919574465448,Bakery|Meat & Seafood,reply-YES,0.61,52,13
+USR-00443,Mumbai,19.177,72.913,+917558877405,Food Grains,WhatsApp,0.88,14,15
+USR-00444,Bengaluru,12.891,77.712,+919508656996,Ready-to-Eat|Meat & Seafood,WhatsApp,0.89,40,33
+USR-00445,Mumbai,19.015,72.97,+917412538341,Oil & Masala,WhatsApp,0.68,18,41
+USR-00446,Pune,18.441,73.769,+919665620670,Food Grains|Ready-to-Eat,WhatsApp,0.99,53,33
+USR-00447,Bengaluru,13.043,77.508,+918410843971,Ready-to-Eat,reply-YES,0.59,13,2
+USR-00448,Chennai,13.065,80.318,+918093582717,Fruits & Veggies|Dairy,reply-YES,0.61,10,29
+USR-00449,Bengaluru,13.136,77.583,+919465184788,Meat & Seafood|Beverages|Fruits & Veggies|Ready-to-Eat,reply-YES,0.81,41,41
+USR-00450,Pune,18.37,73.938,+918797114917,Oil & Masala|Bakery|Snacks,SMS,0.93,34,39
+USR-00451,Pune,18.541,73.897,+917395108327,Oil & Masala|Ready-to-Eat|Beverages|Snacks,reply-YES,0.99,43,21
+USR-00452,Chennai,12.979,80.219,+916032650305,Beverages|Bakery,SMS,0.55,12,30
+USR-00453,Bengaluru,13.033,77.528,+918133529495,Oil & Masala|Dairy|Bakery|Snacks,reply-YES,0.99,36,6
+USR-00454,Mumbai,19.186,72.731,+918929704538,Ready-to-Eat|Meat & Seafood|Food Grains|Dairy,reply-YES,0.57,38,28
+USR-00455,Bengaluru,13.114,77.607,+919213545614,Bakery|Snacks,reply-YES,0.87,42,42
+USR-00456,Chennai,13.129,80.226,+918899531200,Dairy|Beverages|Ready-to-Eat,SMS,0.99,21,19
+USR-00457,Mumbai,19.057,72.896,+919036423733,Food Grains,reply-YES,0.65,19,21
+USR-00458,Mumbai,18.989,72.841,+918718976217,Beverages|Fruits & Veggies|Snacks|Ready-to-Eat,SMS,0.59,16,33
+USR-00459,Chennai,13.155,80.437,+919482151750,Oil & Masala|Food Grains|Dairy|Bakery,reply-YES,0.57,13,44
+USR-00460,Pune,18.434,73.92,+918961965196,Fruits & Veggies|Meat & Seafood|Dairy|Ready-to-Eat,SMS,0.68,37,22
+USR-00461,Pune,18.395,73.749,+919862378577,Meat & Seafood,SMS,0.56,46,39
+USR-00462,Pune,18.6,73.982,+917917670700,Fruits & Veggies|Meat & Seafood,WhatsApp,0.79,59,12
+USR-00463,Pune,18.519,73.743,+918452784300,Ready-to-Eat|Meat & Seafood,SMS,0.75,36,20
+USR-00464,Bengaluru,12.924,77.752,+918949186849,Beverages|Food Grains|Snacks|Bakery,reply-YES,0.5,47,11
+USR-00465,Chennai,13.119,80.26,+919868703755,Ready-to-Eat|Snacks|Oil & Masala|Fruits & Veggies,reply-YES,0.66,54,26
+USR-00466,Bengaluru,12.991,77.521,+917092464308,Food Grains,SMS,0.56,32,31
+USR-00467,Bengaluru,13.037,77.489,+916412266435,Beverages,WhatsApp,0.92,33,43
+USR-00468,Pune,18.438,73.908,+919314926622,Meat & Seafood|Ready-to-Eat|Food Grains,reply-YES,0.5,19,45
+USR-00469,Pune,18.371,74.021,+916710024588,Beverages|Bakery|Snacks|Food Grains,SMS,0.83,48,40
+USR-00470,Bengaluru,12.969,77.677,+919933933833,Oil & Masala|Food Grains|Beverages|Snacks,reply-YES,0.9,47,35
+USR-00471,Chennai,12.977,80.337,+918817386816,Fruits & Veggies|Ready-to-Eat|Bakery,WhatsApp,0.67,50,40
+USR-00472,Pune,18.517,73.772,+917787352199,Oil & Masala,WhatsApp,0.97,48,27
+USR-00473,Mumbai,19.045,72.978,+917342995086,Fruits & Veggies|Ready-to-Eat|Food Grains|Snacks,SMS,0.82,44,7
+USR-00474,Mumbai,19.011,72.93,+919677786739,Bakery|Ready-to-Eat|Beverages|Dairy,reply-YES,0.68,38,18
+USR-00475,Bengaluru,13.004,77.621,+917305374062,Fruits & Veggies|Oil & Masala|Dairy,SMS,0.53,25,11
+USR-00476,Bengaluru,12.925,77.673,+919736518849,Ready-to-Eat,WhatsApp,0.91,15,15
+USR-00477,Chennai,12.954,80.22,+918063572476,Ready-to-Eat|Snacks,SMS,0.74,35,44
+USR-00478,Pune,18.464,73.755,+918007284385,Dairy,reply-YES,0.79,42,29
+USR-00479,Bengaluru,13.033,77.675,+917450514904,Food Grains|Snacks|Meat & Seafood|Beverages,WhatsApp,0.74,24,20
+USR-00480,Bengaluru,12.991,77.585,+917649961077,Meat & Seafood|Fruits & Veggies|Bakery|Oil & Masala,WhatsApp,0.57,29,26
+USR-00481,Pune,18.564,73.959,+916533002702,Snacks|Dairy|Oil & Masala|Food Grains,reply-YES,0.92,40,29
+USR-00482,Pune,18.563,73.893,+917805145386,Bakery,reply-YES,0.97,14,11
+USR-00483,Mumbai,19.219,73.011,+919500069915,Ready-to-Eat|Snacks|Beverages,reply-YES,0.61,52,12
+USR-00484,Chennai,13.014,80.265,+918455652322,Beverages,reply-YES,0.87,49,21
+USR-00485,Bengaluru,12.818,77.544,+916399951769,Food Grains|Dairy,SMS,0.62,30,29
+USR-00486,Pune,18.574,74.016,+918907056951,Oil & Masala,SMS,0.91,36,9
+USR-00487,Pune,18.36,73.727,+916287408117,Dairy|Oil & Masala,reply-YES,0.79,24,35
+USR-00488,Chennai,13.11,80.199,+916452878999,Fruits & Veggies|Food Grains|Dairy|Snacks,WhatsApp,0.59,13,25
+USR-00489,Chennai,12.967,80.299,+916850560831,Fruits & Veggies,SMS,0.83,26,36
+USR-00490,Bengaluru,13.03,77.538,+919549818440,Ready-to-Eat|Oil & Masala,WhatsApp,0.68,39,6
+USR-00491,Pune,18.418,73.827,+917705487487,Snacks,SMS,0.7,24,3
+USR-00492,Pune,18.396,73.799,+916560944615,Bakery,reply-YES,0.57,59,16
+USR-00493,Bengaluru,12.963,77.46,+916665660505,Ready-to-Eat,reply-YES,0.93,33,31
+USR-00494,Bengaluru,13.034,77.62,+918789379391,Meat & Seafood|Beverages|Bakery,reply-YES,0.73,47,4
+USR-00495,Pune,18.48,73.879,+917521960910,Meat & Seafood|Oil & Masala,WhatsApp,0.95,41,6
+USR-00496,Bengaluru,13.095,77.535,+917432111902,Oil & Masala|Fruits & Veggies|Bakery|Food Grains,reply-YES,0.73,45,8
+USR-00497,Chennai,12.992,80.388,+917098314523,Ready-to-Eat|Dairy|Bakery|Fruits & Veggies,SMS,0.69,57,13
+USR-00498,Pune,18.431,73.94,+919425656866,Snacks,SMS,0.96,12,5
+USR-00499,Pune,18.44,73.727,+918895381575,Bakery,WhatsApp,0.93,24,45
+USR-00500,Pune,18.656,73.882,+918781807794,Beverages,reply-YES,0.94,17,24

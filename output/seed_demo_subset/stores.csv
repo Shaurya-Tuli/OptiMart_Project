@@ -1,0 +1,2 @@
+store_id,store_name,city,state,region,latitude,longitude,store_type
+STR-001,AaharBazaar,Mumbai,Maharashtra,West India,19.0909,72.87355,local grocery

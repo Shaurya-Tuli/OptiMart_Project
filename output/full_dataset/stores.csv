@@ -1,0 +1,7 @@
+store_id,store_name,city,state,region,latitude,longitude,store_type
+STR-001,AaharBazaar,Mumbai,Maharashtra,West India,19.0909,72.87355,local grocery
+STR-002,QuickMart,Chennai,Tamil Nadu,South India,13.10213,80.31639,supermarket
+STR-003,GreenCorner,Bengaluru,Karnataka,South India,12.96458,77.58758,supermarket
+STR-004,AaharPalace,Bengaluru,Karnataka,South India,13.01898,77.61762,supermarket
+STR-005,AaharCorner,Pune,Maharashtra,West India,18.50632,73.87298,local grocery
+STR-006,BazaarExpress,Pune,Maharashtra,West India,18.5065,73.84273,hypermarket

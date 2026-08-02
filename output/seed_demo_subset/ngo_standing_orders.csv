@@ -1,0 +1,9 @@
+ngo_id,ngo_name,city,verified_status,category_priority,min_quantity_kg,priority_time_window_hours,delivery_or_pickup
+NGO-001,Seva Samaj Trust,Bengaluru,pending,Oil & Masala|Fruits & Veggies,35,26,pickup
+NGO-002,Anna Mandal Welfare Society,Mumbai,verified,Food Grains,22,47,pickup
+NGO-003,Shanti Trust,Bengaluru,verified,Ready-to-Eat,50,35,pickup
+NGO-004,Daya Mandal Charitable Society,Pune,verified,Fruits & Veggies|Oil & Masala|Bakery,17,27,delivery
+NGO-005,Daya Trust Community Centre,Pune,verified,Beverages|Food Grains,28,24,pickup
+NGO-006,Sahara Samaj,Mumbai,verified,Meat & Seafood,24,28,pickup
+NGO-007,Anna Foundation,Mumbai,verified,Snacks|Oil & Masala|Ready-to-Eat,24,45,pickup
+NGO-008,Akshaya Daan Community Centre,Pune,pending,Snacks|Dairy|Meat & Seafood,15,14,delivery

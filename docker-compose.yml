@@ -1,0 +1,74 @@
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: optimart-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: optimart
+      POSTGRES_PASSWORD: optimart
+      POSTGRES_DB: optimart
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U optimart -d optimart"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: optimart-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: .
+    container_name: optimart-api
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./app:/app/app
+      - ./scripts:/app/scripts
+      - ./output:/app/output
+      - ./tests:/app/tests
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  # Celery worker — same image as the API, different entrypoint.
+  # Not wired to a task queue yet (that starts in Phase 3/4) but the
+  # container is included now so the topology is right from day one.
+  worker:
+    build: .
+    container_name: optimart-worker
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./app:/app/app
+      - ./output:/app/output
+      - ./tests:/app/tests
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: celery -A app.celery_app worker --loglevel=info
+
+volumes:
+  pgdata:

@@ -1,0 +1,5 @@
+batch_id,store_id,sku_id,quantity_received,quantity_on_hand,received_date,expiry_date,current_price_inr,shelf_section
+BAT-000231,STR-001,SKU-0077,11,11,2025-03-17,2025-04-27,128.0,Frozen
+BAT-000168,STR-001,SKU-0056,25,25,2025-03-18,2025-11-26,156.5,Produce Rack
+BAT-000398,STR-001,SKU-0133,25,25,2025-03-25,2025-06-05,82.0,Refrigerated
+BAT-000247,STR-001,SKU-0083,21,21,2025-03-26,2025-06-25,44.0,Produce Rack

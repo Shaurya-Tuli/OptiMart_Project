@@ -1,0 +1,151 @@
+sku_id,product_name,category,sub_category,unit_cost_inr,standard_retail_price_inr,typical_shelf_life_days,b2b_eligible
+SKU-0001,Curd (litre / 500g),Dairy,Curd,51.5,58.0,5,False
+SKU-0002,Curd (litre / 500g),Dairy,Curd,69.0,76.0,6,False
+SKU-0003,Curd (litre / 500g),Dairy,Curd,87.0,95.5,5,False
+SKU-0004,Butter (litre / 500g),Dairy,Butter,27.0,115.0,9,False
+SKU-0005,Paneer (litre / 500g),Dairy,Paneer,76.5,103.0,9,False
+SKU-0006,Milk (litre / 500g),Dairy,Milk,88.0,97.0,9,False
+SKU-0007,Paneer (litre / 500g),Dairy,Paneer,78.0,92.0,7,False
+SKU-0008,Ghee (litre / 500g),Dairy,Ghee,33.5,37.0,10,False
+SKU-0009,Curd (litre / 500g),Dairy,Curd,74.0,128.5,6,False
+SKU-0010,Milk (litre / 500g),Dairy,Milk,46.5,75.5,7,False
+SKU-0011,Curd (litre / 500g),Dairy,Curd,46.0,51.0,7,False
+SKU-0012,Cheese (litre / 500g),Dairy,Cheese,85.5,95.0,9,False
+SKU-0013,Cheese (litre / 500g),Dairy,Cheese,32.0,103.0,6,False
+SKU-0014,Butter (litre / 500g),Dairy,Butter,46.5,129.0,10,False
+SKU-0015,Cheese (litre / 500g),Dairy,Cheese,59.0,98.5,5,False
+SKU-0016,Curd (litre / 500g),Dairy,Curd,77.5,110.5,8,False
+SKU-0017,Buns & Rolls (loaf / pack),Bakery,Buns & Rolls,28.5,113.0,4,False
+SKU-0018,Whole Wheat Bread (loaf / pack),Bakery,Whole Wheat Bread,61.0,71.5,5,False
+SKU-0019,Whole Wheat Bread (loaf / pack),Bakery,Whole Wheat Bread,39.5,59.5,4,False
+SKU-0020,Rusks (loaf / pack),Bakery,Rusks,57.0,112.0,5,False
+SKU-0021,Buns & Rolls (loaf / pack),Bakery,Buns & Rolls,37.0,120.0,5,False
+SKU-0022,White Bread (loaf / pack),Bakery,White Bread,66.5,109.0,3,False
+SKU-0023,Rusks (loaf / pack),Bakery,Rusks,34.0,94.5,2,False
+SKU-0024,Cakes (loaf / pack),Bakery,Cakes,46.0,119.5,4,False
+SKU-0025,Biscuits & Cookies (loaf / pack),Bakery,Biscuits & Cookies,72.5,80.0,2,False
+SKU-0026,Rusks (loaf / pack),Bakery,Rusks,73.5,100.0,4,False
+SKU-0027,White Bread (loaf / pack),Bakery,White Bread,41.0,52.5,2,False
+SKU-0028,Rusks (loaf / pack),Bakery,Rusks,73.0,80.5,3,False
+SKU-0029,Biscuits & Cookies (loaf / pack),Bakery,Biscuits & Cookies,75.0,109.5,4,False
+SKU-0030,Rusks (loaf / pack),Bakery,Rusks,53.0,58.5,4,False
+SKU-0031,Whole Wheat Bread (loaf / pack),Bakery,Whole Wheat Bread,54.5,102.5,2,False
+SKU-0032,Biscuits & Cookies (loaf / pack),Bakery,Biscuits & Cookies,43.0,47.5,4,False
+SKU-0033,Potatoes (kg),Fruits & Veggies,Potatoes,40.0,67.0,7,False
+SKU-0034,Bananas (kg),Fruits & Veggies,Bananas,24.0,110.0,3,False
+SKU-0035,Tomatoes (kg),Fruits & Veggies,Tomatoes,28.5,108.0,7,False
+SKU-0036,Tomatoes (kg),Fruits & Veggies,Tomatoes,43.0,177.5,6,False
+SKU-0037,Onions (kg),Fruits & Veggies,Onions,112.5,157.0,4,False
+SKU-0038,Potatoes (kg),Fruits & Veggies,Potatoes,57.0,142.5,5,False
+SKU-0039,Mangoes (kg),Fruits & Veggies,Mangoes,109.5,120.5,4,False
+SKU-0040,Onions (kg),Fruits & Veggies,Onions,21.5,28.5,7,False
+SKU-0041,Onions (kg),Fruits & Veggies,Onions,77.0,84.5,3,False
+SKU-0042,Onions (kg),Fruits & Veggies,Onions,22.0,30.5,5,False
+SKU-0043,Bananas (kg),Fruits & Veggies,Bananas,69.0,76.0,6,False
+SKU-0044,Onions (kg),Fruits & Veggies,Onions,71.5,151.5,7,False
+SKU-0045,Mangoes (kg),Fruits & Veggies,Mangoes,40.5,108.0,6,False
+SKU-0046,Onions (kg),Fruits & Veggies,Onions,25.0,140.5,5,False
+SKU-0047,Capsicum (kg),Fruits & Veggies,Capsicum,58.0,176.0,3,False
+SKU-0048,Bananas (kg),Fruits & Veggies,Bananas,21.5,152.5,3,False
+SKU-0049,Chana Dal (kg),Food Grains,Chana Dal,65.5,129.0,215,True
+SKU-0050,Maida (kg),Food Grains,Maida,64.5,121.0,199,True
+SKU-0051,Poha (kg),Food Grains,Poha,114.5,164.0,205,True
+SKU-0052,Basmati Rice (kg),Food Grains,Basmati Rice,102.0,129.5,183,True
+SKU-0053,Brown Rice (kg),Food Grains,Brown Rice,124.0,163.5,222,True
+SKU-0054,Maida (kg),Food Grains,Maida,89.0,98.0,282,True
+SKU-0055,Basmati Rice (kg),Food Grains,Basmati Rice,63.0,70.0,279,True
+SKU-0056,Moong Dal (kg),Food Grains,Moong Dal,124.0,156.5,253,True
+SKU-0057,Maida (kg),Food Grains,Maida,105.5,150.5,322,True
+SKU-0058,Poha (kg),Food Grains,Poha,62.5,102.5,194,True
+SKU-0059,Basmati Rice (kg),Food Grains,Basmati Rice,110.0,121.0,329,True
+SKU-0060,Poha (kg),Food Grains,Poha,90.0,164.0,220,True
+SKU-0061,Basmati Rice (kg),Food Grains,Basmati Rice,127.0,139.5,227,True
+SKU-0062,Brown Rice (kg),Food Grains,Brown Rice,97.5,144.5,240,True
+SKU-0063,Maida (kg),Food Grains,Maida,59.5,168.0,243,True
+SKU-0064,Basmati Rice (kg),Food Grains,Basmati Rice,99.5,116.0,329,True
+SKU-0065,Energy Drinks (bottle / litre),Beverages,Energy Drinks,94.5,104.0,110,False
+SKU-0066,Tea Powder (bottle / litre),Beverages,Tea Powder,37.5,41.0,106,False
+SKU-0067,Lassi (bottle / litre),Beverages,Lassi,42.0,117.5,48,False
+SKU-0068,Packaged Water (bottle / litre),Beverages,Packaged Water,54.0,150.0,55,False
+SKU-0069,Fruit Juice (bottle / litre),Beverages,Fruit Juice,60.5,86.0,63,False
+SKU-0070,Energy Drinks (bottle / litre),Beverages,Energy Drinks,90.0,134.5,124,False
+SKU-0071,Coffee Powder (bottle / litre),Beverages,Coffee Powder,28.5,128.5,107,False
+SKU-0072,Packaged Water (bottle / litre),Beverages,Packaged Water,72.0,92.0,56,False
+SKU-0073,Soft Drinks (bottle / litre),Beverages,Soft Drinks,37.5,135.5,171,False
+SKU-0074,Soft Drinks (bottle / litre),Beverages,Soft Drinks,38.0,98.5,117,False
+SKU-0075,Tea Powder (bottle / litre),Beverages,Tea Powder,73.5,131.0,159,False
+SKU-0076,Lassi (bottle / litre),Beverages,Lassi,36.5,138.0,43,False
+SKU-0077,Fruit Juice (bottle / litre),Beverages,Fruit Juice,69.0,128.0,41,False
+SKU-0078,Packaged Water (bottle / litre),Beverages,Packaged Water,43.5,48.0,97,False
+SKU-0079,Soft Drinks (bottle / litre),Beverages,Soft Drinks,78.0,91.5,139,False
+SKU-0080,Packaged Water (bottle / litre),Beverages,Packaged Water,24.5,143.0,68,False
+SKU-0081,Potato Chips (pack / 100g),Snacks,Potato Chips,51.5,58.5,78,False
+SKU-0082,Roasted Nuts (pack / 100g),Snacks,Roasted Nuts,16.5,38.0,175,False
+SKU-0083,Potato Chips (pack / 100g),Snacks,Potato Chips,55.0,60.5,91,False
+SKU-0084,Namkeen (pack / 100g),Snacks,Namkeen,27.5,57.0,171,False
+SKU-0085,Roasted Nuts (pack / 100g),Snacks,Roasted Nuts,58.5,71.0,178,False
+SKU-0086,Papad (pack / 100g),Snacks,Papad,53.0,88.0,163,False
+SKU-0087,Popcorn (pack / 100g),Snacks,Popcorn,54.0,59.5,154,False
+SKU-0088,Bhujia (pack / 100g),Snacks,Bhujia,49.0,54.0,145,False
+SKU-0089,Papad (pack / 100g),Snacks,Papad,23.5,74.0,73,False
+SKU-0090,Roasted Nuts (pack / 100g),Snacks,Roasted Nuts,53.5,79.5,88,False
+SKU-0091,Papad (pack / 100g),Snacks,Papad,51.0,56.0,99,False
+SKU-0092,Papad (pack / 100g),Snacks,Papad,21.0,64.5,111,False
+SKU-0093,Bhujia (pack / 100g),Snacks,Bhujia,24.0,26.5,158,False
+SKU-0094,Murukku (pack / 100g),Snacks,Murukku,27.5,53.0,146,False
+SKU-0095,Bhujia (pack / 100g),Snacks,Bhujia,57.0,62.5,93,False
+SKU-0096,Popcorn (pack / 100g),Snacks,Popcorn,39.0,89.0,64,False
+SKU-0097,Mustard Oil (litre / kg),Oil & Masala,Mustard Oil,119.5,135.0,340,True
+SKU-0098,Garam Masala (litre / kg),Oil & Masala,Garam Masala,120.5,156.5,377,True
+SKU-0099,Turmeric Powder (litre / kg),Oil & Masala,Turmeric Powder,85.5,182.0,180,True
+SKU-0100,Turmeric Powder (litre / kg),Oil & Masala,Turmeric Powder,96.5,106.0,520,True
+SKU-0101,Coriander Powder (litre / kg),Oil & Masala,Coriander Powder,122.5,176.0,243,True
+SKU-0102,Red Chilli Powder (litre / kg),Oil & Masala,Red Chilli Powder,110.5,176.5,347,True
+SKU-0103,Garam Masala (litre / kg),Oil & Masala,Garam Masala,129.5,162.0,278,True
+SKU-0104,Garam Masala (litre / kg),Oil & Masala,Garam Masala,126.5,139.5,269,True
+SKU-0105,Red Chilli Powder (litre / kg),Oil & Masala,Red Chilli Powder,100.5,198.5,335,True
+SKU-0106,Red Chilli Powder (litre / kg),Oil & Masala,Red Chilli Powder,81.0,192.0,490,True
+SKU-0107,Coriander Powder (litre / kg),Oil & Masala,Coriander Powder,106.5,147.5,289,True
+SKU-0108,Jeera (litre / kg),Oil & Masala,Jeera,139.5,215.0,266,True
+SKU-0109,Mustard Oil (litre / kg),Oil & Masala,Mustard Oil,88.5,176.5,497,True
+SKU-0110,Coriander Powder (litre / kg),Oil & Masala,Coriander Powder,69.5,214.0,300,True
+SKU-0111,Red Chilli Powder (litre / kg),Oil & Masala,Red Chilli Powder,82.5,116.0,192,True
+SKU-0112,Sunflower Oil (litre / kg),Oil & Masala,Sunflower Oil,84.5,152.0,217,True
+SKU-0113,Fresh Fish (kg / dozen),Meat & Seafood,Fresh Fish,201.0,411.0,1,False
+SKU-0114,Mutton (kg / dozen),Meat & Seafood,Mutton,297.0,342.0,1,False
+SKU-0115,Chicken Legs (kg / dozen),Meat & Seafood,Chicken Legs,283.0,311.5,1,False
+SKU-0116,Fresh Fish (kg / dozen),Meat & Seafood,Fresh Fish,134.5,500.0,3,False
+SKU-0117,Prawns (kg / dozen),Meat & Seafood,Prawns,218.0,374.5,1,False
+SKU-0118,Fresh Fish (kg / dozen),Meat & Seafood,Fresh Fish,105.5,327.0,3,False
+SKU-0119,Prawns (kg / dozen),Meat & Seafood,Prawns,262.5,574.5,2,False
+SKU-0120,Prawns (kg / dozen),Meat & Seafood,Prawns,337.0,545.0,2,False
+SKU-0121,Prawns (kg / dozen),Meat & Seafood,Prawns,211.5,232.5,2,False
+SKU-0122,Fresh Fish (kg / dozen),Meat & Seafood,Fresh Fish,148.0,216.0,3,False
+SKU-0123,Eggs (kg / dozen),Meat & Seafood,Eggs,320.5,356.0,3,False
+SKU-0124,Chicken Legs (kg / dozen),Meat & Seafood,Chicken Legs,153.5,169.0,2,False
+SKU-0125,Chicken Legs (kg / dozen),Meat & Seafood,Chicken Legs,152.5,253.0,3,False
+SKU-0126,Chicken Breast (kg / dozen),Meat & Seafood,Chicken Breast,107.0,208.0,3,False
+SKU-0127,Chicken Legs (kg / dozen),Meat & Seafood,Chicken Legs,300.0,330.0,2,False
+SKU-0128,Eggs (kg / dozen),Meat & Seafood,Eggs,244.5,302.0,1,False
+SKU-0129,Ready Dal Makhani (pack),Ready-to-Eat,Ready Dal Makhani,65.0,149.0,12,False
+SKU-0130,Idli Mix (pack),Ready-to-Eat,Idli Mix,64.0,70.5,55,False
+SKU-0131,Frozen Paratha (pack),Ready-to-Eat,Frozen Paratha,98.0,160.0,63,False
+SKU-0132,Idli Mix (pack),Ready-to-Eat,Idli Mix,97.5,118.5,87,False
+SKU-0133,Ready Curry Paste (pack),Ready-to-Eat,Ready Curry Paste,74.0,82.0,72,False
+SKU-0134,Instant Noodles (pack),Ready-to-Eat,Instant Noodles,65.0,135.5,61,False
+SKU-0135,Dhokla Mix (pack),Ready-to-Eat,Dhokla Mix,45.0,108.0,26,False
+SKU-0136,Idli Mix (pack),Ready-to-Eat,Idli Mix,78.0,167.5,85,False
+SKU-0137,Idli Mix (pack),Ready-to-Eat,Idli Mix,89.5,98.5,64,False
+SKU-0138,Ready Curry Paste (pack),Ready-to-Eat,Ready Curry Paste,108.0,119.0,43,False
+SKU-0139,Ready Dal Makhani (pack),Ready-to-Eat,Ready Dal Makhani,59.5,106.5,53,False
+SKU-0140,Ready Dal Makhani (pack),Ready-to-Eat,Ready Dal Makhani,55.0,173.5,63,False
+SKU-0141,Frozen Paratha (pack),Ready-to-Eat,Frozen Paratha,105.0,115.5,79,False
+SKU-0142,Instant Noodles (pack),Ready-to-Eat,Instant Noodles,120.0,132.0,18,False
+SKU-0143,Dhokla Mix (pack),Ready-to-Eat,Dhokla Mix,33.5,49.0,41,False
+SKU-0144,Ready Curry Paste (pack),Ready-to-Eat,Ready Curry Paste,105.5,129.0,40,False
+SKU-0145,Mangoes (kg),Fruits & Veggies,Mangoes,85.5,123.5,4,False
+SKU-0146,Mutton (kg / dozen),Meat & Seafood,Mutton,147.0,278.0,3,False
+SKU-0147,Whole Wheat Bread (loaf / pack),Bakery,Whole Wheat Bread,78.0,86.0,2,False
+SKU-0148,Coconut Water (bottle / litre),Beverages,Coconut Water,48.5,113.0,49,False
+SKU-0149,Brown Rice (kg),Food Grains,Brown Rice,106.0,116.5,355,True
+SKU-0150,Biscuits & Cookies (loaf / pack),Bakery,Biscuits & Cookies,68.0,75.0,5,False

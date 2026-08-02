@@ -1,0 +1,39 @@
+# ---------- Secrets ----------
+.env
+*.env.local
+**/secrets/
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ---------- ML artifacts (large/binary — regenerate, don't commit) ----------
+*.joblib
+*.pkl
+backend/app/ml/artifacts/
+
+# ---------- Node / React ----------
+node_modules/
+frontend/dist/
+frontend/build/
+.npm/
+
+# ---------- Docker / OS ----------
+*.log
+.DS_Store
+Thumbs.db
+
+# ---------- Editors ----------
+.vscode/
+.idea/
+*.swp
+
+# ---------- Database ----------
+*.sqlite3
+pgdata/

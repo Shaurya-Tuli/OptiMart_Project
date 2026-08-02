@@ -1,0 +1,168 @@
+# Architecture Decision Records (ADR)
+
+## ADR 001: Project Rebranding to OptiMart
+- **Context**: Project named ResQ-Chain renamed to OptiMart across codebase, configuration, and documentation.
+- **Decision**: Update all docker service names, environment variables, documentation, and API metadata to `OptiMart`.
+- **Status**: Implemented & Verified.
+
+## ADR 010: Sales History & Synthetic Data Pipeline (Phase 8)
+- **Context**: Demand forecasting (Model D) requires historical daily SKU sales data with price, promotional, and stockout signals.
+- **Decision**:
+  - `SalesHistory` model with composite unique constraint `(store_id, sku, date)`.
+  - SQLAlchemy `on_conflict_do_update` using `index_elements` to ensure upserts work identically on production PostgreSQL and SQLite test environments.
+  - CSV upload endpoint `POST /api/v1/sales-history/upload-csv` using standard `csv.DictReader` for POS data ingestion.
+  - Synthetic data script (`scripts/generate_sales_history.py`) generating 16 weeks of daily sales data (~13,328 records) with reproducible seeds, day-of-week seasonality, promotional spikes, and stockout noise.
+- **Status**: Implemented & Verified.
+- **Source**: Original to this hackathon (Volume II Demand Forecasting extension).
+
+## ADR 011: Demand Forecasting Model D — HistGradientBoostingRegressor with Quantile Loss (Phase 9)
+- **Context**: Playbook Chapter 10.3 specifies multi-quantile confidence band regression for demand forecasting. A naive 7-day moving average serves as the accuracy floor / baseline benchmark.
+- **Decision**:
+  - Use Scikit-Learn `HistGradientBoostingRegressor` with `loss="quantile"` for p10/p50/p90 quantile regressors. Chosen over a separate quantile regression library to avoid a new dependency under time pressure (see playbook Ch. 10.3).
+  - Lag features use `rolling(..., min_periods=1).mean()` rather than strict `shift(N)` to ensure feature availability even for stores/SKUs with shorter history windows; avoids complete row dropout in smaller stores.
+  - Time-based 80/20 train/validation split (never random shuffle) to preserve temporal causality.
+  - Cold-start fallback returns category-level mean demand × 7 days when `sales_history` has <14 rows for the SKU.
+  - Confidence band spread (`p90 - p10`) surfaced to retailer for order quantity buffer decisions (see playbook Ch. 12.1).
+  - Minimum threshold for training lowered to 20 rows to support unit tests with seeded short histories.
+- **Status**: Implemented & Verified.
+- **Source**: Adapted from Scikit-Learn HistGradientBoostingRegressor quantile docs; original application to this codebase.
+
+## ADR 012: Reorder Recommendation Logic & Safety Stock Buffers (Phase 10)
+- **Context**: Reordering recommendations require translating predicted demand into order suggestions, factoring in current on-hand inventory and category-specific safety buffers.
+- **Decision**:
+  - Safety stock computed using a transparent, explainable formula: `safety_stock_buffer = predicted_demand * base_pct * (2.0 - confidence)` where `confidence` maps from 0 to 1 based on prediction spread (`p90 - p10`).
+  - Base buffer percentage scales based on category: Dairy/Produce (0.10) to minimize waste, Meat/Bakery (0.15), and Beverages/General (0.20/0.15) to ensure availability.
+  - Recommended ordering quantity: `max(0, predicted_demand + safety_stock_buffer - current_qty_on_hand)`.
+  - Store decisions (`ACCEPTED`, `DISMISSED`, `ADJUSTED`) stored in the `reorder_recommendations` table to enable future closed-loop model training on decision outcomes.
+- **Status**: Implemented & Verified.
+- **Source**: Original to this hackathon (Volume II Demand Forecasting extension).
+
+## ADR 002: Inventory Core Architecture (Phase 1)
+- **Context**: Need high-throughput CRUD for retail store inventory management and bulk CSV imports.
+- **Decision**: 
+  - Use SQLAlchemy ORM with PostgreSQL backend for persistent storage.
+  - Implement Pydantic v2 schemas for strict request/response data validation.
+  - Automatic `current_price` calculation based on `discount_percentage` when `current_price` is omitted.
+  - Streamed CSV parsing using standard library `csv.DictReader` and row-level rollback handling to return clear import error diagnostics without failing valid rows.
+- **Status**: Implemented & Verified.
+
+## ADR 003: ML Expiration Risk & Dynamic Discount Architecture (Phase 2)
+- **Context**: Need automated, objective price markdown recommendations based on perishable food timelines, stock volumes, margin constraints, and environmental factors.
+- **Decision**:
+  - Scikit-Learn Multi-Output `RandomForestRegressor` pipeline preprocessed with `ColumnTransformer` (StandardScaler + OneHotEncoder).
+  - Synthetic food batch training data generator (`app/ml/synthetic_data.py`) to ensure deterministic offline training capability.
+  - Model serialization using `joblib` stored at `app/ml/artifacts/pricing_model.joblib`.
+  - Automatic initial training on app startup if artifact is missing.
+  - Ambient temperature integration via `app/services/weather.py` (OpenWeather API with 25.0°C default fallback).
+- **Status**: Implemented & Verified.
+
+## ADR 004: Standing Order Engine & NGO Priority Allocation (Phase 4)
+- **Context**: Shelters and NGOs require reliable, priority access to expiring food batches without competing in consumer payment loops.
+- **Decision**:
+  - Implement rule-based `StandingOrder` subscription model (`category_filter`, `min_quantity`, `priority_window_hours`).
+  - Create dedicated `StandingOrderMatch` priority allocation entities (`is_subsidized=True`, `status="RESERVED"`), bypassing payment processing entirely for shelter claims.
+  - Provide automated evaluation trigger endpoint (`POST /api/v1/standing-orders/evaluate`) to scan candidate active/discounted batches against standing order rules.
+- **Status**: Implemented & Verified.
+
+## ADR 005: Notification Engine Architecture & Inbound SMS Claiming (Phase 3)
+- **Context**: Need hyper-local outbound flash-sale notification dispatch (SMS & WhatsApp via Twilio) and frictionless inbound SMS reply claiming ("reply YES").
+- **Decision**:
+  - Implement `TwilioNotificationService` (`app/services/notification.py`) supporting both SMS and WhatsApp channels.
+  - Automatic fallback to mock message IDs when Twilio API credentials are unset or invalid in local testing.
+  - Inbound Twilio webhook handler (`POST /api/v1/notifications/twilio-inbound`) parsing "YES" or "CLAIM <batch_id>" to automatically reserve food rescue items.
+  - Asynchronous background dispatch task `dispatch_batch_notifications_task` in `app/tasks/dispatch.py` for Celery worker execution off the HTTP request path.
+- **Status**: Implemented & Verified.
+
+## ADR 006: Consumer Marketplace, Geo-routing & Redis TTL Locking (Phase 5)
+- **Context**: Consumers need a frictionless one-link claim flow with concurrency-safe reservations; geo-fenced discovery ensures alerts only reach reachable buyers.
+- **Decision**:
+  - `Claim` model with unique `claim_token` (URL-safe random) as the tokenized single-use claim link.
+  - Redis `SET NX EX` key `claim:lock:{batch_id}` as the single source of truth for batch reservation — prevents double-claiming under simultaneous alerts without a database lock.
+  - `ST_DWithin` PostGIS geography query for O(log n) radius search; Python haversine fallback for SQLite test environments.
+  - `reserved_until` timestamp stored on the claim row for persistence; Redis TTL is the enforcement gate.
+- **Status**: Implemented & Verified.
+
+## ADR 007: Multi-rail Payments (Stripe & Razorpay) (Phase 6)
+- **Context**: OptiMart operates across regions requiring regional payment gateway integration (Razorpay for India/INR, Stripe for North America & Global/USD) plus non-commercial bypass for food banks.
+- **Decision**:
+  - Unified checkout endpoint `POST /api/v1/payments/checkout-session` routing to Razorpay Orders API or Stripe Checkout Sessions based on request parameters/region.
+  - Automatic payment bypass for claims flag `is_subsidized=True` — instantly transitions claim to `PAID` with `payment_ref="SUBSIDIZED_BYPASS"`.
+  - Signature-verified webhooks for both gateways (`/webhooks/razorpay` and `/webhooks/stripe`) to atomically transition claims from `PENDING_PAYMENT` to `PAID` and release Redis reservation locks.
+- **Status**: Implemented & Verified.
+
+## ADR 008: Analytics & Waste Reduction Dashboard (Phase 7)
+- **Context**: Stakeholders, grocery partners, and NGOs require transparent reporting on food waste averted, CO2 offset, financial revenue recovered, and NGO allocation conversion rates.
+- **Decision**:
+  - `get_analytics_summary` aggregates platform metrics using standardized conversion factors (0.5 kg waste / item rescued; 2.5 kg CO2e / kg waste).
+  - Store-specific analytics endpoint `/api/v1/analytics/store/{store_id}` delivers per-store breakdown of active, expired, and rescued inventory.
+- **Status**: Implemented & Verified.
+
+## ADR 009: Local Rule-Based Assistant and Persisted Theme Preference
+- **Context**: The dashboard referenced an AI assistant and light-mode controls that were missing from the active application branch, causing assistant API requests to return 404 and leaving no usable theme switch.
+- **Decision**:
+  - Register the local, rule-based assistant router at `/api/v1/assistant`; it provides deterministic product discovery and FAQs without requiring an external LLM service or credentials.
+  - Restore the dashboard assistant widget and light/dark theme toggle, persisting the user preference in `localStorage` and updating Chart.js colors on change.
+- **Status**: Implemented & Verified.
+
+## ADR 013: Closed-Loop Integration & Validation (Phase 12)
+- **Context**: Playbook Chapter 14.1 requires a closed-loop connection between demand forecasting (Model D) and dynamic markdown pricing (Model A), where SKUs under-performing their sales forecasts are automatically flagged for earlier/deeper discount markdowns.
+- **Decision**:
+  - Update `PricingPredictor.predict()` to accept optional parameters: `store_id`, `sku`, and `db`.
+  - When provided, query the latest `ReorderRecommendation` and sum actual sales from `sales_history` over the last 7 days.
+  - If actual sales are less than 70% of the expected demand, detect under-performance.
+  - Add `forecast_underperformance_detected` reasoning tag to the prediction output and apply a +0.25 boost (cap at 1.0) to the batch's `risk_score`.
+  - Expose the reasoning tags in the `BatchRepriceResponse` schema to let the UI react dynamically.
+  - Update the dashboard's active batches table to expose a "Reprice" action button, and display a warning toast to the retailer if under-performance is detected during evaluation.
+- **Status**: Implemented & Verified.
+- **Source**: Original to this hackathon (Volume II Demand Forecasting extension).
+
+## ADR 014: Dual Role Portal & Customer Marketplace Feed (Phase 14)
+- **Context**: The application required a dual role entry portal for Retailers and Customers/NGOs, and a dedicated view for customers to browse active markdowns and claim items directly.
+- **Decision**:
+  - Implement a full-screen landing selection overlay `#role-selection-overlay` in `index.html` to separate the two portal pathways.
+  - Wrap the retailer panel tabs under `#retailer-portal-view`, hiding it in Customer mode.
+  - Implement a dedicated `#customer-portal-view` marketplace layout containing real-time search, store selection dropdowns, and category badge filters.
+  - Render expiring batch inventory dynamically as card grids. Cards display category-themed CSS gradients, expiry countdown badges, original/discounted pricing, and an action button to "Claim Deal".
+  - Integrate a Customer Claim Modal (`#customer-claim-modal`) supporting self-pickup, delivery, or NGO Subsidized Bypass. Simulates Razorpay/Stripe payments by hitting the reservation (`POST /api/v1/claims`) and patch payment endpoints (`PATCH /api/v1/claims/{token}`) sequentially.
+- **Status**: Implemented & Verified.
+- **Source**: Original to this hackathon.
+
+## ADR 015: Retailer Category Intelligence View (Phase 15)
+- **Context**: The retailer needed an end-to-end synchronized picture of demand forecasting at the product category level, visual cycle markers (lead time vs. horizon), and a naive baseline comparison.
+- **Decision**:
+  - Implement a category-dashboard API (`/api/v1/category-dashboard`) delivering simulated category-wise inventory timeline flows (dips for consumption, replenishment spikes) and a three-series forecast comparison.
+  - Compute a 7-day rolling average naive baseline on the backend to match the existing model evaluation logic.
+  - Build two synchronized Chart.js graphs inside the Demand & Reorder tab: Current Inventory Timeline, and Forecast vs Naive Comparison.
+  - Implement inline canvas drawing plugins to render vertical cycle boundary lines for Order Placement (Day N), Replenishment Arrival (Day N+7), and Forecast Horizon (Day N+14) automatically.
+- **Status**: Implemented & Verified.
+- **Source**: Original to this hackathon.
+
+## ADR 016: Unified Demand Forecasting & Reorder Cycle View Layout
+- **Context**: The Retailer Portal's Demand Forecasting tab required a restructured, co-located layout containing two synchronized graphs driven by a single category selector so retailers experience one continuous decision-making view.
+- **Decision**:
+  - Implement a single, top-level shared category selector (`Milk`, `Bread`, `Veggies & Fruits`, `Meat`, `Snacks`, `Grains`) at the top of Tab 2 that drives both Graph A and Graph B simultaneously.
+  - **Graph A (Actual vs Naive Baseline vs Model D)**: Displays Actual Sales (solid green), 7-day Naive Baseline (dashed amber), and Model D Forecast (solid cyan) with a shaded `p10-p90` confidence band in the forecast window, vertical cycle markers (`Order Placed Day N`, `Lead Arrival Day N+7`, `Horizon End Day N+14`), and a dynamic caption displaying live Model D MAE improvement percentage (`[X]%`) pulled from stored training metrics.
+  - **Graph B (Recommended Order Quantity by Order Date)**: Positioned directly below Graph A, presenting a stacked bar chart over 7-day replenishment cycles (`Day N`, `Day N+7`, `Day N+14`, `Day N+21`) with visual breakdown of Base Predicted Demand + Safety Stock Buffer segment.
+- **Status**: Implemented & Verified.
+- **Source**: Original to this hackathon.
+
+## ADR 017: Naive vs Model D Order Quantity Business Impact Graph (Graph C)
+- **Context**: Retailers need to see the tangible business impact (avoided over-ordering/waste and under-ordering/stockouts) of Model D's order recommendations compared to a naive 7-day moving average order baseline across replenishment cycles.
+- **Decision**:
+  - Add **Graph C (Model D vs. Naive Recommended Order Quantities)** directly below Graph B in the Retailer Portal's Demand Forecasting tab, sharing the exact same top category filter (`Milk`, `Bread`, `Veggies & Fruits`, `Meat`, `Snacks`, `Grains`).
+  - Compute `naive_order_cycles` in `/api/v1/category-dashboard/forecast-comparison` using the exact `reorder_recommendation.py` formula (`max(0, int(round(predicted_demand + safety_stock - current_qty)))`), substituting the naive 7-day moving average demand as the input.
+  - Render a paired/grouped bar chart on the frontend comparing Naive Recommended Order Quantity (Amber bar) vs. Model D Recommended Order Quantity (Cyan bar) for each 7-day order date (`Order Placed Day N`, `Lead Arrival Day N+7`, `Horizon 2 Day N+14`, `Horizon 3 Day N+21`).
+  - Provide a dynamic delta breakdown per cycle pair (e.g. `+83 units vs Model D`) in the chart caption and tooltip to make over-order waste risk immediately visible.
+- **Status**: Implemented & Verified.
+- **Source**: Original to this hackathon.
+
+## ADR 018: Bifurcated Role-Aware AI Assistant (Retailer Copilot vs Customer Marketplace Assistant)
+- **Context**: The AI Assistant required dual-role intelligence to adapt its persona, intent recognition, and interaction capabilities based on whether the user is in Retailer mode or Customer mode.
+- **Decision**:
+  - Add optional `role: "retailer" | "customer"` parameter to `ChatRequest` schema and GET `/api/v1/assistant/deals`.
+  - **Retailer Copilot Mode**: Answers queries regarding Model D 7-day demand forecasting, $p10-p90$ confidence bands, actual sales history (`sales_history`), safety stock buffer formulas, and automated portal tab navigation.
+  - **Customer Mode**: Filters live discounted inventory, provides product cards with expiration countdowns, guides self-pickup/delivery claims, and answers food safety & payment FAQs.
+  - **Frontend UI Adaptation**: Dynamically updates assistant avatar (`📊` vs `🛒`), title, subtitle, input placeholder, and quick reply chips. Automatically executes tab switches (`forecast-tab`, `inv-timeline-tab`, `discount-sim-tab`, `claims-management-tab`, `notifications-tab`) when navigation actions are triggered.
+- **Status**: Implemented & Verified.
+- **Source**: Original to this hackathon.
+

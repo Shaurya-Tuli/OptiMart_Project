@@ -1,0 +1,10 @@
+category,kg_co2e_avoided_per_kg_food,source,notes
+Dairy,3.8,FAO (2011) Global Food Losses + USDA ERS estimates,Global scientific constants; currency/pricing layer is India-specific (INR)
+Bakery,1.5,FAO (2011) Global Food Losses + USDA ERS estimates,Global scientific constants; currency/pricing layer is India-specific (INR)
+Fruits & Veggies,0.9,FAO (2011) Global Food Losses + USDA ERS estimates,Global scientific constants; currency/pricing layer is India-specific (INR)
+Food Grains,1.3,FAO (2011) Global Food Losses + USDA ERS estimates,Global scientific constants; currency/pricing layer is India-specific (INR)
+Beverages,0.5,FAO (2011) Global Food Losses + USDA ERS estimates,Global scientific constants; currency/pricing layer is India-specific (INR)
+Snacks,2.0,FAO (2011) Global Food Losses + USDA ERS estimates,Global scientific constants; currency/pricing layer is India-specific (INR)
+Oil & Masala,2.5,FAO (2011) Global Food Losses + USDA ERS estimates,Global scientific constants; currency/pricing layer is India-specific (INR)
+Meat & Seafood,8.5,FAO (2011) Global Food Losses + USDA ERS estimates,Global scientific constants; currency/pricing layer is India-specific (INR)
+Ready-to-Eat,2.2,FAO (2011) Global Food Losses + USDA ERS estimates,Global scientific constants; currency/pricing layer is India-specific (INR)
