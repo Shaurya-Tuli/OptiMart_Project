@@ -1465,32 +1465,6 @@
         </div>
       </div>
 
-      <!-- Inventory Batches Management -->
-      <div class="glass-panel">
-        <div class="panel-header" style="flex-wrap: wrap; gap: 1rem;">
-          <div class="panel-title"><i data-lucide="boxes"></i> Real-Time Inventory Batches</div>
-          <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
-            <input type="text" id="inv-search" class="form-input" style="width: 220px; padding: 0.45rem 0.8rem; font-size: 0.85rem;" placeholder="Search SKU or product…" oninput="filterInventory()">
-            
-            <select id="inv-store-filter" class="form-select" style="width: 160px; padding: 0.45rem 0.8rem; font-size: 0.85rem;" onchange="filterInventory()">
-              <option value="ALL">All Stores</option>
-            </select>
-
-            <select id="inv-cat-filter" class="form-select" style="width: 160px; padding: 0.45rem 0.8rem; font-size: 0.85rem;" onchange="filterInventory()">
-              <option value="ALL">All Categories</option>
-            </select>
-
-            <button class="btn btn-secondary btn-sm" onclick="loadInventoryCore()">
-              <i data-lucide="refresh-cw"></i> Refresh
-            </button>
-          </div>
-        </div>
-
-        <div style="overflow-x: auto; margin-top: 0.5rem;">
-          <div id="batches-table-container">
-            <div class="empty-state"><i data-lucide="loader" aria-hidden="true"></i><p>Loading inventory batches…</p></div>
-          </div>
-        </div>
       </div>
     </div><!-- /inventory-tab -->
 
@@ -3523,13 +3497,17 @@
 
     function populateFilterDropdowns() {
       const storeSelect = document.getElementById('inv-store-filter');
-      storeSelect.innerHTML = '<option value="ALL">All Stores</option>' +
-        allStores.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+      if (storeSelect) {
+        storeSelect.innerHTML = '<option value="ALL">All Stores</option>' +
+          allStores.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+      }
 
       const catSelect = document.getElementById('inv-cat-filter');
-      const categories = Array.from(new Set(allBatches.map(b => b.category))).filter(Boolean).sort();
-      catSelect.innerHTML = '<option value="ALL">All Categories</option>' +
-        categories.map(c => `<option value="${c}">${c}</option>`).join('');
+      if (catSelect) {
+        const categories = Array.from(new Set(allBatches.map(b => b.category))).filter(Boolean).sort();
+        catSelect.innerHTML = '<option value="ALL">All Categories</option>' +
+          categories.map(c => `<option value="${c}">${c}</option>`).join('');
+      }
     }
 
     function renderStoresGrid() {
@@ -3569,6 +3547,7 @@
 
     function renderInventoryTable(batches) {
       const el = document.getElementById('batches-table-container');
+      if (!el) return;
       if (!batches.length) {
         el.innerHTML = `<div class="empty-state"><i data-lucide="inbox"></i><p>No inventory batches match criteria</p></div>`;
         lucide.createIcons();
@@ -3663,9 +3642,9 @@
     }
 
     function filterInventory() {
-      const search = (document.getElementById('inv-search').value || '').toLowerCase();
-      const storeId = document.getElementById('inv-store-filter').value;
-      const cat = document.getElementById('inv-cat-filter').value;
+      const search = (document.getElementById('inv-search')?.value || '').toLowerCase();
+      const storeId = document.getElementById('inv-store-filter')?.value || 'ALL';
+      const cat = document.getElementById('inv-cat-filter')?.value || 'ALL';
 
       const filtered = allBatches.filter(b => {
         const matchesSearch = !search || 
