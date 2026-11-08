@@ -2,6 +2,7 @@
 .env
 *.env.local
 **/secrets/
+*.env.save
 
 # ---------- Python ----------
 __pycache__/
